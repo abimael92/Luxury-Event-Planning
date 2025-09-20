@@ -1,44 +1,32 @@
+// app/page.tsx
 "use client"
 
-import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
-import { AuthSection } from "@/components/auth/auth-section"
+import { useState } from "react"
 import { HeroSection } from "@/components/landing/hero-section"
-import { useAuth } from "@/contexts/auth-context"
+import { AuthSection } from "@/components/auth/auth-section"
 
 export default function HomePage() {
-  const [mounted, setMounted] = useState(false)
-  const { isAuthenticated, isLoading } = useAuth()
-  const router = useRouter()
-
-  // mark mounted to only render after client mount
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  // redirect if authenticated
-  useEffect(() => {
-    if (mounted && !isLoading && isAuthenticated) {
-      router.push("/dashboard")
-    }
-  }, [mounted, isAuthenticated, isLoading, router])
-
-  if (!mounted || isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-      </div>
-    )
-  }
-
-  if (isAuthenticated) {
-    return null // Will redirect
-  }
+  const [showLoginModal, setShowLoginModal] = useState(false)
 
   return (
-    <main className="min-h-screen">
-      <HeroSection />
-      <AuthSection />
+    <main className="min-h-screen relative bg-gradient-to-br from-background via-muted/30 to-primary/5">
+      {/* Hero Section */}
+      <HeroSection onStartPlanning={() => setShowLoginModal(true)} />
+
+      {/* Login Modal */}
+      {showLoginModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          {/* Overlay */}
+          <div
+            className="absolute inset-0 bg-black/40 backdrop-blur-sm"
+            onClick={() => setShowLoginModal(false)}
+          />
+          {/* Modal content */}
+          <div className="relative z-10 max-w-md w-full mx-4">
+            <AuthSection defaultTab="login" onClose={() => setShowLoginModal(false)} />
+          </div>
+        </div>
+      )}
     </main>
   )
 }
