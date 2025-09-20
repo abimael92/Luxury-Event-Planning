@@ -1,9 +1,9 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { LoginForm } from "./login-form"
 import { RegisterForm } from "./register-form"
 import { VendorRegisterForm } from "./vendor-register-form"
@@ -11,6 +11,13 @@ import { DemoLoginButton } from "./demo-login-button"
 
 export function AuthSection() {
   const [activeTab, setActiveTab] = useState("login")
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true) // only render tabs after mount to avoid hydration mismatch
+  }, [])
+
+  if (!mounted) return null
 
   return (
     <section className="py-20 bg-muted/30">
@@ -32,53 +39,50 @@ export function AuthSection() {
 
               <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
                 <TabsList className="grid w-full grid-cols-3 mb-6">
-                  <TabsTrigger value="login" className="text-sm">
-                    Sign In
-                  </TabsTrigger>
-                  <TabsTrigger value="register" className="text-sm">
-                    Client
-                  </TabsTrigger>
-                  <TabsTrigger value="vendor" className="text-sm">
-                    Vendor
-                  </TabsTrigger>
+                  <TabsTrigger value="login" className="text-sm">Sign In</TabsTrigger>
+                  <TabsTrigger value="register" className="text-sm">Client</TabsTrigger>
+                  <TabsTrigger value="vendor" className="text-sm">Vendor</TabsTrigger>
                 </TabsList>
 
                 <AnimatePresence mode="wait">
-                  <TabsContent value="login" className="mt-0">
+                  {activeTab === "login" && (
                     <motion.div
                       key="login"
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: 20 }}
                       transition={{ duration: 0.3 }}
+                      className="mt-0"
                     >
                       <LoginForm />
                     </motion.div>
-                  </TabsContent>
+                  )}
 
-                  <TabsContent value="register" className="mt-0">
+                  {activeTab === "register" && (
                     <motion.div
                       key="register"
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: 20 }}
                       transition={{ duration: 0.3 }}
+                      className="mt-0"
                     >
                       <RegisterForm />
                     </motion.div>
-                  </TabsContent>
+                  )}
 
-                  <TabsContent value="vendor" className="mt-0">
+                  {activeTab === "vendor" && (
                     <motion.div
                       key="vendor"
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, x: 20 }}
                       transition={{ duration: 0.3 }}
+                      className="mt-0"
                     >
                       <VendorRegisterForm />
                     </motion.div>
-                  </TabsContent>
+                  )}
                 </AnimatePresence>
               </Tabs>
             </CardContent>
