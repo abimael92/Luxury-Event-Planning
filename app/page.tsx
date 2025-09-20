@@ -1,22 +1,29 @@
 "use client"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { AuthSection } from "@/components/auth/auth-section"
 import { HeroSection } from "@/components/landing/hero-section"
 import { useAuth } from "@/contexts/auth-context"
 
 export default function HomePage() {
+  const [mounted, setMounted] = useState(false)
   const { isAuthenticated, isLoading } = useAuth()
   const router = useRouter()
 
+  // mark mounted to only render after client mount
   useEffect(() => {
-    if (!isLoading && isAuthenticated) {
+    setMounted(true)
+  }, [])
+
+  // redirect if authenticated
+  useEffect(() => {
+    if (mounted && !isLoading && isAuthenticated) {
       router.push("/dashboard")
     }
-  }, [isAuthenticated, isLoading, router])
+  }, [mounted, isAuthenticated, isLoading, router])
 
-  if (isLoading) {
+  if (!mounted || isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
@@ -25,7 +32,7 @@ export default function HomePage() {
   }
 
   if (isAuthenticated) {
-    return null // Will redirect to dashboard
+    return null // Will redirect
   }
 
   return (
