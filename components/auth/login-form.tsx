@@ -11,17 +11,21 @@ import { useToast } from "@/hooks/use-toast"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/contexts/auth-context"
 
-interface LoginFormData {
-  email: string
-  password: string
+interface LoginFormProps {
+  onClose?: () => void
 }
 
-export function LoginForm() {
+export function LoginForm({ onClose }: LoginFormProps) {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const { toast } = useToast()
   const router = useRouter()
   const { login } = useAuth()
+
+  interface LoginFormData {
+  email: string
+  password: string
+}
 
   const {
     register,
@@ -38,6 +42,7 @@ export function LoginForm() {
         description: "You've been successfully signed in.",
       })
       router.push("/dashboard")
+      if (onClose) onClose() // close modal if provided
     } catch (error) {
       toast({
         title: "Sign in failed",
