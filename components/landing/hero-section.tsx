@@ -8,7 +8,6 @@ export function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-background via-muted/30 to-primary/5">
       {/* Background decoration */}
-      <div className="absolute inset-0 bg-[url('/luxury-event-planning-background-pattern.jpg')] opacity-5" />
 
       <div className="container mx-auto px-4 text-center relative z-10">
         <motion.div
@@ -29,7 +28,7 @@ export function HeroSection() {
             </h1>
             <div className="flex items-center justify-center gap-2 mt-2">
               <Sparkles className="w-5 h-5 text-accent" />
-              <p className="text-lg text-muted-foreground font-medium">Luxury Event Planning</p>
+              <p className="text-lg text-muted-foreground font-medium"> Event Planning</p>
               <Sparkles className="w-5 h-5 text-accent" />
             </div>
           </motion.div>
@@ -44,11 +43,11 @@ export function HeroSection() {
             <h2 className="text-3xl md:text-5xl font-heading font-bold text-balance mb-6">
               Your Personal Event{" "}
               <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                Concierge
+                Planner
               </span>
             </h2>
             <p className="text-xl md:text-2xl text-muted-foreground text-balance max-w-3xl mx-auto leading-relaxed">
-              Connect with premium vendors, manage luxury events, and create unforgettable experiences with our curated
+              Connect with premium vendors, manage events, and create unforgettable experiences with our curated
               marketplace.
             </p>
           </motion.div>
