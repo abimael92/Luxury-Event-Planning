@@ -36,7 +36,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`font-sans ${poppins.variable} ${inter.variable} ${playfair.variable}`}>
+      <body
+        className={`relative min-h-screen font-sans ${poppins.variable} ${inter.variable} ${playfair.variable}`}
+      >
+        {/* Global background */}
+        <div className="absolute inset-0 -z-10">
+          {/* Repeating pattern */}
+          <div className="absolute inset-0 bg-[url('/luxury-event-planning-background-pattern.jpg')] bg-repeat [background-size:200px_200px] opacity-5" />
+          {/* Color overlay */}
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/40 via-secondary/30 to-accent/40 mix-blend-multiply" />
+        </div>
+
         <AuthProvider>
           <Suspense fallback={null}>{children}</Suspense>
         </AuthProvider>
@@ -45,3 +55,4 @@ export default function RootLayout({
     </html>
   )
 }
+
