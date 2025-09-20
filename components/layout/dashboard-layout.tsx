@@ -20,6 +20,14 @@ import {
   Search,
   BookOpen,
 } from "lucide-react"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { cn } from "@/lib/utils"
 import { useAuth } from "@/contexts/auth-context"
 
@@ -47,7 +55,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   }
 
   return (
-    <div className="min-h-screen bg-background">
+<div className="min-h-screen">
       {/* Mobile sidebar */}
       <motion.div
         initial={false}
@@ -148,7 +156,9 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
               <div className="hidden lg:block lg:h-6 lg:w-px lg:bg-border" />
 
-              <div className="flex items-center gap-x-3">
+              <DropdownMenu>
+  <DropdownMenuTrigger asChild>
+    <div className="flex items-center gap-x-3 cursor-pointer">
                 <Avatar className="h-8 w-8">
                   <AvatarImage src={user?.avatar || "/placeholder.svg"} alt="User" />
                   <AvatarFallback>
@@ -163,6 +173,23 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                   <p className="text-xs text-muted-foreground">{user?.membershipTier}</p>
                 </div>
               </div>
+              </DropdownMenuTrigger>
+
+  <DropdownMenuContent className="w-56" align="end">
+    <DropdownMenuLabel>My Account</DropdownMenuLabel>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem onClick={() => router.push("/dashboard/profile")}>
+      Profile
+    </DropdownMenuItem>
+    <DropdownMenuItem onClick={() => router.push("/dashboard/settings")}>
+      Settings
+    </DropdownMenuItem>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem onClick={handleLogout} className="text-red-500">
+      Logout
+    </DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
             </div>
           </div>
         </div>
