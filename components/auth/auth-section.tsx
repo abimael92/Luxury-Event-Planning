@@ -1,3 +1,4 @@
+// components/auth/auth-section.tsx
 "use client"
 
 import { useEffect, useState } from "react"
@@ -7,26 +8,27 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { LoginForm } from "./login-form"
 import { RegisterForm } from "./register-form"
 import { VendorRegisterForm } from "./vendor-register-form"
-import { DemoLoginButton } from "./demo-login-button"
 
-export function AuthSection() {
-  const [activeTab, setActiveTab] = useState("login")
+interface AuthSectionProps {
+  defaultTab?: "login" | "register" | "vendor"
+  onClose?: () => void
+}
+
+export function AuthSection({ defaultTab = "login", onClose }: AuthSectionProps) {
   const [mounted, setMounted] = useState(false)
+  const [activeTab, setActiveTab] = useState<"login" | "register" | "vendor">(defaultTab) // fix typing
 
-  useEffect(() => {
-    setMounted(true) // only render tabs after mount to avoid hydration mismatch
-  }, [])
+  useEffect(() => setMounted(true), [])
 
   if (!mounted) return null
 
   return (
-    <section className="py-20 bg-muted/30">
+    <section className="py-10">
       <div className="container mx-auto px-4">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
           className="max-w-md mx-auto"
         >
           <Card className="backdrop-blur-sm bg-card/80 border-border/50 shadow-xl">
@@ -35,13 +37,21 @@ export function AuthSection() {
               <CardDescription className="text-base">Join our luxury event planning community</CardDescription>
             </CardHeader>
             <CardContent>
-              <DemoLoginButton />
-
-              <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+         <Tabs
+    value={activeTab}
+    onValueChange={(value) => setActiveTab(value as "login" | "register" | "vendor")} // cast here
+    className="w-full"
+  >
                 <TabsList className="grid w-full grid-cols-3 mb-6">
-                  <TabsTrigger value="login" className="text-sm">Sign In</TabsTrigger>
-                  <TabsTrigger value="register" className="text-sm">Client</TabsTrigger>
-                  <TabsTrigger value="vendor" className="text-sm">Vendor</TabsTrigger>
+                  <TabsTrigger value="login" className="text-sm">
+                    Sign In
+                  </TabsTrigger>
+                  <TabsTrigger value="register" className="text-sm">
+                    Client
+                  </TabsTrigger>
+                  <TabsTrigger value="vendor" className="text-sm">
+                    Vendor
+                  </TabsTrigger>
                 </TabsList>
 
                 <AnimatePresence mode="wait">
@@ -54,7 +64,7 @@ export function AuthSection() {
                       transition={{ duration: 0.3 }}
                       className="mt-0"
                     >
-                      <LoginForm />
+                      <LoginForm onClose={onClose} />
                     </motion.div>
                   )}
 
