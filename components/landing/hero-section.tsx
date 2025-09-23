@@ -3,7 +3,7 @@
 
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Sparkles } from "lucide-react"
+import { ArrowRight, Users, Sparkles } from "lucide-react"
 
 interface HeroSectionProps {
   onStartPlanning: () => void
@@ -52,10 +52,10 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
               <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Button>
             <Button
-              variant="outline"
               size="lg"
-              className="border-2 border-primary/20 hover:border-primary/40 px-8 py-6 text-lg font-semibold hover:bg-primary/5 transition-all duration-300 bg-transparent"
+              className="gradient-secondary text-white px-8 py-6 text-lg font-semibold flex items-center justify-center gap-2 group"
             >
+              <Users className="w-5 h-5" />
               Browse Vendors
             </Button>
           </motion.div>

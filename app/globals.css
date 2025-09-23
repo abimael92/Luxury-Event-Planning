@@ -172,6 +172,14 @@
     background: linear-gradient(135deg, var(--planora-teal), var(--planora-royal-purple));
   }
 
+  /* .gradient-secondary {
+  background: linear-gradient(135deg, var(--planora-pink-accent), var(--planora-royal-purple));
+  } */
+
+  .gradient-secondary {
+  background: linear-gradient(145deg, rgba(15, 76, 117, 0.7), rgba(50, 130, 184, 0.7));
+  }
+
   .glow-primary {
     box-shadow: 0 0 20px var(--planora-royal-purple);
   }
