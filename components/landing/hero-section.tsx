@@ -59,8 +59,36 @@ export function HeroSection({ onStartPlanning }: HeroSectionProps) {
               Browse Vendors
             </Button>
           </motion.div>
+          {/* Features Preview */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 0.6 }}
+            className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto"
+          >
+            {[
+              { title: "Event Planning", desc: "Comprehensive tools to plan every detail of your special event", icon: "ri-calendar-event-line", bg: "bg-purple-500" },
+              { title: "Premium Vendors", desc: "Curated network of top-rated vendors and service providers", icon: "ri-team-line", bg: "bg-pink-500" },
+              { title: "Budget Management", desc: "Track expenses and manage your budget with precision", icon: "ri-wallet-line", bg: "bg-teal-500" },
+            ].map((feature, index) => (
+              <motion.div
+                key={feature.title}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.9 + index * 0.1, duration: 0.5 }}
+                className="text-center p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/20 transition-all duration-300"
+              >
+                <div className={`${feature.bg} w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4`}>
+                  <i className={`${feature.icon} text-white text-2xl`}></i>
+                </div>
+                <h3 className="font-heading font-semibold text-lg mb-2">{feature.title}</h3>
+                <p className="text-muted-foreground text-sm">{feature.desc}</p>
+              </motion.div>
+            ))}
+          </motion.div>
         </motion.div>
       </div>
     </section>
+
   )
 }

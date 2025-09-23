@@ -36,6 +36,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link
+          href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css"
+          rel="stylesheet"
+        />
+      </head>
       <body
         className={`relative min-h-screen font-sans ${poppins.variable} ${inter.variable} ${playfair.variable}`}
       >
