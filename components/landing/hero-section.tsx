@@ -6,8 +6,7 @@ import { ArrowRight, Sparkles } from "lucide-react"
 
 export function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-background via-muted/30 to-primary/5">
-      {/* Background decoration */}
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-transparent">
 
       <div className="container mx-auto px-4 text-center relative z-10">
         <motion.div
@@ -23,13 +22,23 @@ export function HeroSection() {
             transition={{ delay: 0.2, duration: 0.6 }}
             className="mb-8"
           >
-            <h1 className="text-6xl md:text-8xl font-luxury font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-              Planora
-            </h1>
-            <div className="flex items-center justify-center gap-2 mt-2">
-              <Sparkles className="w-5 h-5 text-accent" />
-              <p className="text-lg text-muted-foreground font-medium"> Event Planning</p>
-              <Sparkles className="w-5 h-5 text-accent" />
+            <div className="relative inline-block">
+              <div className="absolute inset-0 bg-white/10 backdrop-blur-sm rounded-2xl -m-4" />
+              <h1 className="text-6xl md:text-8xl font-luxury font-bold text-transparent [-webkit-text-stroke:3px_white] absolute inset-0">
+                Planora
+              </h1>
+              {/* Gradient fill layer */}
+              <h1 className="text-6xl md:text-8xl font-luxury font-bold bg-gradient-to-r from-purple-600 via-pink-500 to-blue-600 bg-clip-text text-transparent relative [text-shadow:0_0_30px_rgba(255,255,255,0.5)] ">
+                Planora
+              </h1>
+              <Sparkles className="absolute -top-2 -right-2 w-6 h-6 text-pink-800 animate-pulse" />
+              <Sparkles className="absolute -bottom-2 -left-2 w-4 h-4 text-purple-800 animate-pulse delay-1000" />
+            </div>
+
+            <div className="flex items-center justify-center gap-2 mt-8">
+              {/* <Sparkles className="w-5 h-5 text-accent text-purple-800 " /> */}
+              <p className="text-xl font-cinzel  text-purple-800 font-medium"> Event Planning</p>
+              {/* <Sparkles className="w-5 h-5 text-accent" /> */}
             </div>
           </motion.div>
 
@@ -46,7 +55,7 @@ export function HeroSection() {
                 Planner
               </span>
             </h2>
-            <p className="text-xl md:text-2xl text-muted-foreground text-balance max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl text-purple-800 text-balance max-w-3xl mx-auto leading-relaxed">
               Connect with premium vendors, manage events, and create unforgettable experiences with our curated
               marketplace.
             </p>
@@ -69,7 +78,7 @@ export function HeroSection() {
             <Button
               variant="outline"
               size="lg"
-              className="border-2 border-primary/20 hover:border-primary/40 px-8 py-6 text-lg font-semibold hover:bg-primary/5 transition-all duration-300 bg-transparent"
+              className="border-2 border-primary/20 bg-white/10 backdrop-blur-sm hover:border-primary/40 px-8 py-6 text-lg font-semibold hover:bg-primary/5 transition-all duration-300 "
             >
               Browse Vendors
             </Button>
