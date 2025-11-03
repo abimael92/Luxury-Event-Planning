@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { AuthSection } from "@/components/auth/auth-section"
 import { HeroSection } from "@/components/landing/hero-section"
 import { useAuth } from "@/contexts/auth-context"
 
@@ -38,7 +37,7 @@ export default function HomePage() {
   return (
     <main className="min-h-screen">
       <HeroSection />
-      <AuthSection />
+      {/* Removed AuthSection from here - it will be on its own page */}
     </main>
   )
 }

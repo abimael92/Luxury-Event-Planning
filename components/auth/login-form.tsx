@@ -16,7 +16,11 @@ interface LoginFormData {
   password: string
 }
 
-export function LoginForm() {
+interface LoginFormProps {
+  onForgotPassword: () => void
+}
+
+export function LoginForm({ onForgotPassword }: LoginFormProps) {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const { toast } = useToast()
@@ -27,6 +31,7 @@ export function LoginForm() {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm<LoginFormData>()
 
   const onSubmit = async (data: LoginFormData) => {
@@ -42,6 +47,27 @@ export function LoginForm() {
       toast({
         title: "Sign in failed",
         description: "Please check your credentials and try again.",
+        variant: "destructive",
+      })
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  // Demo login function
+  const handleDemoLogin = async (email: string, password: string) => {
+    setIsLoading(true)
+    try {
+      await login(email, password, email.includes("vendor") ? "vendor" : "client")
+      toast({
+        title: "Demo login successful!",
+        description: `Logged in as ${email}`,
+      })
+      router.push("/dashboard")
+    } catch (error) {
+      toast({
+        title: "Demo login failed",
+        description: "Please try again.",
         variant: "destructive",
       })
     } finally {
@@ -75,9 +101,19 @@ export function LoginForm() {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="password" className="text-sm font-medium">
-          Password
-        </Label>
+        <div className="flex justify-between items-center">
+          <Label htmlFor="password" className="text-sm font-medium">
+            Password
+          </Label>
+          <Button
+            type="button"
+            variant="link"
+            className="p-0 h-auto text-xs text-muted-foreground hover:text-primary"
+            onClick={onForgotPassword}
+          >
+            Forgot your password?
+          </Button>
+        </div>
         <div className="relative">
           <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
           <Input
@@ -118,6 +154,39 @@ export function LoginForm() {
         {isLoading ? "Signing in..." : "Sign In"}
       </Button>
 
+      {/* Demo Login Buttons */}
+      <div className="space-y-2">
+        <Button
+          type="button"
+          variant="outline"
+          className="w-full border-border/50 hover:border-primary/20 hover:bg-primary/5 bg-transparent"
+          onClick={() => {
+            setValue("email", "client@client.com")
+            setValue("password", "123456")
+            handleDemoLogin("client@client.com", "123456")
+          }}
+          disabled={isLoading}
+        >
+          <Chrome className="mr-2 h-4 w-4" />
+          Demo Client
+        </Button>
+
+        <Button
+          type="button"
+          variant="outline"
+          className="w-full border-border/50 hover:border-primary/20 hover:bg-primary/5 bg-transparent"
+          onClick={() => {
+            setValue("email", "vendor@vendor.com")
+            setValue("password", "123456")
+            handleDemoLogin("vendor@vendor.com", "123456")
+          }}
+          disabled={isLoading}
+        >
+          <Chrome className="mr-2 h-4 w-4" />
+          Demo Vendor
+        </Button>
+      </div>
+
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
           <Separator className="w-full" />
@@ -131,16 +200,11 @@ export function LoginForm() {
         type="button"
         variant="outline"
         className="w-full border-border/50 hover:border-primary/20 hover:bg-primary/5 bg-transparent"
+        disabled={isLoading}
       >
         <Chrome className="mr-2 h-4 w-4" />
         Google
       </Button>
-
-      <div className="text-center">
-        <Button variant="link" className="text-sm text-muted-foreground hover:text-primary">
-          Forgot your password?
-        </Button>
-      </div>
     </form>
   )
 }
