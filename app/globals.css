@@ -49,6 +49,28 @@
   }
 }
 
+
+.gradient-royal {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.hover\:glow-primary:hover {
+  box-shadow: 0 0 20px rgba(102, 126, 234, 0.5);
+}
+
+.font-luxury {
+  font-family: var(--font-cinzel), serif;
+}
+
+.font-heading {
+  font-family: var(--font-playfair), serif;
+}
+
+.font-cinzel {
+  font-family: var(--font-cinzel), serif;
+}
+
+
 @layer base {
   * {
     @apply border-border;
