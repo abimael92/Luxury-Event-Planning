@@ -3,7 +3,7 @@
 import type React from "react"
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { useRouter } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
@@ -35,27 +35,33 @@ interface DashboardLayoutProps {
   children: React.ReactNode
 }
 
-const navigation = [
-  { name: "Dashboard", href: "/dashboard", icon: Home, current: false },
-  { name: "My Events", href: "/dashboard/events", icon: Calendar, current: false },
-  { name: "Vendors", href: "/dashboard/vendors", icon: Users, current: false },
-  { name: "Bookings", href: "/dashboard/bookings", icon: BookOpen, current: false },
-  { name: "Messages", href: "/dashboard/messages", icon: MessageSquare, current: false },
-  { name: "Payments", href: "/dashboard/payments", icon: CreditCard, current: false },
-]
-
 export function DashboardLayout({ children }: DashboardLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const router = useRouter()
+  const pathname = usePathname()
   const { user, logout } = useAuth()
+
+  const navigation = [
+    { name: "Dashboard", href: "/dashboard", icon: Home, current: pathname === "/dashboard" },
+    { name: "My Events", href: "/dashboard/events", icon: Calendar, current: pathname === "/dashboard/events" },
+    { name: "Vendors", href: "/dashboard/vendors", icon: Users, current: pathname === "/dashboard/vendors" },
+    { name: "Bookings", href: "/dashboard/bookings", icon: BookOpen, current: pathname === "/dashboard/bookings" },
+    { name: "Messages", href: "/dashboard/messages", icon: MessageSquare, current: pathname === "/dashboard/messages" },
+    { name: "Payments", href: "/dashboard/payments", icon: CreditCard, current: pathname === "/dashboard/payments" },
+  ]
 
   const handleLogout = () => {
     logout()
     router.push("/")
   }
 
+  const handleNavigation = (href: string) => {
+    router.push(href)
+    setSidebarOpen(false) // Close mobile sidebar after navigation
+  }
+
   return (
-<div className="min-h-screen">
+    <div className="min-h-screen">
       {/* Mobile sidebar */}
       <motion.div
         initial={false}
@@ -80,14 +86,15 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                 key={item.name}
                 variant={item.current ? "default" : "ghost"}
                 className={cn("w-full justify-start gap-3", item.current && "gradient-royal text-white")}
+                onClick={() => handleNavigation(item.href)}
               >
                 <item.icon className="w-4 h-4" />
                 {item.name}
               </Button>
             ))}
           </nav>
-          <div className="fixed bottom-4 right-4">
-            <Button onClick={handleLogout} variant="outline" size="sm" className="bg-card/80 backdrop-blur-sm">
+          <div className="absolute bottom-4 left-4 right-4">
+            <Button onClick={handleLogout} variant="outline" size="sm" className="w-full bg-card/80 backdrop-blur-sm">
               Logout
             </Button>
           </div>
@@ -110,6 +117,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                       <Button
                         variant={item.current ? "default" : "ghost"}
                         className={cn("w-full justify-start gap-3", item.current && "gradient-royal text-white")}
+                        onClick={() => handleNavigation(item.href)}
                       >
                         <item.icon className="w-5 h-5" />
                         {item.name}
@@ -119,7 +127,11 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                 </ul>
               </li>
               <li className="mt-auto">
-                <Button variant="ghost" className="w-full justify-start gap-3">
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start gap-3"
+                  onClick={() => handleNavigation("/dashboard/settings")}
+                >
                   <Settings className="w-5 h-5" />
                   Settings
                 </Button>
@@ -157,39 +169,39 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               <div className="hidden lg:block lg:h-6 lg:w-px lg:bg-border" />
 
               <DropdownMenu>
-  <DropdownMenuTrigger asChild>
-    <div className="flex items-center gap-x-3 cursor-pointer">
-                <Avatar className="h-8 w-8">
-                  <AvatarImage src={user?.avatar || "/placeholder.svg"} alt="User" />
-                  <AvatarFallback>
-                    {user?.firstName?.[0]}
-                    {user?.lastName?.[0]}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="hidden lg:block">
-                  <p className="text-sm font-semibold">
-                    {user?.firstName} {user?.lastName}
-                  </p>
-                  <p className="text-xs text-muted-foreground">{user?.membershipTier}</p>
-                </div>
-              </div>
-              </DropdownMenuTrigger>
+                <DropdownMenuTrigger asChild>
+                  <div className="flex items-center gap-x-3 cursor-pointer">
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src={user?.avatar || "/placeholder.svg"} alt="User" />
+                      <AvatarFallback>
+                        {user?.firstName?.[0]}
+                        {user?.lastName?.[0]}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="hidden lg:block">
+                      <p className="text-sm font-semibold">
+                        {user?.firstName} {user?.lastName}
+                      </p>
+                      <p className="text-xs text-muted-foreground">{user?.membershipTier}</p>
+                    </div>
+                  </div>
+                </DropdownMenuTrigger>
 
-  <DropdownMenuContent className="w-56" align="end">
-    <DropdownMenuLabel>My Account</DropdownMenuLabel>
-    <DropdownMenuSeparator />
-    <DropdownMenuItem onClick={() => router.push("/dashboard/profile")}>
-      Profile
-    </DropdownMenuItem>
-    <DropdownMenuItem onClick={() => router.push("/dashboard/settings")}>
-      Settings
-    </DropdownMenuItem>
-    <DropdownMenuSeparator />
-    <DropdownMenuItem onClick={handleLogout} className="text-red-500">
-      Logout
-    </DropdownMenuItem>
-  </DropdownMenuContent>
-</DropdownMenu>
+                <DropdownMenuContent className="w-56" align="end">
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={() => handleNavigation("/dashboard/profile")}>
+                    Profile
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => handleNavigation("/dashboard/settings")}>
+                    Settings
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout} className="text-red-500">
+                    Logout
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         </div>
