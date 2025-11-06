@@ -29,6 +29,8 @@ interface VendorCardProps {
   isFavorite: boolean
   onToggleFavorite: () => void
   onViewProfile: () => void
+  onContactVendor?: () => void // Add this
+  isPublic?: boolean // Add this
 }
 
 export function VendorCard({ vendor, viewMode, isFavorite, onToggleFavorite, onViewProfile }: VendorCardProps) {
