@@ -37,13 +37,19 @@ export function LoginForm({ onForgotPassword }: LoginFormProps) {
   const onSubmit = async (data: LoginFormData) => {
     setIsLoading(true)
     try {
-      await login(data.email, data.password, "client")
+      const user = await login(data.email, data.password) // assume this returns user info
+
       toast({
         title: "Welcome back!",
         description: "You've been successfully signed in.",
       })
-      router.push("/dashboard")
-    } catch (error) {
+
+      if (user?.role === "vendor") {
+        router.push("/vendor")
+      } else {
+        router.push("/dashboard")
+      }
+    } catch {
       toast({
         title: "Sign in failed",
         description: "Please check your credentials and try again.",
@@ -54,17 +60,19 @@ export function LoginForm({ onForgotPassword }: LoginFormProps) {
     }
   }
 
+
   // Demo login function
   const handleDemoLogin = async (email: string, password: string) => {
     setIsLoading(true)
     try {
-      await login(email, password, email.includes("vendor") ? "vendor" : "client")
+      const user = await login(email, password)
       toast({
         title: "Demo login successful!",
         description: `Logged in as ${email}`,
       })
-      router.push("/dashboard")
-    } catch (error) {
+
+      router.push(email.includes("vendor") ? "/vendor" : "/dashboard")
+    } catch {
       toast({
         title: "Demo login failed",
         description: "Please try again.",
@@ -74,6 +82,7 @@ export function LoginForm({ onForgotPassword }: LoginFormProps) {
       setIsLoading(false)
     }
   }
+
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
