@@ -21,8 +21,10 @@ import {
   Clock,
   DollarSign,
   Users,
+  LogIn,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { useRouter } from "next/navigation"
 
 interface Vendor {
   id: string
@@ -47,6 +49,8 @@ interface VendorProfileModalProps {
   onOpenChange: (open: boolean) => void
   isFavorite: boolean
   onToggleFavorite: () => void
+  onContactVendor?: () => void
+  isPublic?: boolean
 }
 
 // Mock reviews data
@@ -89,8 +93,42 @@ export function VendorProfileModal({
   onOpenChange,
   isFavorite,
   onToggleFavorite,
+  onContactVendor,
+  isPublic = false,
 }: VendorProfileModalProps) {
   const [selectedImage, setSelectedImage] = useState(0)
+  const router = useRouter()
+
+  const handleAction = (action: "book" | "message" | "quote" | "favorite") => {
+    if (isPublic) {
+      // Redirect to signup for public users
+      router.push("/auth/signup")
+    } else {
+      // Handle action for logged-in users
+      switch (action) {
+        case "book":
+          // Implement booking logic
+          break
+        case "message":
+          // Implement messaging logic
+          break
+        case "quote":
+          // Implement quote request logic
+          break
+        case "favorite":
+          onToggleFavorite()
+          break
+      }
+    }
+  }
+
+  const handleContactClick = () => {
+    if (onContactVendor) {
+      onContactVendor()
+    } else if (isPublic) {
+      router.push("/auth/signup")
+    }
+  }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -128,8 +166,12 @@ export function VendorProfileModal({
                   <Button
                     variant="secondary"
                     size="sm"
-                    onClick={onToggleFavorite}
-                    className={cn("bg-white/20 hover:bg-white/30", isFavorite && "text-red-500")}
+                    onClick={() => handleAction("favorite")}
+                    className={cn(
+                      "bg-white/20 hover:bg-white/30",
+                      isFavorite && "text-red-500",
+                      isPublic && "cursor-pointer"
+                    )}
                   >
                     <Heart className={cn("w-4 h-4", isFavorite && "fill-current")} />
                   </Button>
@@ -137,6 +179,23 @@ export function VendorProfileModal({
               </div>
             </div>
           </div>
+
+          {/* Public User Notice */}
+          {isPublic && (
+            <div className="bg-blue-50 border-b border-blue-200 px-6 py-3">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <LogIn className="w-4 h-4 text-blue-600" />
+                  <p className="text-sm text-blue-800">
+                    Sign up to contact vendors, save favorites, and get personalized quotes
+                  </p>
+                </div>
+                <Button size="sm" onClick={() => router.push("/auth/signup")}>
+                  Get Started
+                </Button>
+              </div>
+            </div>
+          )}
 
           {/* Content */}
           <div className="p-6">
@@ -220,17 +279,28 @@ export function VendorProfileModal({
                     </Card>
 
                     <div className="space-y-2">
-                      <Button className="w-full gradient-royal text-white">
+                      <Button
+                        className="w-full gradient-royal text-white"
+                        onClick={() => handleAction("book")}
+                      >
                         <Calendar className="w-4 h-4 mr-2" />
-                        Book Consultation
+                        {isPublic ? "Sign Up to Book" : "Book Consultation"}
                       </Button>
-                      <Button variant="outline" className="w-full bg-transparent">
+                      <Button
+                        variant="outline"
+                        className="w-full bg-transparent"
+                        onClick={() => handleAction("message")}
+                      >
                         <MessageSquare className="w-4 h-4 mr-2" />
-                        Send Message
+                        {isPublic ? "Sign Up to Message" : "Send Message"}
                       </Button>
-                      <Button variant="outline" className="w-full bg-transparent">
+                      <Button
+                        variant="outline"
+                        className="w-full bg-transparent"
+                        onClick={() => handleAction("quote")}
+                      >
                         <DollarSign className="w-4 h-4 mr-2" />
-                        Request Quote
+                        {isPublic ? "Sign Up for Quote" : "Request Quote"}
                       </Button>
                     </div>
                   </div>
@@ -358,6 +428,28 @@ export function VendorProfileModal({
                       </CardContent>
                     </Card>
                   </div>
+
+                  {/* Contact CTA for Public Users */}
+                  {isPublic && (
+                    <Card className="bg-gradient-to-r from-primary/10 to-secondary/10 border-primary/20">
+                      <CardContent className="p-6 text-center">
+                        <h4 className="font-heading font-semibold text-lg mb-2">
+                          Ready to Contact This Vendor?
+                        </h4>
+                        <p className="text-muted-foreground mb-4">
+                          Join Planora to send messages, request quotes, and book consultations directly with vendors.
+                        </p>
+                        <div className="flex gap-3 justify-center">
+                          <Button onClick={() => router.push("/auth/signup")}>
+                            Sign Up Free
+                          </Button>
+                          <Button variant="outline" onClick={() => router.push("/auth/login")}>
+                            Sign In
+                          </Button>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
                 </div>
               </TabsContent>
             </Tabs>
