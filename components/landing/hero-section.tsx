@@ -91,13 +91,13 @@ export function HeroSection() {
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
 
-              <Button
+              {/* <Button
                 variant="outline"
                 size="lg"
                 className="border-2 border-primary/20 bg-white/10 backdrop-blur-sm hover:border-primary/40 px-8 py-6 text-lg font-semibold hover:bg-primary/5 transition-all duration-300"
               >
                 Browse Vendors
-              </Button>
+              </Button> */}
             </motion.div>
 
             {/* Features Preview */}
