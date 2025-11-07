@@ -1,5 +1,5 @@
-import { ProtectedRoute } from "@/components/auth/protected-route"
-import { EventCreationFlow } from "@/components/events/event-creation-flow"
+import { ProtectedRoute } from "@/features/auth/protected-route"
+import { EventCreationFlow } from "@/features/events/event-creation-flow"
 
 export default function CreateEventPage() {
   return (

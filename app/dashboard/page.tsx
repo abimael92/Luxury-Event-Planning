@@ -1,6 +1,6 @@
-import { EventDashboard } from "@/components/dashboard/event-dashboard"
+import { EventDashboard } from "@/features/dashboard/event-dashboard"
 import { DashboardLayout } from "@/components/layout/dashboard-layout"
-import { ProtectedRoute } from "@/components/auth/protected-route"
+import { ProtectedRoute } from "@/features/auth/protected-route"
 
 export default function DashboardPage() {
   return (

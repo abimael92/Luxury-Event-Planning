@@ -1,6 +1,6 @@
-import { BookingManagement } from "@/components/bookings/booking-management"
+import { BookingManagement } from "@/features/bookings/booking-management"
 import { DashboardLayout } from "@/components/layout/dashboard-layout"
-import { ProtectedRoute } from "@/components/auth/protected-route"
+import { ProtectedRoute } from "@/features/auth/protected-route"
 
 export default function BookingsPage() {
   return (

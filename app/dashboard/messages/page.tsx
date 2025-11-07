@@ -2,7 +2,7 @@
 
 import { DashboardLayout } from "@/components/layout/dashboard-layout"
 import { ChatInterface } from "@/components/chat/chat-interface"
-import { ProtectedRoute } from "@/components/auth/protected-route"
+import { ProtectedRoute } from "@/features/auth/protected-route"
 
 export default function MessagesPage() {
   return (
