@@ -28,8 +28,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { cn } from "@/lib/utils"
-import { useAuth } from "@/contexts/auth-context"
+import { cn } from "@/shared/lib/utils"
+import { useAuth } from "@/core/contexts/auth-context"
 
 interface DashboardLayoutProps {
   children: React.ReactNode
