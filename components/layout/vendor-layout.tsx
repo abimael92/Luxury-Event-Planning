@@ -3,7 +3,7 @@
 import { ReactNode } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { cn } from "@/lib/utils"
+import { cn } from "@/shared/lib/utils"
 import { LogOut, LayoutDashboard, Package } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
