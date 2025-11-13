@@ -3,7 +3,7 @@
 import { motion } from "framer-motion"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
-import { cn } from "@/lib/utils"
+import { cn } from '@/shared/lib/utils'
 
 interface Conversation {
   id: string
