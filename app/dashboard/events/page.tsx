@@ -1,4 +1,4 @@
-import { ProtectedRoute } from "@/features/auth/protected-route"
+import { ProtectedRoute } from "@/components/auth/protected-route"
 import { DashboardLayout } from "@/components/layout/dashboard-layout"
 
 export default function EventsPage() {
