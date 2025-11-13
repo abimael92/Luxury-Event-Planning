@@ -9,7 +9,7 @@ import { Separator } from "@/components/ui/separator"
 import { Eye, EyeOff, Mail, Lock, Chrome } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { useRouter } from "next/navigation"
-import { useAuth } from "@/contexts/auth-context"
+import { useAuth } from "@/core/contexts/auth-context"
 
 interface LoginFormData {
   email: string
