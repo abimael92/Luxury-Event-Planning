@@ -15,7 +15,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { format } from "date-fns"
 import { CalendarIcon, DollarSign } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
-import { cn } from "@/lib/utils"
+import { cn } from '@/shared/lib/utils'
 
 interface CreateBookingModalProps {
   open: boolean
