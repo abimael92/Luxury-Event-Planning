@@ -7,13 +7,15 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { LoginForm } from "./login-form"
 import { RegisterForm } from "./register-form"
 import { VendorRegisterForm } from "./vendor-register-form"
-import { DemoLoginButton } from "./demo-login-button"
 import { ForgotPasswordForm } from "./forgot-password-form"
+import { useTranslation } from "@/hooks/use-translation"
+import { Languages } from "lucide-react"
 
 export function AuthSection() {
   const [activeTab, setActiveTab] = useState("login")
   const [showForgotPassword, setShowForgotPassword] = useState(false)
   const [mounted, setMounted] = useState(false)
+  const { t, language, toggleLanguage } = useTranslation()
 
   useEffect(() => {
     setMounted(true)
@@ -29,11 +31,24 @@ export function AuthSection() {
         transition={{ duration: 0.6 }}
         className="max-w-md mx-auto"
       >
+        {/* Language Toggle */}
+        <div className="flex justify-end mb-4">
+          <button
+            onClick={toggleLanguage}
+            className="flex items-center gap-2 px-3 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-300 text-white font-medium text-sm"
+          >
+            <Languages className="w-3 h-3" />
+            <span>{language === "es" ? "ES" : "EN"}</span>
+          </button>
+        </div>
+
         <Card className="backdrop-blur-sm bg-card/80 border-border/50 shadow-xl">
           <CardHeader className="text-center pb-4">
-            <CardTitle className="text-2xl font-heading">Reset Password</CardTitle>
+            <CardTitle className="text-2xl font-heading">
+              {t('auth.resetPassword')}
+            </CardTitle>
             <CardDescription className="text-base">
-              Enter your email to reset your password
+              {t('auth.resetDescription')}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -51,18 +66,38 @@ export function AuthSection() {
       transition={{ duration: 0.6 }}
       className="max-w-md mx-auto"
     >
+      {/* Language Toggle */}
+      <div className="flex justify-end mb-4">
+        <button
+          onClick={toggleLanguage}
+          className="flex items-center gap-2 px-3 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-300 text-white font-medium text-sm"
+        >
+          <Languages className="w-3 h-3" />
+          <span>{language === "es" ? "ES" : "EN"}</span>
+        </button>
+      </div>
+
       <Card className="backdrop-blur-sm bg-card/80 border-border/50 shadow-xl">
         <CardHeader className="text-center pb-4">
-          <CardTitle className="text-2xl font-heading">Welcome to Planora</CardTitle>
-          <CardDescription className="text-base">Join our luxury event planning community</CardDescription>
+          <CardTitle className="text-2xl font-heading">
+            {t('auth.welcome')}
+          </CardTitle>
+          <CardDescription className="text-base">
+            {t('auth.description')}
+          </CardDescription>
         </CardHeader>
         <CardContent>
-
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full grid-cols-3 mb-6">
-              <TabsTrigger value="login" className="text-sm">Sign In</TabsTrigger>
-              <TabsTrigger value="register" className="text-sm">Client</TabsTrigger>
-              <TabsTrigger value="vendor" className="text-sm">Vendor</TabsTrigger>
+              <TabsTrigger value="login" className="text-sm">
+                {t('auth.tabs.login')}
+              </TabsTrigger>
+              <TabsTrigger value="register" className="text-sm">
+                {t('auth.tabs.register')}
+              </TabsTrigger>
+              <TabsTrigger value="vendor" className="text-sm">
+                {t('auth.tabs.vendor')}
+              </TabsTrigger>
             </TabsList>
 
             <AnimatePresence mode="wait">

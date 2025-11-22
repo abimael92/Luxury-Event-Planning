@@ -1,0 +1,13 @@
+{
+    "auth": {
+        "welcome": "Welcome to Planora",
+        "description": "Join our luxury event planning community",
+        "resetPassword": "Reset Password",
+        "resetDescription": "Enter your email to reset your password",
+        "tabs": {
+            "login": "Sign In",
+            "register": "Client",
+            "vendor": "Vendor"
+        }
+    }
+}
