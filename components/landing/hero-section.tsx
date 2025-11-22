@@ -6,12 +6,13 @@ import { Button } from "../ui/button"
 import { CreateEventModal } from "../events/create-event-modal"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/core/contexts/auth-context"
-import { ArrowRight, Sparkles } from "lucide-react"
+import { ArrowRight, Sparkles, Languages } from "lucide-react"
 
 export function HeroSection() {
   const [createEventOpen, setCreateEventOpen] = useState(false)
   const { isAuthenticated } = useAuth()
   const router = useRouter()
+  const [language, setLanguage] = useState<"es" | "en">("es") // Spanish as default
 
   const handleGetStarted = () => {
     if (isAuthenticated) {
@@ -21,9 +22,57 @@ export function HeroSection() {
     }
   }
 
+  const toggleLanguage = () => {
+    setLanguage(prev => prev === "es" ? "en" : "es")
+  }
+
+  // Translations
+  const translations = {
+    es: {
+      eventPlanning: "Planificación de Eventos",
+      heroTitle: "Tu Planificador de Eventos Personal",
+      heroDescription: "Conecta con proveedores premium, gestiona eventos y crea experiencias inolvidables con nuestro mercado curado.",
+      startPlanning: "Comenzar a Planificar",
+      browseVendors: "Ver Proveedores",
+      features: [
+        { title: "Proveedores Seleccionados", desc: "DJs premium, lugares, catering y más" },
+        { title: "Planificación Inteligente", desc: "Seguimiento de presupuesto y gestión de cronogramas" },
+        { title: "Pagos Seguros", desc: "Protección de depósito en garantía y contratos fáciles" }
+      ]
+    },
+    en: {
+      eventPlanning: "Event Planning",
+      heroTitle: "Your Personal Event Planner",
+      heroDescription: "Connect with premium vendors, manage events, and create unforgettable experiences with our curated marketplace.",
+      startPlanning: "Start Planning",
+      browseVendors: "Browse Vendors",
+      features: [
+        { title: "Curated Vendors", desc: "Premium DJs, venues, catering & more" },
+        { title: "Smart Planning", desc: "Budget tracking & timeline management" },
+        { title: "Secure Payments", desc: "Escrow protection & easy contracts" }
+      ]
+    }
+  }
+
+  const t = translations[language]
+
   return (
     <>
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-transparent">
+        {/* Background Overlay */}
+        {/* <div className="absolute inset-0 bg-black/60 z-0" /> */}
+        {/* Language Toggle Button */}
+        <motion.button
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.3, duration: 0.5 }}
+          onClick={toggleLanguage}
+          className="absolute top-6 right-6 z-20 flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-300 text-white font-medium"
+        >
+          <Languages className="w-6 h-6 text-sky-900" />
+          <span className="text-md text-sky-900">{language === "es" ? "ES" : "EN"}</span>
+        </motion.button>
+
         <div className="container mx-auto px-4 text-center relative z-10">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -52,7 +101,7 @@ export function HeroSection() {
               </div>
 
               <div className="flex items-center justify-center gap-2 mt-8">
-                <p className="text-xl font-cinzel text-purple-800 font-medium">Event Planning</p>
+                <p className="text-xl font-cinzel text-purple-800 font-medium">{t.eventPlanning}</p>
               </div>
             </motion.div>
 
@@ -64,14 +113,20 @@ export function HeroSection() {
               className="mb-12"
             >
               <h2 className="text-3xl md:text-5xl font-heading font-bold text-balance mb-6">
-                Your Personal Event{" "}
-                <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                  Planner
-                </span>
+                {t.heroTitle.split(" ").map((word, index, array) =>
+                  word === "Personal" || word === "Personal" ? (
+                    <span key={index} className="bg-gradient-to-r from-primary to-blue-800/60 bg-clip-text text-transparent">
+                      {word}
+                    </span>
+                  ) : (
+                    <span key={index}>{word}</span>
+                  )
+                ).reduce((acc, element, index) =>
+                  index === 0 ? [element] : [...acc, " ", element], [] as React.ReactNode[]
+                )}
               </h2>
               <p className="text-xl md:text-2xl text-purple-800 text-balance max-w-3xl mx-auto leading-relaxed">
-                Connect with premium vendors, manage events, and create unforgettable experiences with our curated
-                marketplace.
+                {t.heroDescription}
               </p>
             </motion.div>
 
@@ -87,16 +142,17 @@ export function HeroSection() {
                 onClick={handleGetStarted}
                 className="gradient-royal text-white hover:glow-primary transition-all duration-300 px-8 py-6 text-lg font-semibold group"
               >
-                Start Planning
+                {t.startPlanning}
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
 
+              {/* Optional Browse Vendors Button */}
               {/* <Button
                 variant="outline"
                 size="lg"
                 className="border-2 border-primary/20 bg-white/10 backdrop-blur-sm hover:border-primary/40 px-8 py-6 text-lg font-semibold hover:bg-primary/5 transition-all duration-300"
               >
-                Browse Vendors
+                {t.browseVendors}
               </Button> */}
             </motion.div>
 
@@ -107,11 +163,7 @@ export function HeroSection() {
               transition={{ delay: 0.8, duration: 0.6 }}
               className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto"
             >
-              {[
-                { title: "Curated Vendors", desc: "Premium DJs, venues, catering & more" },
-                { title: "Smart Planning", desc: "Budget tracking & timeline management" },
-                { title: "Secure Payments", desc: "Escrow protection & easy contracts" },
-              ].map((feature, index) => (
+              {t.features.map((feature, index) => (
                 <motion.div
                   key={feature.title}
                   initial={{ opacity: 0, y: 20 }}
@@ -120,7 +172,7 @@ export function HeroSection() {
                   className="text-center p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/20 transition-all duration-300"
                 >
                   <h3 className="font-heading font-semibold text-lg mb-2">{feature.title}</h3>
-                  <p className="text-muted-foreground text-sm">{feature.desc}</p>
+                  <p className="text-slate-800 text-sm">{feature.desc}</p>
                 </motion.div>
               ))}
             </motion.div>

@@ -10,18 +10,18 @@ export default function HomePage() {
   const { isAuthenticated, isLoading } = useAuth()
   const router = useRouter()
 
-  // mark mounted to only render after client mount
   useEffect(() => {
     setMounted(true)
   }, [])
 
-  // redirect if authenticated
+  // Only handle redirection in useEffect, don't conditionally render based on auth
   useEffect(() => {
     if (mounted && !isLoading && isAuthenticated) {
       router.push("/dashboard")
     }
   }, [mounted, isAuthenticated, isLoading, router])
 
+  // Show loading state until we know mounted state
   if (!mounted || isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -30,14 +30,11 @@ export default function HomePage() {
     )
   }
 
-  if (isAuthenticated) {
-    return null // Will redirect
-  }
-
+  // Always render the same content regardless of auth state
+  // The useEffect will handle redirection for authenticated users
   return (
     <main className="min-h-screen">
       <HeroSection />
-      {/* Removed AuthSection from here - it will be on its own page */}
     </main>
   )
 }
