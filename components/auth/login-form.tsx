@@ -10,6 +10,7 @@ import { Eye, EyeOff, Mail, Lock, Chrome } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/core/contexts/auth-context"
+import { useTranslation } from "@/hooks/use-translation"
 
 interface LoginFormData {
   email: string
@@ -23,9 +24,11 @@ interface LoginFormProps {
 export function LoginForm({ onForgotPassword }: LoginFormProps) {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [demoLoading, setDemoLoading] = useState<string | null>(null)
   const { toast } = useToast()
   const router = useRouter()
   const { login } = useAuth()
+  const { t } = useTranslation()
 
   const {
     register,
@@ -37,11 +40,11 @@ export function LoginForm({ onForgotPassword }: LoginFormProps) {
   const onSubmit = async (data: LoginFormData) => {
     setIsLoading(true)
     try {
-      const user = await login(data.email, data.password) // assume this returns user info
+      const user = await login(data.email, data.password)
 
       toast({
-        title: "Welcome back!",
-        description: "You've been successfully signed in.",
+        title: t('auth.login.welcomeBack'),
+        description: t('auth.login.signInSuccess'),
       })
 
       if (user?.role === "vendor") {
@@ -49,10 +52,10 @@ export function LoginForm({ onForgotPassword }: LoginFormProps) {
       } else {
         router.push("/dashboard")
       }
-    } catch {
+    } catch (error: any) {
       toast({
-        title: "Sign in failed",
-        description: "Please check your credentials and try again.",
+        title: t('auth.login.signInFailed'),
+        description: error?.message || t('auth.login.invalidCredentials'),
         variant: "destructive",
       })
     } finally {
@@ -60,48 +63,53 @@ export function LoginForm({ onForgotPassword }: LoginFormProps) {
     }
   }
 
-
-  // Demo login function
-  const handleDemoLogin = async (email: string, password: string) => {
-    setIsLoading(true)
+  const handleDemoLogin = async (email: string, password: string, type: string) => {
+    setDemoLoading(type)
     try {
       const user = await login(email, password)
+
       toast({
-        title: "Demo login successful!",
-        description: `Logged in as ${email}`,
+        title: t('auth.login.demoSuccess'),
+        description: `${t('auth.login.loggedInAs')} ${email.split('@')[0]}`,
       })
 
-      router.push(email.includes("vendor") ? "/vendor" : "/dashboard")
-    } catch {
+      if (email.includes("vendor") || user?.role === "vendor") {
+        router.push("/vendor")
+      } else {
+        router.push("/dashboard")
+      }
+    } catch (error: any) {
       toast({
-        title: "Demo login failed",
-        description: "Please try again.",
+        title: t('auth.login.demoFailed'),
+        description: error?.message || t('auth.login.invalidCredentials'),
         variant: "destructive",
       })
     } finally {
-      setIsLoading(false)
+      setDemoLoading(null)
     }
   }
 
+  const isAnyLoading = isLoading || demoLoading !== null
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div className="space-y-2">
         <Label htmlFor="email" className="text-sm font-medium">
-          Email
+          {t('auth.login.email')}
         </Label>
         <div className="relative">
           <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
           <Input
             id="email"
             type="email"
-            placeholder="your@email.com"
+            placeholder={t('auth.login.emailPlaceholder')}
             className="pl-10"
+            disabled={isAnyLoading}
             {...register("email", {
-              required: "Email is required",
+              required: t('auth.validation.emailRequired'),
               pattern: {
                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: "Invalid email address",
+                message: t('auth.validation.invalidEmail'),
               },
             })}
           />
@@ -112,15 +120,16 @@ export function LoginForm({ onForgotPassword }: LoginFormProps) {
       <div className="space-y-2">
         <div className="flex justify-between items-center">
           <Label htmlFor="password" className="text-sm font-medium">
-            Password
+            {t('auth.login.password')}
           </Label>
           <Button
             type="button"
             variant="link"
             className="p-0 h-auto text-xs text-muted-foreground hover:text-primary"
             onClick={onForgotPassword}
+            disabled={isAnyLoading}
           >
-            Forgot your password?
+            {t('auth.login.forgotPassword')}
           </Button>
         </div>
         <div className="relative">
@@ -128,13 +137,14 @@ export function LoginForm({ onForgotPassword }: LoginFormProps) {
           <Input
             id="password"
             type={showPassword ? "text" : "password"}
-            placeholder="Enter your password"
+            placeholder={t('auth.login.password')}
             className="pl-10 pr-10"
+            disabled={isAnyLoading}
             {...register("password", {
-              required: "Password is required",
+              required: t('auth.validation.passwordRequired'),
               minLength: {
                 value: 6,
-                message: "Password must be at least 6 characters",
+                message: t('auth.validation.passwordMinLength'),
               },
             })}
           />
@@ -144,6 +154,7 @@ export function LoginForm({ onForgotPassword }: LoginFormProps) {
             size="sm"
             className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
             onClick={() => setShowPassword(!showPassword)}
+            disabled={isAnyLoading}
           >
             {showPassword ? (
               <EyeOff className="h-4 w-4 text-muted-foreground" />
@@ -158,9 +169,9 @@ export function LoginForm({ onForgotPassword }: LoginFormProps) {
       <Button
         type="submit"
         className="w-full gradient-royal text-white hover:glow-primary transition-all duration-300"
-        disabled={isLoading}
+        disabled={isAnyLoading}
       >
-        {isLoading ? "Signing in..." : "Sign In"}
+        {isLoading ? t('auth.login.signingIn') : t('auth.login.signIn')}
       </Button>
 
       {/* Demo Login Buttons */}
@@ -172,12 +183,13 @@ export function LoginForm({ onForgotPassword }: LoginFormProps) {
           onClick={() => {
             setValue("email", "client@client.com")
             setValue("password", "123456")
-            handleDemoLogin("client@client.com", "123456")
+            handleDemoLogin("client@client.com", "123456", "client")
           }}
-          disabled={isLoading}
+          disabled={isAnyLoading}
         >
           <Chrome className="mr-2 h-4 w-4" />
-          Demo Client
+          {t('auth.login.demoClient')}
+          {demoLoading === 'client' && "..."}
         </Button>
 
         <Button
@@ -187,12 +199,13 @@ export function LoginForm({ onForgotPassword }: LoginFormProps) {
           onClick={() => {
             setValue("email", "vendor@vendor.com")
             setValue("password", "123456")
-            handleDemoLogin("vendor@vendor.com", "123456")
+            handleDemoLogin("vendor@vendor.com", "123456", "vendor")
           }}
-          disabled={isLoading}
+          disabled={isAnyLoading}
         >
           <Chrome className="mr-2 h-4 w-4" />
-          Demo Vendor
+          {t('auth.login.demoVendor')}
+          {demoLoading === 'vendor' && "..."}
         </Button>
       </div>
 
@@ -201,7 +214,9 @@ export function LoginForm({ onForgotPassword }: LoginFormProps) {
           <Separator className="w-full" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
+          <span className="bg-card px-2 text-muted-foreground">
+            {t('auth.login.orContinueWith')}
+          </span>
         </div>
       </div>
 
@@ -209,10 +224,10 @@ export function LoginForm({ onForgotPassword }: LoginFormProps) {
         type="button"
         variant="outline"
         className="w-full border-border/50 hover:border-primary/20 hover:bg-primary/5 bg-transparent"
-        disabled={isLoading}
+        disabled={isAnyLoading}
       >
         <Chrome className="mr-2 h-4 w-4" />
-        Google
+        {t('auth.login.google')}
       </Button>
     </form>
   )
