@@ -1,44 +1,19 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import enTranslations from '../locales/en.json';
+import esTranslations from '../locales/es.json';
 
 type Language = 'en' | 'es';
-type Translations = Record<string, any>;
 
-const translations: Record<Language, Translations> = {
-	en: {
-		auth: {
-			welcome: 'Welcome to Planora',
-			description: 'Join our luxury event planning community',
-			resetPassword: 'Reset Password',
-			resetDescription: 'Enter your email to reset your password',
-			tabs: {
-				login: 'Sign In',
-				register: 'Client',
-				vendor: 'Vendor',
-			},
-		},
-	},
-	es: {
-		auth: {
-			welcome: 'Bienvenido a Planora',
-			description:
-				'Únete a nuestra comunidad de planificación de eventos de lujo',
-			resetPassword: 'Restablecer Contraseña',
-			resetDescription: 'Ingresa tu email para restablecer tu contraseña',
-			tabs: {
-				login: 'Iniciar Sesión',
-				register: 'Cliente',
-				vendor: 'Proveedor',
-			},
-		},
-	},
+const translations = {
+	en: enTranslations,
+	es: esTranslations,
 };
 
 export function useTranslation() {
-	const [language, setLanguage] = useState<Language>('es'); // Spanish as default
+	const [language, setLanguage] = useState<Language>('es');
 
-	// Load language preference from localStorage on mount
 	useEffect(() => {
 		const savedLanguage = localStorage.getItem(
 			'preferred-language'

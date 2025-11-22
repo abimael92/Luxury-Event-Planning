@@ -8,6 +8,41 @@
             "login": "Iniciar Sesión",
             "register": "Cliente",
             "vendor": "Proveedor"
+        },
+        "login": {
+            "email": "Correo Electrónico",
+            "emailPlaceholder": "tu@email.com",
+            "password": "Contraseña",
+            "forgotPassword": "¿Olvidaste tu contraseña?",
+            "signIn": "Iniciar Sesión",
+            "signingIn": "Iniciando sesión...",
+            "welcomeBack": "¡Bienvenido de nuevo!",
+            "signInSuccess": "Has iniciado sesión correctamente.",
+            "signInFailed": "Error al iniciar sesión",
+            "invalidCredentials": "Por favor verifica tus credenciales e intenta nuevamente.",
+            "demoClient": "Demo como Cliente ",
+            "demoVendor": "Demo como Proveedor ",
+            "demoSuccess": "¡Inicio de sesión demo exitoso!",
+            "demoFailed": "Error en inicio de sesión demo",
+            "loggedInAs": "Conectado como",
+            "orContinueWith": "O continuar con",
+            "google": "Google"
+        },
+        "forgotPassword": {
+            "backToLogin": "Volver al inicio de sesión",
+            "instructions": "Ingresa tu dirección de correo electrónico y te enviaremos instrucciones para restablecer tu contraseña.",
+            "sending": "Enviando...",
+            "sendInstructions": "Enviar Instrucciones de Restablecimiento",
+            "resetEmailSent": "Correo de restablecimiento enviado",
+            "checkEmailInstructions": "Revisa tu correo electrónico para las instrucciones de restablecimiento de contraseña",
+            "error": "Error",
+            "failedToSend": "Error al enviar el correo de restablecimiento"
+        },
+        "validation": {
+            "emailRequired": "El correo electrónico es requerido",
+            "invalidEmail": "Dirección de correo electrónico inválida",
+            "passwordRequired": "La contraseña es requerida",
+            "passwordMinLength": "La contraseña debe tener al menos 6 caracteres"
         }
     }
 }

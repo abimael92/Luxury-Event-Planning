@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useToast } from "@/hooks/use-toast"
 import { ArrowLeft, Mail } from "lucide-react"
+import { useTranslation } from "@/hooks/use-translation"
 
 interface ForgotPasswordFormProps {
     onBack: () => void
@@ -15,6 +16,7 @@ export function ForgotPasswordForm({ onBack }: ForgotPasswordFormProps) {
     const [email, setEmail] = useState("")
     const [isLoading, setIsLoading] = useState(false)
     const { toast } = useToast()
+    const { t } = useTranslation()
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
@@ -24,14 +26,14 @@ export function ForgotPasswordForm({ onBack }: ForgotPasswordFormProps) {
             // TODO: Implement actual password reset logic
             await new Promise(resolve => setTimeout(resolve, 1000))
             toast({
-                title: "Reset email sent",
-                description: "Check your email for password reset instructions",
+                title: t('auth.forgotPassword.resetEmailSent'),
+                description: t('auth.forgotPassword.checkEmailInstructions'),
             })
             onBack()
         } catch (error) {
             toast({
-                title: "Error",
-                description: "Failed to send reset email",
+                title: t('auth.forgotPassword.error'),
+                description: t('auth.forgotPassword.failedToSend'),
                 variant: "destructive",
             })
         } finally {
@@ -48,19 +50,19 @@ export function ForgotPasswordForm({ onBack }: ForgotPasswordFormProps) {
                 className="p-0 h-auto text-sm text-muted-foreground hover:text-foreground flex items-center gap-1"
             >
                 <ArrowLeft className="w-4 h-4" />
-                Back to login
+                {t('auth.forgotPassword.backToLogin')}
             </Button>
 
             <div className="space-y-2">
                 <Label htmlFor="reset-email" className="text-sm font-medium">
-                    Email
+                    {t('auth.login.email')}
                 </Label>
                 <div className="relative">
                     <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
                     <Input
                         id="reset-email"
                         type="email"
-                        placeholder="your@email.com"
+                        placeholder={t('auth.login.emailPlaceholder')}
                         className="pl-10"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
@@ -68,7 +70,7 @@ export function ForgotPasswordForm({ onBack }: ForgotPasswordFormProps) {
                     />
                 </div>
                 <p className="text-sm text-muted-foreground">
-                    Enter your email address and we'll send you instructions to reset your password.
+                    {t('auth.forgotPassword.instructions')}
                 </p>
             </div>
 
@@ -77,7 +79,7 @@ export function ForgotPasswordForm({ onBack }: ForgotPasswordFormProps) {
                 className="w-full gradient-royal text-white"
                 disabled={isLoading || !email}
             >
-                {isLoading ? "Sending..." : "Send Reset Instructions"}
+                {isLoading ? t('auth.forgotPassword.sending') : t('auth.forgotPassword.sendInstructions')}
             </Button>
         </form>
     )

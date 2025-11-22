@@ -8,6 +8,41 @@
             "login": "Sign In",
             "register": "Client",
             "vendor": "Vendor"
+        },
+        "login": {
+            "email": "Email",
+            "emailPlaceholder": "your@email.com",
+            "password": "Password",
+            "forgotPassword": "Forgot your password?",
+            "signIn": "Sign In",
+            "signingIn": "Signing in...",
+            "welcomeBack": "Welcome back!",
+            "signInSuccess": "You've been successfully signed in.",
+            "signInFailed": "Sign in failed",
+            "invalidCredentials": "Please check your credentials and try again.",
+            "demoClient": "Demo Client",
+            "demoVendor": "Demo Vendor",
+            "demoSuccess": "Demo login successful!",
+            "demoFailed": "Demo login failed",
+            "loggedInAs": "Logged in as",
+            "orContinueWith": "Or continue with",
+            "google": "Google"
+        },
+        "forgotPassword": {
+            "backToLogin": "Back to login",
+            "instructions": "Enter your email address and we'll send you instructions to reset your password.",
+            "sending": "Sending...",
+            "sendInstructions": "Send Reset Instructions",
+            "resetEmailSent": "Reset email sent",
+            "checkEmailInstructions": "Check your email for password reset instructions",
+            "error": "Error",
+            "failedToSend": "Failed to send reset email"
+        },
+        "validation": {
+            "emailRequired": "Email is required",
+            "invalidEmail": "Invalid email address",
+            "passwordRequired": "Password is required",
+            "passwordMinLength": "Password must be at least 6 characters"
         }
     }
 }
