@@ -47,10 +47,10 @@ export default function RootLayout({
         {/* Global background */}
         <div className="absolute inset-0 -z-50">
           {/* Repeating pattern */}
-          <div className="absolute inset-0 bg-[url('/luxury-event-planning-background-pattern.jpg')] bg-repeat [background-size:200px_200px] opacity-50" />
+          <div className="absolute inset-0 bg-[url('/luxury-event-planning-background-pattern.jpg')] bg-repeat [background-size:200px_200px] opacity-10" />
           {/* Color overlay */}
           {/* <div className="absolute inset-0 bg-gradient-to-br from-primary/60 via-secondary/40 to-accent/60 mix-blend-multiply" /> */}
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-500/60 via-pink-400/40 to-blue-500/60" />
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-800/60 via-pink-800/40 to-blue-800/60" />
         </div>
 
         <AuthProvider>
