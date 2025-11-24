@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Cinzel, Poppins, Inter, Playfair_Display, } from "next/font/google"
+import { Cinzel, Poppins, Inter, Playfair_Display } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
 import "./globals.css"
@@ -23,7 +23,6 @@ const playfair = Playfair_Display({
   variable: "--font-playfair",
 })
 
-
 const cinzel = Cinzel({
   subsets: ['latin'],
   weight: ['400', '700', '900'],
@@ -31,9 +30,20 @@ const cinzel = Cinzel({
 })
 
 export const metadata: Metadata = {
-  title: "Planora - Luxury Event Planning",
-  description: "Premium event planning marketplace for luxury experiences",
+  title: "Planora - Planificación de Eventos de Lujo",
+  description: "Marketplace premium de planificación de eventos para experiencias de lujo",
   generator: "v0.app",
+  manifest: "/favicon/site.webmanifest",
+  icons: {
+    icon: [
+      { url: "/favicon/favicon.ico" },
+      { url: "/favicon/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [
+      { url: "/favicon/apple-touch-icon.png" },
+    ],
+  },
 }
 
 export default function RootLayout({
@@ -43,6 +53,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Favicon Links */}
+        <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png" />
+        <link rel="manifest" href="/favicon/site.webmanifest" />
+        <link rel="icon" href="/favicon/favicon.ico" />
+
+        {/* Material Icons */}
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+      </head>
       <body className={`relative min-h-screen font-sans ${poppins.variable} ${inter.variable} ${playfair.variable} ${cinzel.variable}`}>
         {/* Global background */}
         <div className="absolute inset-0 -z-50">
@@ -61,4 +82,3 @@ export default function RootLayout({
     </html>
   )
 }
-
