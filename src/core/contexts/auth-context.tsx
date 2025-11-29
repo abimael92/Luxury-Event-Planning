@@ -15,7 +15,7 @@ interface User {
 
 interface AuthContextType {
   user: User | null
-  login: (email: string, password: string, userType?: "client" | "vendor") => Promise<void>
+  login: (email: string, password: string) => Promise<User>
   logout: () => void
   isAuthenticated: boolean
   isLoading: boolean
@@ -23,25 +23,28 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
-const DEMO_USERS = {
-  client: {
+// REAL users database - replace with your actual database
+const REAL_USERS = {
+  "client@client.com": {
     id: "1",
     firstName: "Sophia",
     lastName: "Chen",
-    email: "sophia@example.com",
+    email: "client@client.com",
     userType: "client" as const,
     membershipTier: "Premium Member",
     avatar: "/placeholder.svg?height=32&width=32",
+    password: "123456" // In real app, this would be hashed
   },
-  vendor: {
+  "vendor@vendor.com": {
     id: "2",
     firstName: "Marcus",
     lastName: "Rodriguez",
-    email: "marcus@luxurycatering.com",
+    email: "vendor@vendor.com",
     userType: "vendor" as const,
     membershipTier: "Verified Vendor",
     avatar: "/placeholder.svg?height=32&width=32",
-  },
+    password: "123456" // In real app, this would be hashed
+  }
 }
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -56,10 +59,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setIsLoading(false)
   }, [])
 
-  const login = async (email: string, password: string, userType: "client" | "vendor" = "client") => {
-    const demoUser = DEMO_USERS[userType]
-    setUser(demoUser)
-    localStorage.setItem("planora_user", JSON.stringify(demoUser))
+  const login = async (email: string, password: string): Promise<User> => {
+    // Check if user exists in database
+    const userRecord = REAL_USERS[email as keyof typeof REAL_USERS]
+
+    // If user doesn't exist or password is wrong, throw error
+    if (!userRecord || userRecord.password !== password) {
+      throw new Error("Invalid email or password")
+    }
+
+    // Remove password from user object before storing
+    const { password: _, ...userWithoutPassword } = userRecord
+
+    setUser(userWithoutPassword)
+    localStorage.setItem("planora_user", JSON.stringify(userWithoutPassword))
+
+    return userWithoutPassword
   }
 
   const logout = () => {

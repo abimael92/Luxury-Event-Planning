@@ -29,7 +29,7 @@
             "google": "Google"
         },
         "forgotPassword": {
-            "backToLogin": "Volver al inicio de sesión",
+            "backToLogin": "Volver al inicio",
             "instructions": "Ingresa tu dirección de correo electrónico y te enviaremos instrucciones para restablecer tu contraseña.",
             "sending": "Enviando...",
             "sendInstructions": "Enviar Instrucciones de Restablecimiento",

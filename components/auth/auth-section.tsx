@@ -9,7 +9,8 @@ import { RegisterForm } from "./register-form"
 import { VendorRegisterForm } from "./vendor-register-form"
 import { ForgotPasswordForm } from "./forgot-password-form"
 import { useTranslation } from "@/hooks/use-translation"
-import { Languages } from "lucide-react"
+import { ArrowLeft, Languages } from "lucide-react"
+import { Button } from '../ui/button'
 
 export function AuthSection() {
   const [activeTab, setActiveTab] = useState("login")
@@ -31,7 +32,6 @@ export function AuthSection() {
         transition={{ duration: 0.6 }}
         className="max-w-md mx-auto"
       >
-        {/* Language Toggle */}
         <div className="flex justify-end mb-4">
           <button
             onClick={toggleLanguage}
@@ -43,6 +43,17 @@ export function AuthSection() {
         </div>
 
         <Card className="backdrop-blur-sm bg-card/80 border-border/50 shadow-xl">
+          <div className="pt-6 px-6">
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={() => setShowForgotPassword(false)}
+              className="p-0 h-auto text-sm text-muted-foreground hover:text-foreground flex items-center gap-1"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              {t('auth.forgotPassword.backToLogin')}
+            </Button>
+          </div>
           <CardHeader className="text-center pb-4">
             <CardTitle className="text-2xl font-heading">
               {t('auth.resetPassword')}
@@ -66,7 +77,6 @@ export function AuthSection() {
       transition={{ duration: 0.6 }}
       className="max-w-md mx-auto"
     >
-      {/* Language Toggle */}
       <div className="flex justify-end mb-4">
         <button
           onClick={toggleLanguage}
@@ -108,7 +118,6 @@ export function AuthSection() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 20 }}
                   transition={{ duration: 0.3 }}
-                  className="mt-0"
                 >
                   <LoginForm onForgotPassword={() => setShowForgotPassword(true)} />
                 </motion.div>
@@ -121,7 +130,6 @@ export function AuthSection() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 20 }}
                   transition={{ duration: 0.3 }}
-                  className="mt-0"
                 >
                   <RegisterForm />
                 </motion.div>
@@ -134,7 +142,6 @@ export function AuthSection() {
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: 20 }}
                   transition={{ duration: 0.3 }}
-                  className="mt-0"
                 >
                   <VendorRegisterForm />
                 </motion.div>

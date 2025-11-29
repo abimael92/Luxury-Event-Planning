@@ -11,6 +11,7 @@ import { Eye, EyeOff, Mail, Lock, User, Chrome } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { useRouter } from "next/navigation"
 import { useAuth } from "@/core/contexts/auth-context"
+import { useTranslation } from "@/hooks/use-translation"
 
 interface RegisterFormData {
   firstName: string
@@ -28,6 +29,7 @@ export function RegisterForm() {
   const { toast } = useToast()
   const router = useRouter()
   const { login } = useAuth()
+  const { t } = useTranslation()
 
   const {
     register,
@@ -40,16 +42,16 @@ export function RegisterForm() {
   const onSubmit = async (data: RegisterFormData) => {
     setIsLoading(true)
     try {
-      await login(data.email, data.password, "client")
+      await login(data.email, data.password)
       toast({
-        title: "Welcome to Planora!",
-        description: "Your account has been created successfully.",
+        title: t('auth.register.welcome'),
+        description: t('auth.register.accountCreated'),
       })
       router.push("/dashboard")
     } catch (error) {
       toast({
-        title: "Registration failed",
-        description: "Please try again later.",
+        title: t('auth.register.failed'),
+        description: t('auth.register.tryAgain'),
         variant: "destructive",
       })
     } finally {
@@ -62,15 +64,16 @@ export function RegisterForm() {
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label htmlFor="firstName" className="text-sm font-medium">
-            First Name
+            {t('auth.register.firstName')}
           </Label>
           <div className="relative">
             <User className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
             <Input
               id="firstName"
-              placeholder="John"
+              placeholder={t('auth.register.firstNamePlaceholder')}
               className="pl-10"
-              {...register("firstName", { required: "First name is required" })}
+              disabled={isLoading}
+              {...register("firstName", { required: t('auth.validation.firstNameRequired') })}
             />
           </div>
           {errors.firstName && <p className="text-sm text-destructive">{errors.firstName.message}</p>}
@@ -78,29 +81,35 @@ export function RegisterForm() {
 
         <div className="space-y-2">
           <Label htmlFor="lastName" className="text-sm font-medium">
-            Last Name
+            {t('auth.register.lastName')}
           </Label>
-          <Input id="lastName" placeholder="Doe" {...register("lastName", { required: "Last name is required" })} />
+          <Input
+            id="lastName"
+            placeholder={t('auth.register.lastNamePlaceholder')}
+            disabled={isLoading}
+            {...register("lastName", { required: t('auth.validation.lastNameRequired') })}
+          />
           {errors.lastName && <p className="text-sm text-destructive">{errors.lastName.message}</p>}
         </div>
       </div>
 
       <div className="space-y-2">
         <Label htmlFor="email" className="text-sm font-medium">
-          Email
+          {t('auth.login.email')}
         </Label>
         <div className="relative">
           <Mail className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
           <Input
             id="email"
             type="email"
-            placeholder="your@email.com"
+            placeholder={t('auth.login.emailPlaceholder')}
             className="pl-10"
+            disabled={isLoading}
             {...register("email", {
-              required: "Email is required",
+              required: t('auth.validation.emailRequired'),
               pattern: {
                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                message: "Invalid email address",
+                message: t('auth.validation.invalidEmail'),
               },
             })}
           />
@@ -110,20 +119,21 @@ export function RegisterForm() {
 
       <div className="space-y-2">
         <Label htmlFor="password" className="text-sm font-medium">
-          Password
+          {t('auth.login.password')}
         </Label>
         <div className="relative">
           <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
           <Input
             id="password"
             type={showPassword ? "text" : "password"}
-            placeholder="Create a password"
+            placeholder={t('auth.register.passwordPlaceholder')}
             className="pl-10 pr-10"
+            disabled={isLoading}
             {...register("password", {
-              required: "Password is required",
+              required: t('auth.validation.passwordRequired'),
               minLength: {
                 value: 8,
-                message: "Password must be at least 8 characters",
+                message: t('auth.validation.passwordMinLength'),
               },
             })}
           />
@@ -133,6 +143,7 @@ export function RegisterForm() {
             size="sm"
             className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
             onClick={() => setShowPassword(!showPassword)}
+            disabled={isLoading}
           >
             {showPassword ? (
               <EyeOff className="h-4 w-4 text-muted-foreground" />
@@ -146,18 +157,19 @@ export function RegisterForm() {
 
       <div className="space-y-2">
         <Label htmlFor="confirmPassword" className="text-sm font-medium">
-          Confirm Password
+          {t('auth.register.confirmPassword')}
         </Label>
         <div className="relative">
           <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
           <Input
             id="confirmPassword"
             type={showConfirmPassword ? "text" : "password"}
-            placeholder="Confirm your password"
+            placeholder={t('auth.register.confirmPasswordPlaceholder')}
             className="pl-10 pr-10"
+            disabled={isLoading}
             {...register("confirmPassword", {
-              required: "Please confirm your password",
-              validate: (value) => value === password || "Passwords do not match",
+              required: t('auth.validation.confirmPasswordRequired'),
+              validate: (value) => value === password || t('auth.validation.passwordsDontMatch'),
             })}
           />
           <Button
@@ -166,6 +178,7 @@ export function RegisterForm() {
             size="sm"
             className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
             onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+            disabled={isLoading}
           >
             {showConfirmPassword ? (
               <EyeOff className="h-4 w-4 text-muted-foreground" />
@@ -178,16 +191,13 @@ export function RegisterForm() {
       </div>
 
       <div className="flex items-center space-x-2">
-        <Checkbox id="terms" {...register("agreeToTerms", { required: "You must agree to the terms" })} />
+        <Checkbox
+          id="terms"
+          disabled={isLoading}
+          {...register("agreeToTerms", { required: t('auth.validation.agreeToTerms') })}
+        />
         <Label htmlFor="terms" className="text-sm text-muted-foreground">
-          I agree to the{" "}
-          <Button variant="link" className="p-0 h-auto text-sm text-primary">
-            Terms of Service
-          </Button>{" "}
-          and{" "}
-          <Button variant="link" className="p-0 h-auto text-sm text-primary">
-            Privacy Policy
-          </Button>
+          {t('auth.register.agreeToTerms')}
         </Label>
       </div>
       {errors.agreeToTerms && <p className="text-sm text-destructive">{errors.agreeToTerms.message}</p>}
@@ -197,7 +207,7 @@ export function RegisterForm() {
         className="w-full gradient-royal text-white hover:glow-primary transition-all duration-300"
         disabled={isLoading}
       >
-        {isLoading ? "Creating Account..." : "Create Account"}
+        {isLoading ? t('auth.register.creatingAccount') : t('auth.register.createAccount')}
       </Button>
 
       <div className="relative">
@@ -205,7 +215,9 @@ export function RegisterForm() {
           <Separator className="w-full" />
         </div>
         <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-card px-2 text-muted-foreground">Or continue with</span>
+          <span className="bg-card px-2 text-muted-foreground">
+            {t('auth.login.orContinueWith')}
+          </span>
         </div>
       </div>
 
@@ -213,9 +225,10 @@ export function RegisterForm() {
         type="button"
         variant="outline"
         className="w-full border-border/50 hover:border-primary/20 hover:bg-primary/5 bg-transparent"
+        disabled={isLoading}
       >
         <Chrome className="mr-2 h-4 w-4" />
-        Google
+        {t('auth.login.google')}
       </Button>
     </form>
   )
