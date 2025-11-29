@@ -41,7 +41,7 @@ export function ForgotPasswordForm({ onBack }: ForgotPasswordFormProps) {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 px-16 py-12">
             <div className="space-y-2">
                 <Label htmlFor="reset-email" className="text-sm font-medium">
                     {t('auth.login.email')}
