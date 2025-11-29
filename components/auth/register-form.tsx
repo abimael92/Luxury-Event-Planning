@@ -64,8 +64,8 @@ export function RegisterForm({ onBack }: RegisterFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <div className="grid grid-cols-2 gap-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label htmlFor="firstName" className="text-sm font-medium">
             {t('auth.register.firstName')}
@@ -121,86 +121,88 @@ export function RegisterForm({ onBack }: RegisterFormProps) {
         {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="password" className="text-sm font-medium">
-          {t('auth.login.password')}
-        </Label>
-        <div className="relative">
-          <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-          <Input
-            id="password"
-            type={showPassword ? "text" : "password"}
-            placeholder={t('auth.register.passwordPlaceholder')}
-            className="pl-10 pr-10"
-            disabled={isLoading}
-            {...register("password", {
-              required: t('auth.validation.passwordRequired'),
-              minLength: {
-                value: 8,
-                message: t('auth.validation.passwordMinLength'),
-              },
-            })}
-          />
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-            onClick={() => setShowPassword(!showPassword)}
-            disabled={isLoading}
-          >
-            {showPassword ? (
-              <EyeOff className="h-4 w-4 text-muted-foreground" />
-            ) : (
-              <Eye className="h-4 w-4 text-muted-foreground" />
-            )}
-          </Button>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="space-y-2">
+          <Label htmlFor="password" className="text-sm font-medium">
+            {t('auth.login.password')}
+          </Label>
+          <div className="relative">
+            <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+            <Input
+              id="password"
+              type={showPassword ? "text" : "password"}
+              placeholder={t('auth.register.passwordPlaceholder')}
+              className="pl-10 pr-10"
+              disabled={isLoading}
+              {...register("password", {
+                required: t('auth.validation.passwordRequired'),
+                minLength: {
+                  value: 8,
+                  message: t('auth.validation.passwordMinLength'),
+                },
+              })}
+            />
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+              onClick={() => setShowPassword(!showPassword)}
+              disabled={isLoading}
+            >
+              {showPassword ? (
+                <EyeOff className="h-4 w-4 text-muted-foreground" />
+              ) : (
+                <Eye className="h-4 w-4 text-muted-foreground" />
+              )}
+            </Button>
+          </div>
+          {errors.password && <p className="text-sm text-destructive">{errors.password.message}</p>}
         </div>
-        {errors.password && <p className="text-sm text-destructive">{errors.password.message}</p>}
+
+        <div className="space-y-2">
+          <Label htmlFor="confirmPassword" className="text-sm font-medium">
+            {t('auth.register.confirmPassword')}
+          </Label>
+          <div className="relative">
+            <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+            <Input
+              id="confirmPassword"
+              type={showConfirmPassword ? "text" : "password"}
+              placeholder={t('auth.register.confirmPasswordPlaceholder')}
+              className="pl-10 pr-10"
+              disabled={isLoading}
+              {...register("confirmPassword", {
+                required: t('auth.validation.confirmPasswordRequired'),
+                validate: (value) => value === password || t('auth.validation.passwordsDontMatch'),
+              })}
+            />
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+              disabled={isLoading}
+            >
+              {showConfirmPassword ? (
+                <EyeOff className="h-4 w-4 text-muted-foreground" />
+              ) : (
+                <Eye className="h-4 w-4 text-muted-foreground" />
+              )}
+            </Button>
+          </div>
+          {errors.confirmPassword && <p className="text-sm text-destructive">{errors.confirmPassword.message}</p>}
+        </div>
       </div>
 
-      <div className="space-y-2">
-        <Label htmlFor="confirmPassword" className="text-sm font-medium">
-          {t('auth.register.confirmPassword')}
-        </Label>
-        <div className="relative">
-          <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-          <Input
-            id="confirmPassword"
-            type={showConfirmPassword ? "text" : "password"}
-            placeholder={t('auth.register.confirmPasswordPlaceholder')}
-            className="pl-10 pr-10"
-            disabled={isLoading}
-            {...register("confirmPassword", {
-              required: t('auth.validation.confirmPasswordRequired'),
-              validate: (value) => value === password || t('auth.validation.passwordsDontMatch'),
-            })}
-          />
-          <Button
-            type="button"
-            variant="ghost"
-            size="sm"
-            className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-            disabled={isLoading}
-          >
-            {showConfirmPassword ? (
-              <EyeOff className="h-4 w-4 text-muted-foreground" />
-            ) : (
-              <Eye className="h-4 w-4 text-muted-foreground" />
-            )}
-          </Button>
-        </div>
-        {errors.confirmPassword && <p className="text-sm text-destructive">{errors.confirmPassword.message}</p>}
-      </div>
-
-      <div className="flex items-center space-x-2">
+      <div className="flex items-start space-x-2">
         <Checkbox
           id="terms"
           disabled={isLoading}
           {...register("agreeToTerms", { required: t('auth.validation.agreeToTerms') })}
         />
-        <Label htmlFor="terms" className="text-sm text-muted-foreground">
+        <Label htmlFor="terms" className="text-sm text-muted-foreground leading-tight">
           {t('auth.register.agreeToTerms')}
         </Label>
       </div>
