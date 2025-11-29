@@ -58,22 +58,20 @@ export function HeroSection() {
 
   return (
     <>
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-transparent">
-        {/* Background Overlay */}
-        {/* <div className="absolute inset-0 bg-black/60 z-0" /> */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-transparent px-4 sm:px-6 lg:px-8">
         {/* Language Toggle Button */}
         <motion.button
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.3, duration: 0.5 }}
           onClick={toggleLanguage}
-          className="absolute top-6 right-6 z-20 flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-300 text-white font-medium"
+          className="absolute top-4 sm:top-6 right-4 sm:right-6 z-20 flex items-center gap-2 px-3 sm:px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-300 text-white font-medium text-sm sm:text-base"
         >
-          <Languages className="w-6 h-6 text-sky-900" />
-          <span className="text-md text-sky-900">{language === "es" ? "ES" : "EN"}</span>
+          <Languages className="w-4 h-4 sm:w-6 sm:h-6 text-indigo-800" />
+          <span className="text-indigo-800">{language === "es" ? "ES" : "EN"}</span>
         </motion.button>
 
-        <div className="container mx-auto px-4 text-center relative z-10">
+        <div className="container mx-auto text-center relative z-10 w-full">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -85,23 +83,23 @@ export function HeroSection() {
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ delay: 0.2, duration: 0.6 }}
-              className="mb-8"
+              className="mb-8 sm:mb-10"
             >
               <div className="relative inline-block">
-                <div className="absolute inset-0 bg-white/10 backdrop-blur-sm rounded-2xl -m-4" />
-                <h1 className="text-6xl md:text-8xl font-luxury font-bold text-transparent [-webkit-text-stroke:3px_white] absolute inset-0">
+                <div className="absolute inset-0 bg-white/10 backdrop-blur-sm rounded-2xl -m-3 sm:-m-4" />
+                <h1 className="text-6xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-luxury font-bold text-transparent [-webkit-text-stroke:2px_white] sm:[-webkit-text-stroke:3px_white] absolute inset-0">
                   Planora
                 </h1>
                 {/* Gradient fill layer */}
-                <h1 className="text-6xl md:text-8xl font-luxury font-bold bg-gradient-to-r from-purple-600 via-pink-500 to-blue-600 bg-clip-text text-transparent relative [text-shadow:0_0_30px_rgba(255,255,255,0.5)] ">
+                <h1 className="text-6xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-luxury font-bold bg-gradient-to-r from-purple-600 via-pink-500 to-blue-600 bg-clip-text text-transparent relative [text-shadow:0_0_25px_rgba(255,255,255,0.5)] sm:[text-shadow:0_0_30px_rgba(255,255,255,0.5)]">
                   Planora
                 </h1>
-                <Sparkles className="absolute -top-2 -right-2 w-6 h-6 text-pink-800 animate-pulse" />
-                <Sparkles className="absolute -bottom-2 -left-2 w-4 h-4 text-purple-800 animate-pulse delay-1000" />
+                <Sparkles className="absolute -top-2 -right-2 sm:-top-2 sm:-right-2 w-6 h-6 sm:w-6 sm:h-6 text-pink-800 animate-pulse" />
+                <Sparkles className="absolute -bottom-2 -left-2 sm:-bottom-2 sm:-left-2 w-6 h-6 sm:w-6 sm:h-6 text-purple-800 animate-pulse delay-1000" />
               </div>
 
-              <div className="flex items-center justify-center gap-2 mt-8">
-                <p className="text-xl font-cinzel text-purple-800 font-medium">{t.eventPlanning}</p>
+              <div className="flex items-center justify-center gap-2 mt-6 sm:mt-8 lg:mt-10">
+                <p className="text-xl sm:text-2xl lg:text-3xl font-cinzel text-purple-800 font-medium">{t.eventPlanning}</p>
               </div>
             </motion.div>
 
@@ -110,9 +108,9 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4, duration: 0.6 }}
-              className="mb-12"
+              className="mb-8 sm:mb-10 lg:mb-12"
             >
-              <h2 className="text-3xl md:text-5xl font-heading font-bold text-balance mb-6">
+              <h2 className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl font-heading font-bold text-balance mb-4 sm:mb-6 px-2">
                 {t.heroTitle.split(" ").map((word, index, array) =>
                   word === "Personal" || word === "Personal" ? (
                     <span key={index} className="bg-gradient-to-r from-primary to-blue-800/60 bg-clip-text text-transparent">
@@ -125,7 +123,7 @@ export function HeroSection() {
                   index === 0 ? [element] : [...acc, " ", element], [] as React.ReactNode[]
                 )}
               </h2>
-              <p className="text-xl md:text-2xl text-purple-800 text-balance max-w-3xl mx-auto leading-relaxed">
+              <p className="text-lg sm:text-lg md:text-xl lg:text-2xl text-purple-800 text-balance max-w-3xl mx-auto leading-relaxed px-2 sm:px-4">
                 {t.heroDescription}
               </p>
             </motion.div>
@@ -135,25 +133,16 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6, duration: 0.6 }}
-              className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+              className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center mb-8 sm:mb-12 lg:mb-16"
             >
               <Button
                 size="lg"
                 onClick={handleGetStarted}
-                className="gradient-royal text-white hover:glow-primary transition-all duration-300 px-8 py-6 text-lg font-semibold group"
+                className="gradient-royal text-white hover:glow-primary transition-all duration-300 px-6 sm:px-8 py-4 sm:py-6 text-base sm:text-lg font-semibold group w-full sm:w-auto"
               >
                 {t.startPlanning}
-                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="ml-2 w-4 h-4 sm:w-5 sm:h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
-
-              {/* Optional Browse Vendors Button */}
-              {/* <Button
-                variant="outline"
-                size="lg"
-                className="border-2 border-primary/20 bg-white/10 backdrop-blur-sm hover:border-primary/40 px-8 py-6 text-lg font-semibold hover:bg-primary/5 transition-all duration-300"
-              >
-                {t.browseVendors}
-              </Button> */}
             </motion.div>
 
             {/* Features Preview */}
@@ -161,7 +150,7 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8, duration: 0.6 }}
-              className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 max-w-4xl mx-auto px-2 sm:px-4"
             >
               {t.features.map((feature, index) => (
                 <motion.div
@@ -169,10 +158,10 @@ export function HeroSection() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.9 + index * 0.1, duration: 0.5 }}
-                  className="text-center p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/20 transition-all duration-300"
+                  className="text-center p-4 sm:p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/20 transition-all duration-300"
                 >
-                  <h3 className="font-heading font-semibold text-lg mb-2">{feature.title}</h3>
-                  <p className="text-slate-800 text-sm">{feature.desc}</p>
+                  <h3 className="font-heading font-semibold text-xl sm:text-xl mb-2">{feature.title}</h3>
+                  <p className="text-slate-800 text-base sm:text-lg">{feature.desc}</p>
                 </motion.div>
               ))}
             </motion.div>
