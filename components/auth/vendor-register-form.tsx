@@ -84,8 +84,8 @@ export function VendorRegisterForm({ onBack }: VendorRegisterFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-      <div className="grid grid-cols-2 gap-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label htmlFor="firstName" className="text-sm font-medium">
             {t('auth.register.firstName')}
@@ -158,7 +158,7 @@ export function VendorRegisterForm({ onBack }: VendorRegisterFormProps) {
         {errors.businessName && <p className="text-sm text-destructive">{errors.businessName.message}</p>}
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label htmlFor="serviceType" className="text-sm font-medium">
             {t('auth.vendor.serviceType')}
@@ -210,7 +210,7 @@ export function VendorRegisterForm({ onBack }: VendorRegisterFormProps) {
         {errors.description && <p className="text-sm text-destructive">{errors.description.message}</p>}
       </div>
 
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="space-y-2">
           <Label htmlFor="password" className="text-sm font-medium">
             {t('auth.login.password')}
@@ -285,13 +285,13 @@ export function VendorRegisterForm({ onBack }: VendorRegisterFormProps) {
         </div>
       </div>
 
-      <div className="flex items-center space-x-2">
+      <div className="flex items-start space-x-2">
         <Checkbox
           id="terms"
           disabled={isLoading}
           {...register("agreeToTerms", { required: t('auth.validation.agreeToTerms') })}
         />
-        <Label htmlFor="terms" className="text-sm text-muted-foreground">
+        <Label htmlFor="terms" className="text-sm text-muted-foreground leading-tight">
           {t('auth.vendor.agreeToTerms')}
         </Label>
       </div>
