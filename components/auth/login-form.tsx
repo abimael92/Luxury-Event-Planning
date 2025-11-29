@@ -63,7 +63,7 @@ export function LoginForm({ onForgotPassword, onBack }: LoginFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 px-16 py-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 w-full">
       <div className="space-y-2">
         <Label htmlFor="email" className="text-sm font-medium">
           {t('auth.login.email')}
@@ -99,7 +99,7 @@ export function LoginForm({ onForgotPassword, onBack }: LoginFormProps) {
           <Input
             id="password"
             type={showPassword ? "text" : "password"}
-            placeholder={t('auth.login.password')}
+            placeholder={t('auth.login.passwordPlaceholder')}
             className="pl-10 pr-10"
             disabled={isLoading}
             {...register("password", {
