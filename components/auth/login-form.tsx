@@ -19,12 +19,12 @@ interface LoginFormData {
 
 interface LoginFormProps {
   onForgotPassword: () => void
+  onBack: () => void
 }
 
-export function LoginForm({ onForgotPassword }: LoginFormProps) {
+export function LoginForm({ onForgotPassword, onBack }: LoginFormProps) {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const [demoLoading, setDemoLoading] = useState<string | null>(null)
   const { toast } = useToast()
   const router = useRouter()
   const { login } = useAuth()
@@ -34,7 +34,6 @@ export function LoginForm({ onForgotPassword }: LoginFormProps) {
     register,
     handleSubmit,
     formState: { errors },
-    setValue,
   } = useForm<LoginFormData>()
 
   const onSubmit = async (data: LoginFormData) => {
@@ -47,7 +46,7 @@ export function LoginForm({ onForgotPassword }: LoginFormProps) {
         description: t('auth.login.signInSuccess'),
       })
 
-      if (user?.role === "vendor") {
+      if (user?.userType === "vendor") {
         router.push("/vendor")
       } else {
         router.push("/dashboard")
@@ -63,36 +62,8 @@ export function LoginForm({ onForgotPassword }: LoginFormProps) {
     }
   }
 
-  const handleDemoLogin = async (email: string, password: string, type: string) => {
-    setDemoLoading(type)
-    try {
-      const user = await login(email, password)
-
-      toast({
-        title: t('auth.login.demoSuccess'),
-        description: `${t('auth.login.loggedInAs')} ${email.split('@')[0]}`,
-      })
-
-      if (email.includes("vendor") || user?.role === "vendor") {
-        router.push("/vendor")
-      } else {
-        router.push("/dashboard")
-      }
-    } catch (error: any) {
-      toast({
-        title: t('auth.login.demoFailed'),
-        description: error?.message || t('auth.login.invalidCredentials'),
-        variant: "destructive",
-      })
-    } finally {
-      setDemoLoading(null)
-    }
-  }
-
-  const isAnyLoading = isLoading || demoLoading !== null
-
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 px-16 py-6">
       <div className="space-y-2">
         <Label htmlFor="email" className="text-sm font-medium">
           {t('auth.login.email')}
@@ -104,7 +75,7 @@ export function LoginForm({ onForgotPassword }: LoginFormProps) {
             type="email"
             placeholder={t('auth.login.emailPlaceholder')}
             className="pl-10"
-            disabled={isAnyLoading}
+            disabled={isLoading}
             {...register("email", {
               required: t('auth.validation.emailRequired'),
               pattern: {
@@ -122,7 +93,6 @@ export function LoginForm({ onForgotPassword }: LoginFormProps) {
           <Label htmlFor="password" className="text-sm font-medium">
             {t('auth.login.password')}
           </Label>
-
         </div>
         <div className="relative">
           <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
@@ -131,7 +101,7 @@ export function LoginForm({ onForgotPassword }: LoginFormProps) {
             type={showPassword ? "text" : "password"}
             placeholder={t('auth.login.password')}
             className="pl-10 pr-10"
-            disabled={isAnyLoading}
+            disabled={isLoading}
             {...register("password", {
               required: t('auth.validation.passwordRequired'),
               minLength: {
@@ -146,7 +116,7 @@ export function LoginForm({ onForgotPassword }: LoginFormProps) {
             size="sm"
             className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
             onClick={() => setShowPassword(!showPassword)}
-            disabled={isAnyLoading}
+            disabled={isLoading}
           >
             {showPassword ? (
               <EyeOff className="h-4 w-4 text-muted-foreground" />
@@ -161,7 +131,7 @@ export function LoginForm({ onForgotPassword }: LoginFormProps) {
       <Button
         type="submit"
         className="w-full gradient-royal text-white hover:glow-primary transition-all duration-300"
-        disabled={isAnyLoading}
+        disabled={isLoading}
       >
         {isLoading ? t('auth.login.signingIn') : t('auth.login.signIn')}
       </Button>
@@ -171,45 +141,10 @@ export function LoginForm({ onForgotPassword }: LoginFormProps) {
         variant="link"
         className="p-0 h-auto text-xs text-muted-foreground hover:text-primary"
         onClick={onForgotPassword}
-        disabled={isAnyLoading}
+        disabled={isLoading}
       >
         {t('auth.login.forgotPassword')}
       </Button>
-
-      {/* Demo Login Buttons */}
-      <div className="space-y-2">
-        <Button
-          type="button"
-          variant="outline"
-          className="w-full border-border/50 hover:border-primary/20 hover:bg-primary/5 bg-transparent"
-          onClick={() => {
-            setValue("email", "client@client.com")
-            setValue("password", "123456")
-            handleDemoLogin("client@client.com", "123456", "client")
-          }}
-          disabled={isAnyLoading}
-        >
-          <Chrome className="mr-2 h-4 w-4" />
-          {t('auth.login.demoClient')}
-          {demoLoading === 'client' && "..."}
-        </Button>
-
-        <Button
-          type="button"
-          variant="outline"
-          className="w-full border-border/50 hover:border-primary/20 hover:bg-primary/5 bg-transparent"
-          onClick={() => {
-            setValue("email", "vendor@vendor.com")
-            setValue("password", "123456")
-            handleDemoLogin("vendor@vendor.com", "123456", "vendor")
-          }}
-          disabled={isAnyLoading}
-        >
-          <Chrome className="mr-2 h-4 w-4" />
-          {t('auth.login.demoVendor')}
-          {demoLoading === 'vendor' && "..."}
-        </Button>
-      </div>
 
       <div className="relative">
         <div className="absolute inset-0 flex items-center">
@@ -226,7 +161,7 @@ export function LoginForm({ onForgotPassword }: LoginFormProps) {
         type="button"
         variant="outline"
         className="w-full border-border/50 hover:border-primary/20 hover:bg-primary/5 bg-transparent"
-        disabled={isAnyLoading}
+        disabled={isLoading}
       >
         <Chrome className="mr-2 h-4 w-4" />
         {t('auth.login.google')}

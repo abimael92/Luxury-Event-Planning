@@ -3,18 +3,19 @@
 import { useEffect, useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Button } from "@/components/ui/button"
 import { LoginForm } from "./login-form"
 import { RegisterForm } from "./register-form"
 import { VendorRegisterForm } from "./vendor-register-form"
 import { ForgotPasswordForm } from "./forgot-password-form"
 import { useTranslation } from "@/hooks/use-translation"
-import { ArrowLeft, Languages } from "lucide-react"
-import { Button } from '../ui/button'
+import { ArrowLeft, Languages, User, Building, Sparkles, ChevronDown } from "lucide-react"
+import { useAuth } from "@/core/contexts/auth-context"
+import { useToast } from "@/hooks/use-toast"
+import { useRouter } from "next/navigation"
 
 export function AuthSection() {
-  const [activeTab, setActiveTab] = useState("login")
-  const [showForgotPassword, setShowForgotPassword] = useState(false)
+  const [currentView, setCurrentView] = useState<"welcome" | "login" | "register" | "client-register" | "vendor-register" | "forgot-password">("welcome")
   const [mounted, setMounted] = useState(false)
   const { t, language, toggleLanguage } = useTranslation()
 
@@ -24,50 +25,97 @@ export function AuthSection() {
 
   if (!mounted) return null
 
-  if (showForgotPassword) {
-    return (
-      <motion.div
-        initial={{ opacity: 0, y: 30 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="max-w-md mx-auto"
-      >
-        <div className="flex justify-end mb-4">
-          <button
-            onClick={toggleLanguage}
-            className="flex items-center gap-2 px-3 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 hover:bg-white/20 transition-all duration-300 text-white font-medium text-sm"
-          >
-            <Languages className="w-3 h-3" />
-            <span>{language === "es" ? "ES" : "EN"}</span>
-          </button>
-        </div>
-
-        <Card className="backdrop-blur-sm bg-card/80 border-border/50 shadow-xl">
-          <div className="pt-6 px-6">
-            <Button
-              type="button"
-              variant="ghost"
-              onClick={() => setShowForgotPassword(false)}
-              className="p-0 h-auto text-sm text-muted-foreground hover:text-foreground flex items-center gap-1"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              {t('auth.forgotPassword.backToLogin')}
+  const renderView = () => {
+    switch (currentView) {
+      case "login":
+        return <LoginForm
+          onForgotPassword={() => setCurrentView("forgot-password")}
+          onBack={() => setCurrentView("welcome")}
+        />
+      case "register":
+        return (
+          <div className="space-y-6">
+            <div className="text-center">
+              <h3 className="text-lg font-semibold">{t('auth.register.chooseAccountType')}</h3>
+              <p className="text-sm text-muted-foreground mt-1">{t('auth.register.selectRole')}</p>
+            </div>
+            <div className="flex gap-6 w-full">
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="flex-1">
+                <Button
+                  variant="outline"
+                  className="h-40 w-full flex-col gap-4 border-2 border-primary/30 hover:border-primary/60 hover:bg-primary/10 transition-all duration-300 p-6"
+                  onClick={() => setCurrentView("client-register")}
+                >
+                  <User style={{ width: '35px', height: '35px' }} />
+                  <div className="text-center">
+                    <div className="text-lg font-semibold">{t('auth.tabs.client')}</div>
+                    <div className="text-sm text-muted-foreground">{t('auth.tabs.clientDescription')}</div>
+                  </div>
+                </Button>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }} className="flex-1">
+                <Button
+                  variant="outline"
+                  className="h-40 w-full flex-col gap-4 border-2 border-primary/30 hover:border-primary/60 hover:bg-primary/10 transition-all duration-300 p-6"
+                  onClick={() => setCurrentView("vendor-register")}
+                >
+                  <Building style={{ width: '35px', height: '35px' }} />
+                  <div className="text-center">
+                    <div className="text-lg font-semibold">{t('auth.tabs.vendor')}</div>
+                    <div className="text-sm text-muted-foreground">{t('auth.tabs.vendorDescription')}</div>
+                  </div>
+                </Button>
+              </motion.div>
+            </div>
+            <Button variant="ghost" onClick={() => setCurrentView("welcome")} className="w-full">
+              {t('auth.back')}
             </Button>
           </div>
-          <CardHeader className="text-center pb-4">
-            <CardTitle className="text-2xl font-heading">
-              {t('auth.resetPassword')}
-            </CardTitle>
-            <CardDescription className="text-base">
-              {t('auth.resetDescription')}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <ForgotPasswordForm onBack={() => setShowForgotPassword(false)} />
-          </CardContent>
-        </Card>
-      </motion.div>
-    )
+        )
+      case "client-register":
+        return <RegisterForm onBack={() => setCurrentView("register")} />
+      case "vendor-register":
+        return <VendorRegisterForm onBack={() => setCurrentView("register")} />
+      case "forgot-password":
+        return <ForgotPasswordForm onBack={() => setCurrentView("login")} />
+      default:
+        return (
+          <div className="space-y-6">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-center space-y-2"
+            >
+              <Sparkles className="h-12 w-12 text-primary mx-auto mb-2" />
+              <h2 className="text-2xl font-heading font-bold">{t('auth.welcome')}</h2>
+              <p className="text-muted-foreground">{t('auth.welcomeSubtitle')}</p>
+            </motion.div>
+
+            <div className="space-y-3">
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <Button
+                  onClick={() => setCurrentView("login")}
+                  className="w-full h-12 gradient-royal text-white hover:glow-primary transition-all duration-300"
+                >
+                  {t('auth.tabs.login')}
+                </Button>
+              </motion.div>
+
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <Button
+                  variant="outline"
+                  onClick={() => setCurrentView("register")}
+                  className="w-full h-12 border-2 border-primary/20 hover:border-primary/40 hover:bg-primary/5"
+                >
+                  {t('auth.tabs.register')}
+                </Button>
+              </motion.div>
+            </div>
+
+            <DemoDropdown />
+          </div>
+        )
+    }
   }
 
   return (
@@ -75,7 +123,7 @@ export function AuthSection() {
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="max-w-md mx-auto"
+      className="max-w-5xl min-w-2xl w-full mx-auto my-8 px-2"
     >
       <div className="flex justify-end mb-4">
         <button
@@ -87,69 +135,128 @@ export function AuthSection() {
         </button>
       </div>
 
-      <Card className="backdrop-blur-sm bg-card/80 border-border/50 shadow-xl">
+      <Card className="backdrop-blur-sm bg-card/80 border-border/50 shadow-xl w-full max-w-4xl p-8">
         <CardHeader className="text-center pb-4">
+          {currentView !== "welcome" && (
+            <div className="flex justify-start mb-2">
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={() => setCurrentView(currentView === "vendor-register" || currentView === "client-register" ? "register" : "welcome")}
+                className="p-0 h-auto text-sm text-muted-foreground hover:text-foreground flex items-center gap-1"
+              >
+                <ArrowLeft className="w-4 h-4" />
+                {t('auth.back')}
+              </Button>
+            </div>
+          )}
           <CardTitle className="text-2xl font-heading">
-            {t('auth.welcome')}
+            {currentView === "login" ? t('auth.login.title') :
+              currentView === "register" ? t('auth.register.title') :
+                currentView === "client-register" ? t('auth.register.title') :
+                  currentView === "vendor-register" ? t('auth.vendor.title') :
+                    currentView === "forgot-password" ? t('auth.forgotPassword.title') :
+                      ''}
+            {/* t('auth.welcome')} */}
           </CardTitle>
           <CardDescription className="text-base">
-            {t('auth.description')}
+            {currentView === "login" ? t('auth.login.description') :
+              currentView === "register" ? t('auth.register.description') :
+                currentView === "client-register" ? t('auth.register.description') :
+                  currentView === "vendor-register" ? t('auth.vendor.description') :
+                    currentView === "forgot-password" ? t('auth.forgotPassword.description') :
+                      ''}
+            {/* // t('auth.welcomeSubtitle')} */}
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-3 mb-6">
-              <TabsTrigger value="login" className="text-sm">
-                {t('auth.tabs.login')}
-              </TabsTrigger>
-              <TabsTrigger value="register" className="text-sm">
-                {t('auth.tabs.register')}
-              </TabsTrigger>
-              <TabsTrigger value="vendor" className="text-sm">
-                {t('auth.tabs.vendor')}
-              </TabsTrigger>
-            </TabsList>
-
-            <AnimatePresence mode="wait">
-              {activeTab === "login" && (
-                <motion.div
-                  key="login"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <LoginForm onForgotPassword={() => setShowForgotPassword(true)} />
-                </motion.div>
-              )}
-
-              {activeTab === "register" && (
-                <motion.div
-                  key="register"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <RegisterForm />
-                </motion.div>
-              )}
-
-              {activeTab === "vendor" && (
-                <motion.div
-                  key="vendor"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <VendorRegisterForm />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </Tabs>
+        <CardContent className="min-h-[208px] pt-0 px-36 pb-8">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={currentView}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              {renderView()}
+            </motion.div>
+          </AnimatePresence>
         </CardContent>
       </Card>
     </motion.div>
+  )
+}
+
+// Demo Dropdown Component
+function DemoDropdown() {
+  const [isOpen, setIsOpen] = useState(false)
+  const { login } = useAuth()
+  const { toast } = useToast()
+  const router = useRouter()
+  const { t } = useTranslation()
+
+  const handleDemoLogin = async (email: string, type: string) => {
+    try {
+      const user = await login(email, "123456")
+      toast({
+        title: t('auth.login.demoSuccess'),
+        description: `${t('auth.login.loggedInAs')} ${type}`,
+      })
+      router.push(user?.userType === "vendor" ? "/vendor" : "/dashboard")
+    } catch (error) {
+      toast({
+        title: t('auth.login.demoFailed'),
+        variant: "destructive",
+      })
+    }
+  }
+
+  return (
+    <div className="relative">
+      <Button
+        variant="outline"
+        onClick={() => setIsOpen(!isOpen)}
+        className="w-full border-dashed border-2 border-primary/30 hover:border-primary/50 hover:bg-primary/5"
+      >
+        <Sparkles className="mr-2 h-4 w-4" />
+        {t('auth.demo.tryDemo')}
+        <motion.div
+          animate={{ rotate: isOpen ? 180 : 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          <ChevronDown className="ml-2 h-4 w-4" />
+        </motion.div>
+      </Button>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            className="absolute top-full left-0 right-0 mt-2 bg-background/95 backdrop-blur-md border border-border/50 rounded-lg shadow-lg z-10"
+          >
+            <div className="p-2 space-y-1">
+              <Button
+                variant="ghost"
+                onClick={() => handleDemoLogin("client@client.com", "Client")}
+                className="w-full justify-start text-sm"
+              >
+                <User className="mr-2 h-4 w-4" />
+                {t('auth.demo.client')}
+              </Button>
+              <Button
+                variant="ghost"
+                onClick={() => handleDemoLogin("vendor@vendor.com", "Vendor")}
+                className="w-full justify-start text-sm"
+              >
+                <Building className="mr-2 h-4 w-4" />
+                {t('auth.demo.vendor')}
+              </Button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
   )
 }

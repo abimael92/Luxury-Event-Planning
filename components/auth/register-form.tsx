@@ -22,7 +22,11 @@ interface RegisterFormData {
   agreeToTerms: boolean
 }
 
-export function RegisterForm() {
+interface RegisterFormProps {
+  onBack: () => void
+}
+
+export function RegisterForm({ onBack }: RegisterFormProps) {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -201,6 +205,16 @@ export function RegisterForm() {
         </Label>
       </div>
       {errors.agreeToTerms && <p className="text-sm text-destructive">{errors.agreeToTerms.message}</p>}
+
+      <Button
+        type="button"
+        variant="ghost"
+        onClick={onBack}
+        className="w-full"
+        disabled={isLoading}
+      >
+        {t('auth.back')}
+      </Button>
 
       <Button
         type="submit"
