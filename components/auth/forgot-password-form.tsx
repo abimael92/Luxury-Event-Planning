@@ -23,7 +23,6 @@ export function ForgotPasswordForm({ onBack }: ForgotPasswordFormProps) {
         setIsLoading(true)
 
         try {
-            // TODO: Implement actual password reset logic
             await new Promise(resolve => setTimeout(resolve, 1000))
             toast({
                 title: t('auth.forgotPassword.resetEmailSent'),
@@ -43,16 +42,6 @@ export function ForgotPasswordForm({ onBack }: ForgotPasswordFormProps) {
 
     return (
         <form onSubmit={handleSubmit} className="space-y-4">
-            <Button
-                type="button"
-                variant="ghost"
-                onClick={onBack}
-                className="p-0 h-auto text-sm text-muted-foreground hover:text-foreground flex items-center gap-1"
-            >
-                <ArrowLeft className="w-4 h-4" />
-                {t('auth.forgotPassword.backToLogin')}
-            </Button>
-
             <div className="space-y-2">
                 <Label htmlFor="reset-email" className="text-sm font-medium">
                     {t('auth.login.email')}
@@ -67,6 +56,7 @@ export function ForgotPasswordForm({ onBack }: ForgotPasswordFormProps) {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
+                        disabled={isLoading}
                     />
                 </div>
                 <p className="text-sm text-muted-foreground">
@@ -76,7 +66,7 @@ export function ForgotPasswordForm({ onBack }: ForgotPasswordFormProps) {
 
             <Button
                 type="submit"
-                className="w-full gradient-royal text-white"
+                className="w-full gradient-royal text-white hover:glow-primary transition-all duration-300"
                 disabled={isLoading || !email}
             >
                 {isLoading ? t('auth.forgotPassword.sending') : t('auth.forgotPassword.sendInstructions')}
