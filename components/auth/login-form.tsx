@@ -122,15 +122,7 @@ export function LoginForm({ onForgotPassword }: LoginFormProps) {
           <Label htmlFor="password" className="text-sm font-medium">
             {t('auth.login.password')}
           </Label>
-          <Button
-            type="button"
-            variant="link"
-            className="p-0 h-auto text-xs text-muted-foreground hover:text-primary"
-            onClick={onForgotPassword}
-            disabled={isAnyLoading}
-          >
-            {t('auth.login.forgotPassword')}
-          </Button>
+
         </div>
         <div className="relative">
           <Lock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
@@ -172,6 +164,16 @@ export function LoginForm({ onForgotPassword }: LoginFormProps) {
         disabled={isAnyLoading}
       >
         {isLoading ? t('auth.login.signingIn') : t('auth.login.signIn')}
+      </Button>
+
+      <Button
+        type="button"
+        variant="link"
+        className="p-0 h-auto text-xs text-muted-foreground hover:text-primary"
+        onClick={onForgotPassword}
+        disabled={isAnyLoading}
+      >
+        {t('auth.login.forgotPassword')}
       </Button>
 
       {/* Demo Login Buttons */}
