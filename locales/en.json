@@ -61,7 +61,6 @@
             "serviceTypePlaceholder": "Select your service",
             "location": "Location",
             "locationPlaceholder": "City, State",
-            "description": "Business Description",
             "descriptionPlaceholder": "Tell us about your services...",
             "emailPlaceholder": "your@business.com",
             "agreeToTerms": "I agree to the Vendor Terms and Privacy Policy",
@@ -75,13 +74,13 @@
         "forgotPassword": {
             "title": "Reset Password",
             "description": "Enter your email to reset your password",
-            "instructions": "We'll send reset instructions to your email",
-            "sendInstructions": "Send Reset Instructions",
+            "instructions": "We'll send instructions to your email",
+            "sendInstructions": "Send Instructions",
             "sending": "Sending...",
-            "resetEmailSent": "Reset Email Sent",
-            "checkEmailInstructions": "Check your email for reset instructions",
+            "resetEmailSent": "Email Sent",
+            "checkEmailInstructions": "Check your email for instructions",
             "error": "Error",
-            "failedToSend": "Failed to send reset email"
+            "failedToSend": "Failed to send email"
         },
         "demo": {
             "tryDemo": "Try Demo",
@@ -101,6 +100,83 @@
             "businessNameRequired": "Business name is required",
             "locationRequired": "Location is required",
             "descriptionRequired": "Description is required"
+        }
+    },
+    "dashboard": {
+        "platform": "Event Platform",
+        "quickStats": "Quick Stats",
+        "search": {
+            "placeholder": "Search events, vendors..."
+        },
+        "navigation": {
+            "dashboard": "Dashboard",
+            "myEvents": "My Events",
+            "vendors": "Vendors",
+            "bookings": "Bookings",
+            "messages": "Messages",
+            "payments": "Payments"
+        },
+        "stats": {
+            "activeEvents": "Active Events",
+            "pendingBookings": "Pending Bookings",
+            "thisMonth": "This Month"
+        },
+        "user": {
+            "avatarAlt": "User",
+            "profile": "Profile",
+            "settings": "Settings",
+            "logout": "Logout"
+        },
+        "notifications": {
+            "title": "Notifications",
+            "empty": "No new notifications",
+            "markAllRead": "Mark all as read"
+        },
+        "breadcrumb": {
+            "home": "Home",
+            "dashboard": "Dashboard",
+            "events": "Events",
+            "vendors": "Vendors",
+            "bookings": "Bookings",
+            "messages": "Messages",
+            "payments": "Payments"
+        },
+        "actions": {
+            "viewAll": "View All",
+            "seeMore": "See More",
+            "createNew": "Create New",
+            "edit": "Edit",
+            "delete": "Delete",
+            "save": "Save",
+            "cancel": "Cancel"
+        },
+        "status": {
+            "active": "Active",
+            "pending": "Pending",
+            "completed": "Completed",
+            "cancelled": "Cancelled",
+            "draft": "Draft"
+        },
+        "messages": {
+            "welcome": "Welcome back",
+            "noData": "No data available",
+            "loading": "Loading...",
+            "error": "Error loading data"
+        },
+        "events": {
+            "greeting": "Good morning",
+            "nextEventIn": "Your next event is in {days} days",
+            "createEvent": "Create Event",
+            "guestList": "Guest List",
+            "vendors": "Vendors",
+            "upcomingEvents": "Upcoming Events",
+            "daysLeft": "days left",
+            "complete": "Complete",
+            "spent": "Spent",
+            "budgetOverview": "Budget Overview",
+            "budgetDescription": "Track your spending across all events",
+            "totalBudget": "Total Budget",
+            "remaining": "Remaining"
         }
     }
 }

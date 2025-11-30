@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Progress } from "@/components/ui/progress"
 import { Plus, Calendar, Clock, Music, UserPlus } from "lucide-react"
 import { CreateEventModal } from "./create-event-modal"
+import { useTranslation } from "@/hooks/use-translation"
 
 // Mock data with elegant event covers
 const upcomingEvents = [
@@ -59,6 +60,7 @@ const upcomingEvents = [
 
 export function EnhancedEventDashboard() {
   const [showCreateModal, setShowCreateModal] = useState(false)
+  const { t } = useTranslation()
 
   const nextEvent = upcomingEvents[0]
   const totalBudget = upcomingEvents.reduce((sum, event) => sum + event.budget, 0)
@@ -72,8 +74,10 @@ export function EnhancedEventDashboard() {
       >
         <div className="relative z-10 text-white">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <h1 className="text-4xl font-heading font-bold mb-2">Good morning, John ✨</h1>
-            <p className="text-white/80 text-lg mb-6">Your next event is in {nextEvent.daysLeft} days</p>
+            <h1 className="text-4xl font-heading font-bold mb-2">{t('dashboard.events.greeting')} ✨</h1>
+            <p className="text-white/80 text-lg mb-6">
+              {t('dashboard.events.nextEventIn').replace('{days}', nextEvent.daysLeft.toString())}
+            </p>
 
             {/* Event Countdown */}
             <div className="flex items-center gap-4 bg-white/10 backdrop-blur-sm rounded-xl p-4 max-w-md">
@@ -119,27 +123,27 @@ export function EnhancedEventDashboard() {
             className="w-full h-16 gradient-royal text-white hover:glow-primary transition-all duration-300 rounded-xl"
           >
             <Plus className="w-5 h-5 mr-3" />
-            <span className="font-semibold">Create Event</span>
+            <span className="font-semibold">{t('dashboard.events.createEvent')}</span>
           </Button>
         </motion.div>
 
         <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
           <Button variant="outline" className="w-full h-16 border-2 hover:bg-primary/5 rounded-xl bg-transparent">
             <UserPlus className="w-5 h-5 mr-3" />
-            <span className="font-semibold">Guest List</span>
+            <span className="font-semibold">{t('dashboard.events.guestList')}</span>
           </Button>
         </motion.div>
 
         <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
           <Button variant="outline" className="w-full h-16 border-2 hover:bg-primary/5 rounded-xl bg-transparent">
             <Music className="w-5 h-5 mr-3" />
-            <span className="font-semibold">Vendors</span>
+            <span className="font-semibold">{t('dashboard.events.vendors')}</span>
           </Button>
         </motion.div>
       </div>
 
       <div className="space-y-6">
-        <h2 className="text-2xl font-heading font-semibold">Upcoming Events</h2>
+        <h2 className="text-2xl font-heading font-semibold">{t('dashboard.events.upcomingEvents')}</h2>
         <div className="grid gap-6">
           {upcomingEvents.map((event, index) => (
             <motion.div
@@ -168,22 +172,22 @@ export function EnhancedEventDashboard() {
                       </div>
                       <div className="text-right">
                         <p className="text-2xl font-bold text-primary">{event.daysLeft}</p>
-                        <p className="text-sm text-muted-foreground">days left</p>
+                        <p className="text-sm text-muted-foreground">{t('dashboard.events.daysLeft')}</p>
                       </div>
                     </div>
 
                     <div className="grid grid-cols-3 gap-4 mb-4">
                       <div className="text-center">
                         <p className="text-lg font-semibold">{event.progress}%</p>
-                        <p className="text-xs text-muted-foreground">Complete</p>
+                        <p className="text-xs text-muted-foreground">{t('dashboard.events.complete')}</p>
                       </div>
                       <div className="text-center">
                         <p className="text-lg font-semibold">{event.vendors}</p>
-                        <p className="text-xs text-muted-foreground">Vendors</p>
+                        <p className="text-xs text-muted-foreground">{t('dashboard.events.vendors')}</p>
                       </div>
                       <div className="text-center">
                         <p className="text-lg font-semibold">${(event.spent / 1000).toFixed(0)}k</p>
-                        <p className="text-xs text-muted-foreground">Spent</p>
+                        <p className="text-xs text-muted-foreground">{t('dashboard.events.spent')}</p>
                       </div>
                     </div>
 
@@ -198,8 +202,8 @@ export function EnhancedEventDashboard() {
 
       <Card className="border-0 shadow-lg">
         <CardHeader>
-          <CardTitle className="text-xl font-heading">Budget Overview</CardTitle>
-          <CardDescription>Track your spending across all events</CardDescription>
+          <CardTitle className="text-xl font-heading">{t('dashboard.events.budgetOverview')}</CardTitle>
+          <CardDescription>{t('dashboard.events.budgetDescription')}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-6">
@@ -207,15 +211,15 @@ export function EnhancedEventDashboard() {
             <div className="grid grid-cols-3 gap-6">
               <div className="text-center p-4 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl">
                 <p className="text-2xl font-bold text-blue-600">${(totalBudget / 1000).toFixed(0)}k</p>
-                <p className="text-sm text-blue-600/70">Total Budget</p>
+                <p className="text-sm text-blue-600/70">{t('dashboard.events.totalBudget')}</p>
               </div>
               <div className="text-center p-4 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl">
                 <p className="text-2xl font-bold text-green-600">${(totalSpent / 1000).toFixed(0)}k</p>
-                <p className="text-sm text-green-600/70">Spent</p>
+                <p className="text-sm text-green-600/70">{t('dashboard.events.spent')}</p>
               </div>
               <div className="text-center p-4 bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl">
                 <p className="text-2xl font-bold text-purple-600">${((totalBudget - totalSpent) / 1000).toFixed(0)}k</p>
-                <p className="text-sm text-purple-600/70">Remaining</p>
+                <p className="text-sm text-purple-600/70">{t('dashboard.events.remaining')}</p>
               </div>
             </div>
 
