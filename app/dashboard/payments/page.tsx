@@ -1,15 +1,15 @@
-"use client"
+// "use client"
 
-import { DashboardLayout } from "@/components/layout/dashboard-layout"
-import { PaymentDashboard } from "@/features/payments/payment-dashboard"
-import { ProtectedRoute } from "@/components/auth/protected-route"
+// import { DashboardLayout } from "@/components/layout/dashboard-layout"
+// import { PaymentDashboard } from "@/features/payments/payment-dashboard"
+// import { ProtectedRoute } from "@/components/auth/protected-route"
 
-export default function PaymentsPage() {
-  return (
-    <ProtectedRoute>
-      <DashboardLayout>
-        <PaymentDashboard />
-      </DashboardLayout>
-    </ProtectedRoute>
-  )
-}
+// export default function PaymentsPage() {
+//   return (
+//     <ProtectedRoute>
+//       <DashboardLayout>
+//         <PaymentDashboard />
+//       </DashboardLayout>
+//     </ProtectedRoute>
+//   )
+// }
