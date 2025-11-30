@@ -175,25 +175,26 @@ export function EnhancedEventDashboard() {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 lg:space-y-8">
+      {/* Hero Section */}
       <div
-        className="relative overflow-hidden rounded-2xl p-8"
+        className="relative overflow-hidden rounded-xl lg:rounded-2xl p-6 lg:p-8"
         style={{ background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)" }}
       >
         <div className="relative z-10 text-white">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <h1 className="text-4xl font-heading font-bold mb-2">{t('dashboard.events.greeting')} ✨</h1>
-            <p className="text-white/80 text-lg mb-6">
+            <h1 className="text-2xl lg:text-4xl font-heading font-bold mb-2">{t('dashboard.events.greeting')} ✨</h1>
+            <p className="text-white/80 text-base lg:text-lg mb-4 lg:mb-6">
               {t('dashboard.events.nextEventIn').replace('{days}', nextEvent.daysLeft.toString())}
             </p>
 
             {/* Event Countdown */}
-            <div className="flex items-center gap-4 bg-white/10 backdrop-blur-sm rounded-xl p-4 max-w-md">
-              <Clock className="w-6 h-6" />
-              <div>
-                <p className="font-semibold">{nextEvent.title}</p>
-                <p className="text-white/80 text-sm">
-                  {formatDate(nextEvent.date)} • {nextEvent.time} • {nextEvent.location}
+            <div className="flex items-center gap-3 lg:gap-4 bg-white/10 backdrop-blur-sm rounded-lg lg:rounded-xl p-3 lg:p-4 max-w-md">
+              <Clock className="w-5 h-5 lg:w-6 lg:h-6 flex-shrink-0" />
+              <div className="min-w-0 flex-1">
+                <p className="font-semibold text-sm lg:text-base truncate">{nextEvent.title}</p>
+                <p className="text-white/80 text-xs lg:text-sm truncate">
+                  {nextEvent.date} • {nextEvent.location}
                 </p>
               </div>
             </div>
@@ -202,10 +203,10 @@ export function EnhancedEventDashboard() {
 
         {/* Animated background particles */}
         <div className="absolute inset-0 overflow-hidden">
-          {[...Array(20)].map((_, i) => (
+          {[...Array(15)].map((_, i) => (
             <motion.div
               key={i}
-              className="absolute w-2 h-2 bg-white/20 rounded-full"
+              className="absolute w-1.5 h-1.5 lg:w-2 lg:h-2 bg-white/20 rounded-full"
               style={{
                 left: `${Math.random() * 100}%`,
                 top: `${Math.random() * 100}%`,
@@ -224,36 +225,38 @@ export function EnhancedEventDashboard() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {/* Action Buttons */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 lg:gap-4">
         <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
           <Button
             onClick={() => setShowCreateModal(true)}
-            className="w-full h-16 gradient-royal text-white hover:glow-primary transition-all duration-300 rounded-xl"
+            className="w-full h-14 lg:h-16 gradient-royal text-white hover:glow-primary transition-all duration-300 rounded-xl text-sm lg:text-base"
           >
-            <Plus className="w-5 h-5 mr-3" />
+            <Plus className="w-4 h-4 lg:w-5 lg:h-5 mr-2 lg:mr-3" />
             <span className="font-semibold">{t('dashboard.events.createEvent')}</span>
           </Button>
         </motion.div>
 
         <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-          <Button variant="outline" className="w-full h-16 border-2 hover:bg-primary/5 rounded-xl bg-transparent">
-            <UserPlus className="w-5 h-5 mr-3" />
+          <Button variant="outline" className="w-full h-14 lg:h-16 border-2 hover:bg-primary/5 rounded-xl bg-transparent text-sm lg:text-base">
+            <UserPlus className="w-4 h-4 lg:w-5 lg:h-5 mr-2 lg:mr-3" />
             <span className="font-semibold">{t('dashboard.events.guestList')}</span>
           </Button>
         </motion.div>
 
         <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-          <Button variant="outline" className="w-full h-16 border-2 hover:bg-primary/5 rounded-xl bg-transparent">
-            <Music className="w-5 h-5 mr-3" />
+          <Button variant="outline" className="w-full h-14 lg:h-16 border-2 hover:bg-primary/5 rounded-xl bg-transparent text-sm lg:text-base">
+            <Music className="w-4 h-4 lg:w-5 lg:h-5 mr-2 lg:mr-3" />
             <span className="font-semibold">{t('dashboard.events.vendors')}</span>
           </Button>
         </motion.div>
       </div>
 
-      <div className="space-y-6">
-        <h2 className="text-2xl font-heading font-semibold">{t('dashboard.events.upcomingEvents')}</h2>
-        <div className="grid gap-6">
-          {sortedEvents.map((event, index) => (
+      {/* Upcoming Events */}
+      <div className="space-y-4 lg:space-y-6">
+        <h2 className="text-xl lg:text-2xl font-heading font-semibold">{t('dashboard.events.upcomingEvents')}</h2>
+        <div className="grid gap-4 lg:gap-6">
+          {upcomingEvents.map((event, index) => (
             <motion.div
               key={event.id}
               initial={{ opacity: 0, y: 20 }}
@@ -261,45 +264,49 @@ export function EnhancedEventDashboard() {
               transition={{ delay: index * 0.1, duration: 0.5 }}
             >
               <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 border-0 shadow-lg">
-                <div className="flex">
+                <div className="flex flex-col px-8 sm:flex-row">
                   {/* Elegant event cover */}
-                  <div className="w-32 h-32 flex-shrink-0 relative" style={{ background: event.cover }}>
-                    <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
-                      <Calendar className="w-8 h-8 text-white" />
+                  <div className="w-full sm:w-24 lg:w-32 h-24 lg:h-32 flex-shrink-0 relative  rounded-lg" style={{ background: event.cover }}>
+                    <div className="absolute inset-0 bg-black/20 flex items-center justify-center rounded-lg">
+                      <Calendar className="w-6 h-6 lg:w-8 lg:h-8 text-white" />
                     </div>
                   </div>
 
                   {/* Event details */}
-                  <div className="flex-1 p-6">
-                    <div className="flex justify-between items-start mb-4">
-                      <div>
-                        <h3 className="text-xl font-heading font-semibold mb-1">{event.title}</h3>
-                        <p className="text-muted-foreground">
-                          {event.date} • {event.location}
+                  <div className="flex-1 p-4 lg:p-6">
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3 lg:gap-4 mb-3 lg:mb-4">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-lg lg:text-xl font-heading font-semibold mb-1 truncate">{event.title}</h3>
+                        <p className="text-muted-foreground text-sm truncate capitalize">
+                          {new Date(event.date).toLocaleDateString('es-MX', {
+                            weekday: 'short',
+                            month: 'long',
+                            day: 'numeric'
+                          })} • {event.location}
                         </p>
                       </div>
-                      <div className="text-right">
-                        <p className="text-2xl font-bold text-primary">{event.daysLeft}</p>
-                        <p className="text-sm text-muted-foreground">{t('dashboard.events.daysLeft')}</p>
+                      <div className="text-right flex-shrink-0">
+                        <p className="text-xl lg:text-2xl font-bold text-primary">{event.daysLeft}</p>
+                        <p className="text-xs lg:text-sm text-muted-foreground">{t('dashboard.events.daysLeft')}</p>
                       </div>
                     </div>
 
-                    <div className="grid grid-cols-3 gap-4 mb-4">
+                    <div className="grid grid-cols-3 gap-2 lg:gap-4 mb-3 lg:mb-4">
                       <div className="text-center">
-                        <p className="text-lg font-semibold">{event.progress}%</p>
+                        <p className="text-base lg:text-lg font-semibold">{event.progress}%</p>
                         <p className="text-xs text-muted-foreground">{t('dashboard.events.complete')}</p>
                       </div>
                       <div className="text-center">
-                        <p className="text-lg font-semibold">{event.vendors}</p>
+                        <p className="text-base lg:text-lg font-semibold">{event.vendors}</p>
                         <p className="text-xs text-muted-foreground">{t('dashboard.events.vendors')}</p>
                       </div>
                       <div className="text-center">
-                        <p className="text-lg font-semibold">${(event.spent / 1000).toFixed(0)}k</p>
+                        <p className="text-base lg:text-lg font-semibold">${(event.spent / 1000).toFixed(0)}k</p>
                         <p className="text-xs text-muted-foreground">{t('dashboard.events.spent')}</p>
                       </div>
                     </div>
 
-                    <Progress value={event.progress} className="h-2" />
+                    <Progress value={event.progress} className="h-1.5 lg:h-2" />
                   </div>
                 </div>
               </Card>
@@ -308,42 +315,43 @@ export function EnhancedEventDashboard() {
         </div>
       </div>
 
+      {/* Budget Overview */}
       <Card className="border-0 shadow-lg">
-        <CardHeader>
-          <CardTitle className="text-xl font-heading">{t('dashboard.events.budgetOverview')}</CardTitle>
-          <CardDescription>{t('dashboard.events.budgetDescription')}</CardDescription>
+        <CardHeader className="pb-4 lg:pb-6">
+          <CardTitle className="text-lg lg:text-xl font-heading">{t('dashboard.events.budgetOverview')}</CardTitle>
+          <CardDescription className="text-sm lg:text-base">{t('dashboard.events.budgetDescription')}</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="space-y-6">
+          <div className="space-y-4 lg:space-y-6">
             {/* Budget stats */}
-            <div className="grid grid-cols-3 gap-6">
-              <div className="text-center p-4 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl">
-                <p className="text-2xl font-bold text-blue-600">${(totalBudget / 1000).toFixed(0)}k</p>
-                <p className="text-sm text-blue-600/70">{t('dashboard.events.totalBudget')}</p>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 lg:gap-6">
+              <div className="text-center p-3 lg:p-4 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl">
+                <p className="text-xl lg:text-2xl font-bold text-blue-600">${(totalBudget / 1000).toFixed(0)}k</p>
+                <p className="text-xs lg:text-sm text-blue-600/70">{t('dashboard.events.totalBudget')}</p>
               </div>
-              <div className="text-center p-4 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl">
-                <p className="text-2xl font-bold text-green-600">${(totalSpent / 1000).toFixed(0)}k</p>
-                <p className="text-sm text-green-600/70">{t('dashboard.events.spent')}</p>
+              <div className="text-center p-3 lg:p-4 bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl">
+                <p className="text-xl lg:text-2xl font-bold text-green-600">${(totalSpent / 1000).toFixed(0)}k</p>
+                <p className="text-xs lg:text-sm text-green-600/70">{t('dashboard.events.spent')}</p>
               </div>
-              <div className="text-center p-4 bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl">
-                <p className="text-2xl font-bold text-purple-600">${((totalBudget - totalSpent) / 1000).toFixed(0)}k</p>
-                <p className="text-sm text-purple-600/70">{t('dashboard.events.remaining')}</p>
+              <div className="text-center p-3 lg:p-4 bg-gradient-to-br from-purple-50 to-pink-50 rounded-xl">
+                <p className="text-xl lg:text-2xl font-bold text-purple-600">${((totalBudget - totalSpent) / 1000).toFixed(0)}k</p>
+                <p className="text-xs lg:text-sm text-purple-600/70">{t('dashboard.events.remaining')}</p>
               </div>
             </div>
 
             {/* Progress visualization */}
-            <div className="space-y-3">
-              {sortedEvents.map((event) => (
-                <div key={event.id} className="flex items-center gap-4">
-                  <div className="w-3 h-3 rounded-full" style={{ background: event.cover }} />
-                  <div className="flex-1">
-                    <div className="flex justify-between text-sm mb-1">
-                      <span>{event.title}</span>
-                      <span>
+            <div className="space-y-2 lg:space-y-3">
+              {upcomingEvents.map((event) => (
+                <div key={event.id} className="flex items-center gap-3 lg:gap-4">
+                  <div className="w-2.5 h-2.5 lg:w-3 lg:h-3 rounded-full flex-shrink-0" style={{ background: event.cover }} />
+                  <div className="flex-1 min-w-0">
+                    <div className="flex justify-between text-xs lg:text-sm mb-1">
+                      <span className="truncate">{event.title}</span>
+                      <span className="flex-shrink-0 ml-2">
                         ${event.spent.toLocaleString()} / ${event.budget.toLocaleString()}
                       </span>
                     </div>
-                    <Progress value={(event.spent / event.budget) * 100} className="h-2" />
+                    <Progress value={(event.spent / event.budget) * 100} className="h-1.5 lg:h-2" />
                   </div>
                 </div>
               ))}
