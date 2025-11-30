@@ -5,7 +5,7 @@ import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 import { Calendar, DollarSign, Users, TrendingUp } from "lucide-react"
-import { StatsCard } from "./stats-card"
+// import { StatsCard } from "./stats-card"
 
 export function VendorDashboard() {
     const [vendorName] = useState("Elite Catering Co.")
@@ -28,12 +28,12 @@ export function VendorDashboard() {
             </div>
 
             {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <StatsCard title="Active Bookings" value={stats.activeBookings.toString()} icon={Calendar} trend="+1 this week" color="primary" />
                 <StatsCard title="Total Revenue" value={`$${stats.totalRevenue.toLocaleString()}`} icon={DollarSign} trend="+8% this month" color="secondary" />
                 <StatsCard title="Upcoming Events" value={stats.upcomingEvents.toString()} icon={Users} trend="3 pending" color="accent" />
                 <StatsCard title="Satisfaction Rate" value={`${stats.satisfactionRate}%`} icon={TrendingUp} trend="Consistent" color="success" />
-            </div>
+            </div> */}
 
             {/* Recent Activity */}
             <Card>
