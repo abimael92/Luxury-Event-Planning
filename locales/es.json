@@ -61,7 +61,6 @@
             "serviceTypePlaceholder": "Selecciona tu servicio",
             "location": "Ubicación",
             "locationPlaceholder": "Ciudad, Estado",
-            "description": "Descripción del Negocio",
             "descriptionPlaceholder": "Cuéntanos sobre tus servicios...",
             "emailPlaceholder": "tu@negocio.com",
             "agreeToTerms": "Acepto los Términos para Proveedores y Política de Privacidad",
@@ -101,6 +100,83 @@
             "businessNameRequired": "El nombre del negocio es requerido",
             "locationRequired": "La ubicación es requerida",
             "descriptionRequired": "La descripción es requerida"
+        }
+    },
+    "dashboard": {
+        "platform": "Plataforma de Eventos",
+        "quickStats": "Estadísticas Rápidas",
+        "search": {
+            "placeholder": "Buscar eventos, proveedores..."
+        },
+        "navigation": {
+            "dashboard": "Dashboard",
+            "myEvents": "Mis Eventos",
+            "vendors": "Proveedores",
+            "bookings": "Reservas",
+            "messages": "Mensajes",
+            "payments": "Pagos"
+        },
+        "stats": {
+            "activeEvents": "Eventos Activos",
+            "pendingBookings": "Reservas Pendientes",
+            "thisMonth": "Este Mes"
+        },
+        "user": {
+            "avatarAlt": "Usuario",
+            "profile": "Perfil",
+            "settings": "Configuración",
+            "logout": "Cerrar Sesión"
+        },
+        "notifications": {
+            "title": "Notificaciones",
+            "empty": "No hay notificaciones nuevas",
+            "markAllRead": "Marcar todas como leídas"
+        },
+        "breadcrumb": {
+            "home": "Inicio",
+            "dashboard": "Dashboard",
+            "events": "Eventos",
+            "vendors": "Proveedores",
+            "bookings": "Reservas",
+            "messages": "Mensajes",
+            "payments": "Pagos"
+        },
+        "actions": {
+            "viewAll": "Ver Todo",
+            "seeMore": "Ver Más",
+            "createNew": "Crear Nuevo",
+            "edit": "Editar",
+            "delete": "Eliminar",
+            "save": "Guardar",
+            "cancel": "Cancelar"
+        },
+        "status": {
+            "active": "Activo",
+            "pending": "Pendiente",
+            "completed": "Completado",
+            "cancelled": "Cancelado",
+            "draft": "Borrador"
+        },
+        "messages": {
+            "welcome": "Bienvenido de vuelta",
+            "noData": "No hay datos disponibles",
+            "loading": "Cargando...",
+            "error": "Error al cargar los datos"
+        },
+        "events": {
+            "greeting": "Buenos días",
+            "nextEventIn": "Tu próximo evento es en {days} días",
+            "createEvent": "Crear Evento",
+            "guestList": "Lista de Invitados",
+            "vendors": "Proveedores",
+            "upcomingEvents": "Próximos Eventos",
+            "daysLeft": "días restantes",
+            "complete": "Completado",
+            "spent": "Gastado",
+            "budgetOverview": "Resumen de Presupuesto",
+            "budgetDescription": "Controla tus gastos en todos los eventos",
+            "totalBudget": "Presupuesto Total",
+            "remaining": "Restante"
         }
     }
 }
