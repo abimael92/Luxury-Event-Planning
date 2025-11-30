@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useMemo } from "react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -13,10 +13,10 @@ import { useTranslation } from "@/hooks/use-translation"
 const upcomingEvents = [
   {
     id: "1",
-    title: "Sarah & Michael's Wedding",
-    date: "2024-06-15",
+    title: "Boda de Kathya y Erick ",
+    date: "2026-06-15",
     time: "4:00 PM",
-    location: "The Grand Ballroom",
+    location: "El Gran Salón de Baile",
     budget: 50000,
     spent: 35000,
     status: "planning" as const,
@@ -28,10 +28,10 @@ const upcomingEvents = [
   },
   {
     id: "2",
-    title: "Corporate Gala 2024",
-    date: "2024-07-20",
+    title: "Navidad Improving 2025",
+    date: "2025-12-20",
     time: "7:00 PM",
-    location: "Downtown Convention Center",
+    location: "Centro de Convenciones del Centro",
     budget: 75000,
     spent: 25000,
     status: "planning" as const,
@@ -43,10 +43,10 @@ const upcomingEvents = [
   },
   {
     id: "3",
-    title: "Emma's Sweet 16",
-    date: "2024-08-10",
+    title: "Quinceañera de Eunice",
+    date: "2027-08-10",
     time: "6:00 PM",
-    location: "Garden Pavilion",
+    location: "Pabellón del Jardín",
     budget: 15000,
     spent: 8000,
     status: "planning" as const,
@@ -56,15 +56,123 @@ const upcomingEvents = [
     daysLeft: 66,
     cover: "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
   },
+  {
+    id: "4",
+    title: "Baby Shower de Suleidy",
+    date: "2026-01-20",
+    time: "2:00 PM",
+    location: "Jardines de la Villa",
+    budget: 8000,
+    spent: 3000,
+    status: "planning" as const,
+    progress: 38,
+    vendors: 4,
+    image: "/baby-shower-venue.jpg",
+    daysLeft: 92,
+    cover: "linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%)",
+  },
+  {
+    id: "5",
+    title: "Cumpleaños de Isela",
+    date: "2026-02-24",
+    time: "5:00 PM",
+    location: "Terraza Panorámica",
+    budget: 12000,
+    spent: 6000,
+    status: "planning" as const,
+    progress: 50,
+    vendors: 6,
+    image: "/birthday-party-venue.jpg",
+    daysLeft: 129,
+    cover: "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)",
+  },
+  {
+    id: "6",
+    title: "Evento de Año Nuevo 2026",
+    date: "2025-12-31",
+    time: "9:00 PM",
+    location: "Plaza Principal",
+    budget: 100000,
+    spent: 25000,
+    status: "planning" as const,
+    progress: 25,
+    vendors: 15,
+    image: "/new-years-venue.jpg",
+    daysLeft: 476,
+    cover: "linear-gradient(135deg, #ffd89b 0%, #19547b 100%)",
+  },
+  {
+    id: "7",
+    title: "Navidad Familia García",
+    date: "2025-12-24",
+    time: "3:00 PM",
+    location: "Salón Familiar Los Pinos",
+    budget: 7000,
+    spent: 2800,
+    status: "planning" as const,
+    progress: 40,
+    vendors: 3,
+    image: "/family-party-venue.jpg",
+    daysLeft: 168,
+    cover: "linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)",
+  },
+  {
+    id: "8",
+    title: "Posada Chihuahuense",
+    date: "2025-12-18",
+    time: "6:00 PM",
+    location: "Patio Tradicional Mexicano",
+    budget: 15000,
+    spent: 7500,
+    status: "planning" as const,
+    progress: 50,
+    vendors: 7,
+    image: "/posada-venue.jpg",
+    daysLeft: 194,
+    cover: "linear-gradient(135deg, #c2e9fb 0%, #a1c4fd 100%)",
+  }
 ]
 
 export function EnhancedEventDashboard() {
-  const [showCreateModal, setShowCreateModal] = useState(false)
-  const { t } = useTranslation()
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const { t } = useTranslation();
 
-  const nextEvent = upcomingEvents[0]
-  const totalBudget = upcomingEvents.reduce((sum, event) => sum + event.budget, 0)
-  const totalSpent = upcomingEvents.reduce((sum, event) => sum + event.spent, 0)
+  // Helper function to calculate days between dates
+  // Helper function to calculate days between dates
+  const calculateDaysLeft = (eventDate: string): number => {
+    const today = new Date()
+    today.setHours(0, 0, 0, 0) // Set to start of day
+
+    const event = new Date(eventDate)
+    event.setHours(0, 0, 0, 0) // Set to start of day
+
+    const diffTime = event.getTime() - today.getTime()
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
+    return Math.max(0, diffDays);
+  }
+
+  // Sort events by date and find the next event
+  const sortedEvents = useMemo(() => {
+    return [...upcomingEvents]
+      .map(event => ({
+        ...event,
+        daysLeft: calculateDaysLeft(event.date) // Calculate actual days left
+      }))
+      .sort((a, b) => a.daysLeft - b.daysLeft) // Sort by actual days left
+  }, []);
+
+  const nextEvent = sortedEvents[0] // Change this line
+  const totalBudget = sortedEvents.reduce((sum, event) => sum + event.budget, 0) // Change this line
+  const totalSpent = sortedEvents.reduce((sum, event) => sum + event.spent, 0) // Change this line
+
+  // Helper function to format date
+  const formatDate = (dateString: string): string => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      month: 'long',
+      day: 'numeric',
+      year: 'numeric'
+    })
+  }
 
   return (
     <div className="space-y-8">
@@ -85,7 +193,7 @@ export function EnhancedEventDashboard() {
               <div>
                 <p className="font-semibold">{nextEvent.title}</p>
                 <p className="text-white/80 text-sm">
-                  {nextEvent.date} • {nextEvent.location}
+                  {formatDate(nextEvent.date)} • {nextEvent.time} • {nextEvent.location}
                 </p>
               </div>
             </div>
@@ -145,7 +253,7 @@ export function EnhancedEventDashboard() {
       <div className="space-y-6">
         <h2 className="text-2xl font-heading font-semibold">{t('dashboard.events.upcomingEvents')}</h2>
         <div className="grid gap-6">
-          {upcomingEvents.map((event, index) => (
+          {sortedEvents.map((event, index) => (
             <motion.div
               key={event.id}
               initial={{ opacity: 0, y: 20 }}
@@ -225,7 +333,7 @@ export function EnhancedEventDashboard() {
 
             {/* Progress visualization */}
             <div className="space-y-3">
-              {upcomingEvents.map((event) => (
+              {sortedEvents.map((event) => (
                 <div key={event.id} className="flex items-center gap-4">
                   <div className="w-3 h-3 rounded-full" style={{ background: event.cover }} />
                   <div className="flex-1">
