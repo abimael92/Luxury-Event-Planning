@@ -34,6 +34,7 @@ import {
 import { cn } from "@/shared/lib/utils"
 import { useAuth } from "@/core/contexts/auth-context"
 import { Badge } from "@/components/ui/badge"
+import { useTranslation } from "@/hooks/use-translation"
 
 interface DashboardLayoutProps {
   children: React.ReactNode
@@ -45,20 +46,21 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   const router = useRouter()
   const pathname = usePathname()
   const { user, logout } = useAuth()
+  const { t } = useTranslation()
 
   const navigation = [
-    { name: "Dashboard", href: "/dashboard", icon: Home, badge: 3 },
-    { name: "My Events", href: "/dashboard/events", icon: Calendar, badge: 12 },
-    { name: "Vendors", href: "/dashboard/vendors", icon: Users, badge: 8 },
-    { name: "Bookings", href: "/dashboard/bookings", icon: BookOpen },
-    { name: "Messages", href: "/dashboard/messages", icon: MessageSquare },
-    { name: "Payments", href: "/dashboard/payments", icon: CreditCard },
+    { name: t('dashboard.navigation.dashboard'), href: "/dashboard", icon: Home, badge: 3 },
+    { name: t('dashboard.navigation.myEvents'), href: "/dashboard/events", icon: Calendar, badge: 12 },
+    { name: t('dashboard.navigation.vendors'), href: "/dashboard/vendors", icon: Users, badge: 8 },
+    { name: t('dashboard.navigation.bookings'), href: "/dashboard/bookings", icon: BookOpen },
+    { name: t('dashboard.navigation.messages'), href: "/dashboard/messages", icon: MessageSquare },
+    { name: t('dashboard.navigation.payments'), href: "/dashboard/payments", icon: CreditCard },
   ]
 
   const stats = [
-    { label: "Active Events", value: "12", change: "+2" },
-    { label: "Pending Bookings", value: "8", change: "+1" },
-    { label: "This Month", value: "$24.5k", change: "+12%" },
+    { label: t('dashboard.stats.activeEvents'), value: "12", change: "+2" },
+    { label: t('dashboard.stats.pendingBookings'), value: "8", change: "+1" },
+    { label: t('dashboard.stats.thisMonth'), value: "$24.5k", change: "+12%" },
   ]
 
   const handleLogout = () => {
@@ -102,7 +104,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                   <h1 className="font-cinzel text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
                     Planora
                   </h1>
-                  <p className="text-xs text-muted-foreground">Event Platform</p>
+                  <p className="text-xs text-muted-foreground">{t('dashboard.platform')}</p>
                 </div>
               )}
             </div>
@@ -119,7 +121,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           {/* Quick Stats - Only show when expanded */}
           {!sidebarCollapsed && (
             <div className="mb-8 space-y-3">
-              <h3 className="text-sm font-semibold text-muted-foreground">Quick Stats</h3>
+              <h3 className="text-sm font-semibold text-muted-foreground">{t('dashboard.quickStats')}</h3>
               <div className="grid grid-cols-3 gap-2">
                 {stats.map((stat, index) => (
                   <div key={index} className="bg-white/60 rounded-lg p-2 border border-white/40 text-center">
@@ -187,7 +189,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
             sidebarCollapsed && "justify-center"
           )}>
             <Avatar className="h-8 w-8">
-              <AvatarImage src={user?.avatar || "/placeholder.svg"} alt="User" />
+              <AvatarImage src={user?.avatar || "/placeholder.svg"} alt={t('dashboard.user.avatarAlt')} />
               <AvatarFallback className="bg-gradient-to-br from-purple-400 to-blue-500 text-white">
                 {user?.firstName?.[0]}
                 {user?.lastName?.[0]}
@@ -226,7 +228,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <input
                   type="text"
-                  placeholder="Search events, vendors..."
+                  placeholder={t('dashboard.search.placeholder')}
                   className="w-full pl-10 pr-4 py-2 bg-white/50 border border-white/40 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/30 transition-all duration-200"
                 />
               </div>
@@ -239,7 +241,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
               </Button>
 
               <Avatar className="h-8 w-8 lg:hidden">
-                <AvatarImage src={user?.avatar || "/placeholder.svg"} alt="User" />
+                <AvatarImage src={user?.avatar || "/placeholder.svg"} alt={t('dashboard.user.avatarAlt')} />
                 <AvatarFallback className="bg-gradient-to-br from-purple-400 to-blue-500 text-white">
                   {user?.firstName?.[0]}
                   {user?.lastName?.[0]}
