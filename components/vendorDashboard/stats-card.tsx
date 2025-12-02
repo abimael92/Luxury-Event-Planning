@@ -9,10 +9,12 @@ interface StatsCardProps {
     value: string
     icon: LucideIcon
     trend?: string
+    gradient?: string
+    description?: string
     color?: "primary" | "secondary" | "accent" | "success"
 }
 
-export function StatsCard({ title, value, icon: Icon, trend, color = "primary" }: StatsCardProps) {
+export function StatsCard({ title, value, icon: Icon, trend, gradient, description, color = "primary" }: StatsCardProps) {
     const colors = {
         primary: "from-blue-500 to-cyan-500",
         secondary: "from-purple-500 to-pink-500",
@@ -33,7 +35,7 @@ export function StatsCard({ title, value, icon: Icon, trend, color = "primary" }
 
                 <CardContent className="p-6">
                     <div className="flex items-start justify-between mb-4">
-                        <div className={`p-2 rounded-xl bg-gradient-to-br ${colors[color]} shadow-lg`}>
+                        <div className={`p-2 rounded-xl bg-gradient-to-br ${gradient || colors[color]} shadow-lg`}>
                             <Icon className="h-5 w-5 text-white" />
                         </div>
                         {trend && (
@@ -57,7 +59,7 @@ export function StatsCard({ title, value, icon: Icon, trend, color = "primary" }
                             initial={{ width: 0 }}
                             animate={{ width: "70%" }}
                             transition={{ delay: 0.2, duration: 1, ease: "easeOut" }}
-                            className={`h-1 rounded-full bg-gradient-to-r ${colors[color]}`}
+                            className={`h-1 rounded-full bg-gradient-to-r ${gradient || colors[color]}`}
                         />
                     </div>
                 </CardContent>
