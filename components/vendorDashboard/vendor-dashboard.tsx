@@ -7,10 +7,12 @@ import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Calendar, DollarSign, Users, TrendingUp, MessageCircle, Clock, ArrowUpRight, MoreHorizontal, Star, ChevronRight, Eye, Download } from "lucide-react"
 import { StatsCard } from "./stats-card"
+import { useTranslation } from "@/hooks/use-translation"
 
 export function VendorDashboard() {
     const [vendorName] = useState("Elite Catering Co.")
     const [activeTab, setActiveTab] = useState("overview")
+    const { t } = useTranslation()
 
     const stats = {
         activeBookings: 5,
@@ -25,51 +27,51 @@ export function VendorDashboard() {
         {
             id: 1,
             type: "booking",
-            title: "Corporate Gala 2024",
-            description: "New booking confirmed",
+            title: t('vendorDashboard.activities.booking.title'),
+            description: t('vendorDashboard.activities.booking.description'),
             status: "confirmed",
             amount: 4200,
-            time: "2 hours ago",
+            time: `2 ${t('vendorDashboard.timeAgo.hours')}`,
             icon: Calendar,
             color: "text-green-500"
         },
         {
             id: 2,
             type: "payment",
-            title: "Emma's Sweet 16",
-            description: "Payment received successfully",
+            title: t('vendorDashboard.activities.payment.title'),
+            description: t('vendorDashboard.activities.payment.description'),
             status: "completed",
             amount: 3200,
-            time: "5 hours ago",
+            time: `5 ${t('vendorDashboard.timeAgo.hours')}`,
             icon: DollarSign,
             color: "text-blue-500"
         },
         {
             id: 3,
             type: "message",
-            title: "Planora Events",
-            description: "New inquiry about wedding package",
+            title: t('vendorDashboard.activities.message.title'),
+            description: t('vendorDashboard.activities.message.description'),
             status: "pending",
-            time: "1 day ago",
+            time: `1 ${t('vendorDashboard.timeAgo.days')}`,
             icon: MessageCircle,
             color: "text-purple-500"
         },
         {
             id: 4,
             type: "review",
-            title: "Tech Conference 2024",
-            description: "New 5-star review received",
+            title: t('vendorDashboard.activities.review.title'),
+            description: t('vendorDashboard.activities.review.description'),
             status: "completed",
-            time: "2 days ago",
+            time: `2 ${t('vendorDashboard.timeAgo.days')}`,
             icon: Star,
             color: "text-yellow-500"
         }
     ]
 
     const upcomingEvents = [
-        { id: 1, name: "Summer Wedding", date: "Nov 25, 2024", guests: 120, status: "confirmed" },
-        { id: 2, name: "Corporate Retreat", date: "Nov 28, 2024", guests: 80, status: "confirmed" },
-        { id: 3, name: "Charity Gala", date: "Dec 2, 2024", guests: 200, status: "pending" }
+        { id: 1, name: t('vendorDashboard.upcomingEvents.summerWedding'), date: t('vendorDashboard.dateFormat.nov25'), guests: 120, status: "confirmed" },
+        { id: 2, name: t('vendorDashboard.upcomingEvents.corporateRetreat'), date: t('vendorDashboard.dateFormat.nov28'), guests: 80, status: "confirmed" },
+        { id: 3, name: t('vendorDashboard.upcomingEvents.charityGala'), date: t('vendorDashboard.dateFormat.dec2'), guests: 200, status: "pending" }
     ]
 
     const containerVariants = {
@@ -105,25 +107,25 @@ export function VendorDashboard() {
                 <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
                         <h1 className="text-3xl font-heading font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                            Welcome back, {vendorName}
+                            {t('vendorDashboard.welcome')} {vendorName}
                         </h1>
                         <Badge variant="secondary" className="bg-green-100 text-green-700 border-green-200">
                             <TrendingUp className="h-3 w-3 mr-1" />
-                            +{stats.monthlyGrowth}% this month
+                            +{stats.monthlyGrowth}% {t('vendorDashboard.thisMonth')}
                         </Badge>
                     </div>
                     <p className="text-muted-foreground text-lg">
-                        Here's your business performance and upcoming events at a glance
+                        {t('vendorDashboard.subtitle')}
                     </p>
                 </div>
                 <div className="flex items-center gap-3">
                     <Button variant="outline" className="gap-2 hover:bg-white/80">
                         <Download className="h-4 w-4" />
-                        Export Report
+                        {t('vendorDashboard.actions.exportReport')}
                     </Button>
                     <Button className="bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700 shadow-lg gap-2">
                         <Calendar className="h-4 w-4" />
-                        New Event
+                        {t('vendorDashboard.actions.newEvent')}
                     </Button>
                 </div>
             </motion.div>
@@ -131,40 +133,40 @@ export function VendorDashboard() {
             {/* Enhanced Stats Grid */}
             <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <StatsCard
-                    title="Active Bookings"
+                    title={t('vendorDashboard.stats.activeBookings')}
                     value={stats.activeBookings.toString()}
                     icon={Calendar}
-                    trend="+1 this week"
+                    trend={`+1 ${t('vendorDashboard.stats.trends.week')}`}
                     color="primary"
                     gradient="from-blue-500 to-cyan-500"
-                    description="Currently serving"
+                    description={t('vendorDashboard.stats.descriptions.currentlyServing')}
                 />
                 <StatsCard
-                    title="Total Revenue"
+                    title={t('vendorDashboard.stats.totalRevenue')}
                     value={`$${(stats.totalRevenue / 1000).toFixed(0)}K`}
                     icon={DollarSign}
-                    trend="+8% this month"
+                    trend={`+8% ${t('vendorDashboard.stats.trends.month')}`}
                     color="secondary"
                     gradient="from-green-500 to-emerald-500"
-                    description="Year-to-date"
+                    description={t('vendorDashboard.stats.descriptions.yearToDate')}
                 />
                 <StatsCard
-                    title="Upcoming Events"
+                    title={t('vendorDashboard.stats.upcomingEvents')}
                     value={stats.upcomingEvents.toString()}
                     icon={Users}
-                    trend="3 pending"
+                    trend={`3 ${t('vendorDashboard.stats.trends.pending')}`}
                     color="accent"
                     gradient="from-purple-500 to-pink-500"
-                    description="Next 30 days"
+                    description={t('vendorDashboard.stats.descriptions.next30Days')}
                 />
                 <StatsCard
-                    title="Satisfaction Rate"
+                    title={t('vendorDashboard.stats.satisfactionRate')}
                     value={`${stats.satisfactionRate}%`}
                     icon={TrendingUp}
-                    trend="+2% from last month"
+                    trend={`+2% ${t('vendorDashboard.stats.trends.improvement')}`}
                     color="success"
                     gradient="from-orange-500 to-red-500"
-                    description="Customer rating"
+                    description={t('vendorDashboard.stats.descriptions.customerRating')}
                 />
             </motion.div>
 
@@ -176,17 +178,17 @@ export function VendorDashboard() {
                         <CardHeader className="flex flex-row items-center justify-between pb-4">
                             <div>
                                 <CardTitle className="flex items-center gap-2">
-                                    Recent Activity
+                                    {t('vendorDashboard.sections.recentActivity')}
                                     <Badge variant="secondary" className="bg-blue-100 text-blue-700">
-                                        {recentActivities.length} new
+                                        {recentActivities.length} {t('vendorDashboard.badge.new')}
                                     </Badge>
                                 </CardTitle>
                                 <CardDescription>
-                                    Latest updates and notifications
+                                    {t('vendorDashboard.sections.recentActivityDescription')}
                                 </CardDescription>
                             </div>
                             <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground">
-                                View All
+                                {t('vendorDashboard.actions.viewAll')}
                                 <ChevronRight className="h-4 w-4 ml-1" />
                             </Button>
                         </CardHeader>
@@ -216,7 +218,7 @@ export function VendorDashboard() {
                                                 {activity.amount && (
                                                     <div className="text-right">
                                                         <p className="font-semibold text-green-600">
-                                                            +${activity.amount.toLocaleString()}
+                                                            ${activity.amount.toLocaleString()}
                                                         </p>
                                                     </div>
                                                 )}
@@ -231,7 +233,7 @@ export function VendorDashboard() {
                                                         ${activity.status === 'completed' ? 'bg-blue-100 text-blue-700' : ''}
                                                     `}
                                                 >
-                                                    {activity.status}
+                                                    {t(`vendorDashboard.status.${activity.status}`)}
                                                 </Badge>
                                                 <span className="text-xs text-muted-foreground flex items-center gap-1">
                                                     <Clock className="h-3 w-3" />
@@ -252,13 +254,13 @@ export function VendorDashboard() {
                     <Card className="bg-white/60 backdrop-blur-sm border-white/40 shadow-xl hover-lift">
                         <CardHeader className="pb-4">
                             <CardTitle className="flex items-center gap-2">
-                                Upcoming Events
+                                {t('vendorDashboard.sections.upcomingEvents')}
                                 <Badge variant="secondary" className="bg-purple-100 text-purple-700">
                                     {upcomingEvents.length}
                                 </Badge>
                             </CardTitle>
                             <CardDescription>
-                                Your schedule for the next week
+                                {t('vendorDashboard.sections.upcomingEventsDescription')}
                             </CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-4">
@@ -276,7 +278,9 @@ export function VendorDashboard() {
                                         </div>
                                         <div>
                                             <h4 className="font-semibold text-sm">{event.name}</h4>
-                                            <p className="text-xs text-muted-foreground">{event.guests} guests</p>
+                                            <p className="text-xs text-muted-foreground">
+                                                {event.guests} {t('vendorDashboard.guestsLabel')}
+                                            </p>
                                         </div>
                                     </div>
                                     <Badge
@@ -286,12 +290,12 @@ export function VendorDashboard() {
                                             ${event.status === 'confirmed' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}
                                         `}
                                     >
-                                        {event.status}
+                                        {t(`vendorDashboard.status.${event.status}`)}
                                     </Badge>
                                 </motion.div>
                             ))}
                             <Button variant="ghost" className="w-full gap-2 text-muted-foreground hover:text-foreground">
-                                View Full Calendar
+                                {t('vendorDashboard.actions.viewFullCalendar')}
                                 <ArrowUpRight className="h-4 w-4" />
                             </Button>
                         </CardContent>
@@ -300,23 +304,23 @@ export function VendorDashboard() {
                     {/* Quick Actions */}
                     <Card className="bg-gradient-to-br from-purple-50 to-blue-50 border-purple-200 shadow-xl">
                         <CardHeader className="pb-4">
-                            <CardTitle>Quick Actions</CardTitle>
+                            <CardTitle>{t('vendorDashboard.sections.quickActions')}</CardTitle>
                             <CardDescription>
-                                Frequently used tasks
+                                {t('vendorDashboard.sections.quickActionsDescription')}
                             </CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-3">
                             <Button variant="outline" className="w-full justify-start gap-3 hover:bg-white/80 h-12">
                                 <Calendar className="h-4 w-4" />
-                                Create New Event
+                                {t('vendorDashboard.actions.createEvent')}
                             </Button>
                             <Button variant="outline" className="w-full justify-start gap-3 hover:bg-white/80 h-12">
                                 <Users className="h-4 w-4" />
-                                Manage Bookings
+                                {t('vendorDashboard.actions.manageBookings')}
                             </Button>
                             <Button variant="outline" className="w-full justify-start gap-3 hover:bg-white/80 h-12">
                                 <Eye className="h-4 w-4" />
-                                View Analytics
+                                {t('vendorDashboard.actions.viewAnalytics')}
                             </Button>
                         </CardContent>
                     </Card>

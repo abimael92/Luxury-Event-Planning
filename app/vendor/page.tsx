@@ -1,15 +1,15 @@
 "use client"
 
 import { VendorDashboard } from "@/components/vendorDashboard/vendor-dashboard"
-import { VendorLayout } from "@/components/layout/vendor-layout"
+// import { VendorLayout } from "@/components/layout/"
 import { ProtectedRoute } from "@/components/auth/protected-route"
 
 export default function VendorOverviewPage() {
     return (
         <ProtectedRoute>
-            <VendorLayout>
-                <VendorDashboard />
-            </VendorLayout>
+            {/* <VendorLayout> */}
+            <VendorDashboard />
+            {/* </VendorLayout> */}
         </ProtectedRoute>
     )
 }

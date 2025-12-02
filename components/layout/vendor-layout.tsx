@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Calendar, DollarSign, Users, TrendingUp, MessageCircle, Clock, ArrowUpRight, MoreHorizontal, Star, ChevronRight, Eye, Download } from "lucide-react"
-import { StatsCard } from "./stats-card"
+import { StatsCard } from "@/components/ui/stats-card"
 import { useTranslation } from "@/hooks/use-translation"
 
 export function VendorDashboard() {
@@ -31,7 +31,7 @@ export function VendorDashboard() {
             description: t('vendorDashboard.activities.booking.description'),
             status: "confirmed",
             amount: 4200,
-            time: t('vendorDashboard.timeAgo.hours', { hours: 2 }),
+            time: `2 ${t('vendorDashboard.timeAgo.hours')}`,
             icon: Calendar,
             color: "text-green-500"
         },
@@ -42,7 +42,7 @@ export function VendorDashboard() {
             description: t('vendorDashboard.activities.payment.description'),
             status: "completed",
             amount: 3200,
-            time: t('vendorDashboard.timeAgo.hours', { hours: 5 }),
+            time: `5 ${t('vendorDashboard.timeAgo.hours')}`,
             icon: DollarSign,
             color: "text-blue-500"
         },
@@ -52,7 +52,7 @@ export function VendorDashboard() {
             title: t('vendorDashboard.activities.message.title'),
             description: t('vendorDashboard.activities.message.description'),
             status: "pending",
-            time: t('vendorDashboard.timeAgo.days', { days: 1 }),
+            time: `1 ${t('vendorDashboard.timeAgo.days')}`,
             icon: MessageCircle,
             color: "text-purple-500"
         },
@@ -62,7 +62,7 @@ export function VendorDashboard() {
             title: t('vendorDashboard.activities.review.title'),
             description: t('vendorDashboard.activities.review.description'),
             status: "completed",
-            time: t('vendorDashboard.timeAgo.days', { days: 2 }),
+            time: `2 ${t('vendorDashboard.timeAgo.days')}`,
             icon: Star,
             color: "text-yellow-500"
         }
@@ -125,11 +125,11 @@ export function VendorDashboard() {
                 <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
                         <h1 className="text-3xl font-heading font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
-                            {t('vendorDashboard.welcome', { name: vendorName })}
+                            {t('vendorDashboard.welcome')} {vendorName}
                         </h1>
                         <Badge variant="secondary" className="bg-green-100 text-green-700 border-green-200">
                             <TrendingUp className="h-3 w-3 mr-1" />
-                            {t('vendorDashboard.growthPercentage', { percent: stats.monthlyGrowth })}
+                            +{stats.monthlyGrowth}% {t('vendorDashboard.thisMonth')}
                         </Badge>
                     </div>
                     <p className="text-muted-foreground text-lg">
@@ -154,7 +154,7 @@ export function VendorDashboard() {
                     title={t('vendorDashboard.stats.activeBookings')}
                     value={stats.activeBookings.toString()}
                     icon={Calendar}
-                    trend={t('vendorDashboard.stats.trends.week', { count: 1 })}
+                    trend={`+1 ${t('vendorDashboard.stats.trends.week')}`}
                     color="primary"
                     gradient="from-blue-500 to-cyan-500"
                     description={t('vendorDashboard.stats.descriptions.currentlyServing')}
@@ -163,7 +163,7 @@ export function VendorDashboard() {
                     title={t('vendorDashboard.stats.totalRevenue')}
                     value={`$${(stats.totalRevenue / 1000).toFixed(0)}K`}
                     icon={DollarSign}
-                    trend={t('vendorDashboard.stats.trends.month', { percent: 8 })}
+                    trend={`+8% ${t('vendorDashboard.stats.trends.month')}`}
                     color="secondary"
                     gradient="from-green-500 to-emerald-500"
                     description={t('vendorDashboard.stats.descriptions.yearToDate')}
@@ -172,7 +172,7 @@ export function VendorDashboard() {
                     title={t('vendorDashboard.stats.upcomingEvents')}
                     value={stats.upcomingEvents.toString()}
                     icon={Users}
-                    trend={t('vendorDashboard.stats.trends.pending', { count: 3 })}
+                    trend={`3 ${t('vendorDashboard.stats.trends.pending')}`}
                     color="accent"
                     gradient="from-purple-500 to-pink-500"
                     description={t('vendorDashboard.stats.descriptions.next30Days')}
@@ -181,7 +181,7 @@ export function VendorDashboard() {
                     title={t('vendorDashboard.stats.satisfactionRate')}
                     value={`${stats.satisfactionRate}%`}
                     icon={TrendingUp}
-                    trend={t('vendorDashboard.stats.trends.improvement', { percent: 2 })}
+                    trend={`+2% ${t('vendorDashboard.stats.trends.improvement')}`}
                     color="success"
                     gradient="from-orange-500 to-red-500"
                     description={t('vendorDashboard.stats.descriptions.customerRating')}
@@ -198,7 +198,7 @@ export function VendorDashboard() {
                                 <CardTitle className="flex items-center gap-2">
                                     {t('vendorDashboard.sections.recentActivity')}
                                     <Badge variant="secondary" className="bg-blue-100 text-blue-700">
-                                        {t('vendorDashboard.badge.new', { count: recentActivities.length })}
+                                        {recentActivities.length} {t('vendorDashboard.badge.new')}
                                     </Badge>
                                 </CardTitle>
                                 <CardDescription>
@@ -236,7 +236,7 @@ export function VendorDashboard() {
                                                 {activity.amount && (
                                                     <div className="text-right">
                                                         <p className="font-semibold text-green-600">
-                                                            {t('vendorDashboard.amount', { amount: activity.amount.toLocaleString() })}
+                                                            ${activity.amount.toLocaleString()}
                                                         </p>
                                                     </div>
                                                 )}
@@ -297,7 +297,7 @@ export function VendorDashboard() {
                                         <div>
                                             <h4 className="font-semibold text-sm">{event.name}</h4>
                                             <p className="text-xs text-muted-foreground">
-                                                {t('vendorDashboard.guestsCount', { count: event.guests })}
+                                                {event.guests} {t('vendorDashboard.guestsLabel')}
                                             </p>
                                         </div>
                                     </div>
