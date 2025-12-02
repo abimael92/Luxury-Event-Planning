@@ -178,5 +178,114 @@
             "totalBudget": "Presupuesto Total",
             "remaining": "Restante"
         }
+    },
+    "vendorLayout": {
+        "platformName": "EventFlow",
+        "platformSubtitle": "Panel Proveedor",
+        "quickStats": "Estadísticas Rápidas",
+        "search": {
+            "placeholder": "Buscar eventos, pedidos, clientes..."
+        },
+        "navigation": {
+            "overview": "Resumen",
+            "events": "Eventos",
+            "orders": "Pedidos",
+            "reservations": "Reservas",
+            "analytics": "Analíticas",
+            "settings": "Configuración"
+        },
+        "stats": {
+            "activeEvents": "Eventos Activos",
+            "pendingOrders": "Pedidos Pendientes",
+            "thisMonth": "Este Mes"
+        },
+        "actions": {
+            "createEvent": "Crear Evento"
+        },
+        "user": {
+            "name": "Alex Proveedor",
+            "plan": "Plan Premium"
+        }
+    },
+    "vendorDashboard": {
+        "welcome": "Bienvenido de vuelta,",
+        "thisMonth": "este mes",
+        "subtitle": "Aquí está el rendimiento de tu negocio y los próximos eventos a simple vista",
+        "stats": {
+            "activeBookings": "Reservas Activas",
+            "totalRevenue": "Ingresos Totales",
+            "upcomingEvents": "Próximos Eventos",
+            "satisfactionRate": "Tasa de Satisfacción",
+            "trends": {
+                "week": "esta semana",
+                "month": "este mes",
+                "pending": "pendientes",
+                "improvement": "desde el mes pasado"
+            },
+            "descriptions": {
+                "currentlyServing": "Actualmente sirviendo",
+                "yearToDate": "Año a la fecha",
+                "next30Days": "Próximos 30 días",
+                "customerRating": "Calificación de clientes"
+            }
+        },
+        "activities": {
+            "booking": {
+                "title": "Gala Corporativa 2024",
+                "description": "Nueva reserva confirmada"
+            },
+            "payment": {
+                "title": "Fiesta de 15 de Emma",
+                "description": "Pago recibido exitosamente"
+            },
+            "message": {
+                "title": "Planora Events",
+                "description": "Nueva consulta sobre paquete de boda"
+            },
+            "review": {
+                "title": "Conferencia Tecnológica 2024",
+                "description": "Nueva reseña de 5 estrellas recibida"
+            }
+        },
+        "timeAgo": {
+            "hours": "horas atrás",
+            "days": "días atrás"
+        },
+        "upcomingEvents": {
+            "summerWedding": "Boda de Verano",
+            "corporateRetreat": "Retiro Corporativo",
+            "charityGala": "Gala Benéfica"
+        },
+        "dateFormat": {
+            "nov25": "25 Nov, 2024",
+            "nov28": "28 Nov, 2024",
+            "dec2": "2 Dic, 2024"
+        },
+        "sections": {
+            "recentActivity": "Actividad Reciente",
+            "recentActivityDescription": "Últimas actualizaciones y notificaciones",
+            "upcomingEvents": "Próximos Eventos",
+            "upcomingEventsDescription": "Tu horario para la próxima semana",
+            "quickActions": "Acciones Rápidas",
+            "quickActionsDescription": "Tareas frecuentemente usadas"
+        },
+        "badge": {
+            "new": "nuevo"
+        },
+        "actions": {
+            "exportReport": "Exportar Reporte",
+            "newEvent": "Nuevo Evento",
+            "viewAll": "Ver Todo",
+            "viewFullCalendar": "Ver Calendario Completo",
+            "createEvent": "Crear Nuevo Evento",
+            "manageBookings": "Gestionar Reservas",
+            "viewAnalytics": "Ver Analíticas"
+        },
+        "status": {
+            "confirmed": "confirmado",
+            "pending": "pendiente",
+            "completed": "completado"
+        },
+        "guestsLabel": "invitados"
     }
 }
