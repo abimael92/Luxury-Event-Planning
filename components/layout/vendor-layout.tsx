@@ -31,7 +31,7 @@ export function VendorDashboard() {
             description: t('vendorDashboard.activities.booking.description'),
             status: "confirmed",
             amount: 4200,
-            time: (t as any)('vendorDashboard.timeAgo.hours', { hours: 2 }),
+            time: t('vendorDashboard.timeAgo.hours', { hours: 2 }),
             icon: Calendar,
             color: "text-green-500"
         },
@@ -42,7 +42,7 @@ export function VendorDashboard() {
             description: t('vendorDashboard.activities.payment.description'),
             status: "completed",
             amount: 3200,
-            time: (t as any)('vendorDashboard.timeAgo.hours', { hours: 5 }),
+            time: t('vendorDashboard.timeAgo.hours', { hours: 5 }),
             icon: DollarSign,
             color: "text-blue-500"
         },
@@ -52,7 +52,7 @@ export function VendorDashboard() {
             title: t('vendorDashboard.activities.message.title'),
             description: t('vendorDashboard.activities.message.description'),
             status: "pending",
-            time: (t as any)('vendorDashboard.timeAgo.days', { days: 1 }),
+            time: t('vendorDashboard.timeAgo.days', { days: 1 }),
             icon: MessageCircle,
             color: "text-purple-500"
         },
@@ -62,7 +62,7 @@ export function VendorDashboard() {
             title: t('vendorDashboard.activities.review.title'),
             description: t('vendorDashboard.activities.review.description'),
             status: "completed",
-            time: (t as any)('vendorDashboard.timeAgo.days', { days: 2 }),
+            time: t('vendorDashboard.timeAgo.days', { days: 2 }),
             icon: Star,
             color: "text-yellow-500"
         }
@@ -236,7 +236,7 @@ export function VendorDashboard() {
                                                 {activity.amount && (
                                                     <div className="text-right">
                                                         <p className="font-semibold text-green-600">
-                                                            {t('vendorDashboard.amount', { amount: activity.amount.toLocaleString() })}
+                                                            ${activity.amount.toLocaleString()}
                                                         </p>
                                                     </div>
                                                 )}
@@ -297,7 +297,7 @@ export function VendorDashboard() {
                                         <div>
                                             <h4 className="font-semibold text-sm">{event.name}</h4>
                                             <p className="text-xs text-muted-foreground">
-                                                {t('vendorDashboard.guests', { count: event.guests })}
+                                                {event.guests} {t('vendorDashboard.guestsLabel')}
                                             </p>
                                         </div>
                                     </div>
