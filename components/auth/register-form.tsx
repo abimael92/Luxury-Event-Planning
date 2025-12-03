@@ -24,9 +24,10 @@ interface RegisterFormData {
 
 interface RegisterFormProps {
   onBack: () => void
+  theme?: any
 }
 
-export function RegisterForm({ onBack }: RegisterFormProps) {
+export function RegisterForm({ onBack, theme }: RegisterFormProps) {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
