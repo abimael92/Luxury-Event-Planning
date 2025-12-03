@@ -404,8 +404,8 @@ export function AuthSection() {
                 currentView === "register" ? t('auth.register.title') :
                   currentView === "client-register" ? t('auth.register.title') :
                     currentView === "vendor-register" ? t('auth.vendor.title') :
-                      currentView === "forgot-password" ? t('auth.forgotPassword.title') :
-                        t('auth.welcome')}
+                      currentView === "forgot-password" ? t('auth.forgotPassword.title') : ''}
+              {/* /* t('auth.welcome')  */}
             </CardTitle>
 
             {/* DESCRIPTION */}
@@ -414,8 +414,8 @@ export function AuthSection() {
                 currentView === "register" ? t('auth.register.description') :
                   currentView === "client-register" ? t('auth.register.description') :
                     currentView === "vendor-register" ? t('auth.vendor.description') :
-                      currentView === "forgot-password" ? t('auth.forgotPassword.description') :
-                        t('auth.welcomeSubtitle')}
+                      currentView === "forgot-password" ? t('auth.forgotPassword.description') : ''}
+              {/* t('auth.welcomeSubtitle')} */}
             </CardDescription>
           </CardHeader>
 
