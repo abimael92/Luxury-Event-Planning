@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardContent, CardDescription } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Calendar, DollarSign, Users, TrendingUp, MessageCircle, Clock, ArrowUpRight, MoreHorizontal, Star, ChevronRight, Eye, Download } from "lucide-react"
-import { StatsCard } from "./stats-card"
+import { StatsCard } from "@/components/ui/stats-card" // c.tsx
 import { useTranslation } from "@/hooks/use-translation"
 
 export function VendorDashboard() {
