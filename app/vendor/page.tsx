@@ -1,6 +1,6 @@
 "use client"
 
-import { VendorDashboard } from "@/components/vendorDashboard/vendor-dashboard"
+import { VendorDashboard } from "@/components/vendor-dashboard/vendor-dashboard"
 import { VendorLayout } from "@/components/layout/vendor-layout"
 import { ProtectedRoute } from "@/components/auth/protected-route"
 
