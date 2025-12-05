@@ -17,7 +17,8 @@ import {
     Bell,
     Search,
     Plus,
-    TrendingUp
+    TrendingUp,
+    Menu
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -60,19 +61,19 @@ export function VendorLayout({ children }: VendorLayoutProps) {
 
             {/* Sidebar */}
             <aside className={cn(
-                "fixed lg:relative inset-y-0 left-0 z-50 bg-white/95 backdrop-blur-xl border-r border-white/20 shadow-2xl lg:shadow-xl transition-all duration-300 ease-in-out flex flex-col overflow-hidden",
-                sidebarCollapsed ? "w-20" : "w-64 lg:w-72",
+                "fixed lg:static inset-y-0 left-0 z-50 bg-white/95 backdrop-blur-xl border-r border-white/20 shadow-2xl lg:shadow-xl transition-all duration-300 ease-in-out flex flex-col",
+                sidebarCollapsed ? "w-20 lg:w-20" : "w-64 lg:w-72",
                 mobileMenuOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
             )}>
-                <div className="flex flex-col h-full p-4 lg:p-6">
+                <div className="flex flex-col h-full !p-2 lg:p-6">
                     {/* Header */}
                     <div className={cn(
                         "flex items-center gap-3 mb-6 lg:mb-8 transition-all duration-300",
                         sidebarCollapsed && "justify-center"
                     )}>
-                        <div className="flex items-center gap-3 flex-1 min-w-0">
+                        <div className="flex items-center gap-3 flex-1">
                             <div className="w-8 h-8 lg:w-10 lg:h-10 rounded-xl bg-gradient-to-br from-purple-500 to-blue-600 shadow-lg flex items-center justify-center flex-shrink-0">
-                                <TrendingUp className="h-4 w-4 lg:h-5 lg:w-5 text-white" />
+                                <TrendingUp className={sidebarCollapsed ? "h-4 w-4 text-white" : "h-6 w-6 lg:h-7 lg:w-7 text-white"} />
                             </div>
                             {!sidebarCollapsed && (
                                 <div className="flex-1 min-w-0 overflow-hidden">
@@ -83,13 +84,14 @@ export function VendorLayout({ children }: VendorLayoutProps) {
                                 </div>
                             )}
                         </div>
+                        {/* COLLAPSE BUTTON - Fixed visibility */}
                         <Button
                             variant="ghost"
                             size="icon"
                             onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
                             className="hidden lg:flex hover:bg-white/50 flex-shrink-0 h-8 w-8 lg:h-9 lg:w-9"
                         >
-                            {sidebarCollapsed ? <ChevronRight className="h-3 w-3 lg:h-4 lg:w-4" /> : <ChevronLeft className="h-3 w-3 lg:h-4 lg:w-4" />}
+                            {sidebarCollapsed ? <ChevronRight className="h-4 w-4 lg:h-5 lg:w-5" /> : <ChevronLeft className="h-4 w-4 lg:h-5 lg:w-5" />}
                         </Button>
                     </div>
 
@@ -157,7 +159,7 @@ export function VendorLayout({ children }: VendorLayoutProps) {
                                         "group flex items-center relative overflow-hidden transition-all duration-200",
                                         sidebarCollapsed
                                             ? "justify-center p-2 rounded-xl"
-                                            : "gap-3 rounded-xl px-2 lg:px-3 py-2 lg:py-3",
+                                            : "gap-3 rounded-xl px-3 py-2 lg:py-3",
                                         isActive
                                             ? "bg-white shadow-lg border border-white/60 text-primary"
                                             : "text-muted-foreground hover:text-foreground hover:bg-white/60 hover:shadow-md hover:border-white/50"
@@ -167,7 +169,7 @@ export function VendorLayout({ children }: VendorLayoutProps) {
                                         "flex items-center justify-center rounded-lg transition-all duration-200 relative",
                                         sidebarCollapsed
                                             ? "w-10 h-10"
-                                            : "w-8 h-8 lg:w-10 lg:h-10",
+                                            : "w-9 h-9 lg:w-10 lg:h-10",
                                         isActive
                                             ? "bg-gradient-to-br from-purple-500 to-blue-600 text-white shadow-md"
                                             : "bg-white/50 group-hover:bg-white/80 text-muted-foreground group-hover:text-primary"
@@ -184,7 +186,7 @@ export function VendorLayout({ children }: VendorLayoutProps) {
                                         <>
                                             <span className="font-medium text-sm flex-1 truncate ml-2">{item.label}</span>
                                             {item.badge && (
-                                                <Badge variant="secondary" className="bg-primary/10 text-primary text-sm h-4 lg:h-5 px-1 lg:px-1.5 flex-shrink-0">
+                                                <Badge variant="secondary" className="bg-primary/10 text-primary text-xs h-5 px-1.5 flex-shrink-0">
                                                     {item.badge}
                                                 </Badge>
                                             )}
@@ -193,11 +195,11 @@ export function VendorLayout({ children }: VendorLayoutProps) {
 
                                     {/* Active indicator - different position based on state */}
                                     {isActive && !sidebarCollapsed && (
-                                        <div className="absolute right-2 lg:right-3 top-1/2 -translate-y-1/2 w-1 h-4 lg:h-6 bg-gradient-to-b from-purple-500 to-blue-600 rounded-full" />
+                                        <div className="absolute right-3 top-1/2 -translate-y-1/2 w-1 h-6 bg-gradient-to-b from-purple-500 to-blue-600 rounded-full" />
                                     )}
 
                                     {isActive && sidebarCollapsed && (
-                                        <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-6 h-1 bg-gradient-to-r from-purple-500 to-blue-600 rounded-full" />
+                                        <div className="absolute bottom-2 left-1/2 -translate-x-1/2 w-6 h-1 bg-gradient-to-r from-purple-500 to-blue-600 rounded-full" />
                                     )}
                                 </Link>
                             )
@@ -205,31 +207,32 @@ export function VendorLayout({ children }: VendorLayoutProps) {
                     </nav>
 
                     {/* Create Event Button */}
-                    <div className={cn(
-                        "transition-all duration-300",
-                        sidebarCollapsed && "flex justify-center"
-                    )}>
-                        <Button className={cn(
-                            "bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700 shadow-lg hover:shadow-xl transition-all duration-200 group mb-4",
-                            sidebarCollapsed ? "w-10 h-10 p-0" : "w-full"
-                        )}>
-                            {sidebarCollapsed ? (
+                    <div className="mt-4">
+                        {sidebarCollapsed ? (
+                            <Button
+                                size="icon"
+                                className="w-10 h-10 bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700 shadow-lg hover:shadow-xl transition-all duration-200 group"
+                                title={t('vendorLayout.actions.createEvent')}
+                            >
                                 <Plus className="h-4 w-4 group-hover:scale-110 transition-transform" />
-                            ) : (
-                                <>
-                                    <Plus className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform" />
-                                    {t('vendorLayout.actions.createEvent')}
-                                </>
-                            )}
-                        </Button>
+                            </Button>
+                        ) : (
+                            <Button className="w-full bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700 shadow-lg hover:shadow-xl transition-all duration-200 group">
+                                <Plus className="h-4 w-4 mr-2 group-hover:scale-110 transition-transform" />
+                                {t('vendorLayout.actions.createEvent')}
+                            </Button>
+                        )}
                     </div>
 
                     {/* User Section */}
                     <div className={cn(
-                        "flex items-center gap-2 lg:gap-3 pt-4 border-t border-white/40 transition-all duration-300",
+                        "flex items-center gap-3 pt-4 border-t border-white/40",
                         sidebarCollapsed && "justify-center flex-col gap-2"
                     )}>
-                        <div className="w-7 h-7 lg:w-8 lg:h-8 rounded-full bg-gradient-to-br from-purple-400 to-blue-500 flex items-center justify-center text-white text-sm font-bold shadow-md flex-shrink-0">
+                        <div className={cn(
+                            "rounded-full bg-gradient-to-br from-purple-400 to-blue-500 flex items-center justify-center text-white font-bold shadow-md flex-shrink-0",
+                            sidebarCollapsed ? "w-8 h-8 text-xs" : "w-8 h-8 lg:w-9 lg:h-9 text-sm"
+                        )}>
                             A
                         </div>
                         {!sidebarCollapsed && (
@@ -243,11 +246,11 @@ export function VendorLayout({ children }: VendorLayoutProps) {
                             size="icon"
                             className={cn(
                                 "hover:bg-white/50 flex-shrink-0",
-                                sidebarCollapsed ? "h-7 w-7 lg:h-8 lg:w-8" : "h-7 w-7 lg:h-8 lg:w-8"
+                                sidebarCollapsed ? "h-8 w-8" : "h-8 w-8 lg:h-9 lg:w-9"
                             )}
                             title={t('vendorLayout.logout')}
                         >
-                            <LogOut className="h-3 w-3 lg:h-4 lg:w-4" />
+                            <LogOut className="h-4 w-4 lg:h-5 lg:w-5" />
                         </Button>
                     </div>
                 </div>
@@ -265,7 +268,7 @@ export function VendorLayout({ children }: VendorLayoutProps) {
                                 onClick={() => setMobileMenuOpen(true)}
                                 className="lg:hidden hover:bg-white/50 h-9 w-9"
                             >
-                                <LayoutDashboard className="h-4 w-4 lg:h-5 lg:w-5" />
+                                <Menu className="h-4 w-4 lg:h-5 lg:w-5" />
                             </Button>
 
                             {/* Search Bar */}
