@@ -197,7 +197,6 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           )}
 
           {/* Navigation */}
-          {/* Navigation */}
           <nav className="space-y-2 flex-1">
             {navigation.map((item) => {
               const Icon = item.icon
