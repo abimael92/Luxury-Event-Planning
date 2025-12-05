@@ -76,10 +76,10 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
       {/* Sidebar */}
       <aside className={cn(
         "fixed lg:static inset-y-0 left-0 z-50 bg-white/95 backdrop-blur-xl border-r border-white/20 shadow-2xl lg:shadow-xl transition-all duration-300 ease-in-out flex flex-col",
-        sidebarCollapsed ? "w-16 lg:w-20" : "w-64 lg:w-72 xl:w-80",
+        sidebarCollapsed ? "w-20 lg:w-20" : "w-64 lg:w-72 xl:w-80",
         sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
       )}>
-        <div className="flex flex-col h-full p-4 lg:p-6">
+        <div className="flex flex-col h-full !p-2 lg:p-6">
           {/* Header */}
           <div className={cn(
             "flex items-center gap-3 mb-6 lg:mb-8 transition-all duration-300",
@@ -197,7 +197,8 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
           )}
 
           {/* Navigation */}
-          <nav className="space-y-1 flex-1">
+          {/* Navigation */}
+          <nav className="space-y-2 flex-1">
             {navigation.map((item) => {
               const Icon = item.icon
               const isActive = pathname === item.href
@@ -207,22 +208,27 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
                   key={item.name}
                   onClick={() => handleNavigation(item.href)}
                   className={cn(
-                    "group flex items-center gap-3 rounded-xl px-2 lg:px-3 py-2 lg:py-2.5 transition-all duration-200 relative overflow-hidden w-full text-left",
-                    "hover:bg-white/60 hover:shadow-md hover:border-white/50",
+                    "group flex items-center rounded-xl transition-all duration-200 relative w-full",
+                    sidebarCollapsed
+                      ? "justify-center p-2"
+                      : "gap-3 px-2 lg:px-3 py-2 lg:py-2.5",
                     isActive
                       ? "bg-white shadow-lg border border-white/60 text-primary"
-                      : "text-muted-foreground hover:text-foreground"
+                      : "text-muted-foreground hover:text-foreground hover:bg-white/60 hover:shadow-md hover:border-white/50"
                   )}
                 >
                   <div className={cn(
-                    "flex items-center justify-center w-8 h-8 lg:w-9 lg:h-9 rounded-lg transition-all duration-200 flex-shrink-0",
+                    "flex items-center justify-center rounded-lg transition-all duration-200 relative",
+                    sidebarCollapsed
+                      ? "w-10 h-10"
+                      : "w-8 h-8 lg:w-9 lg:h-9",
                     isActive
                       ? "bg-gradient-to-br from-purple-500 to-blue-600 text-white shadow-md"
                       : "bg-white/50 group-hover:bg-white/80 text-muted-foreground group-hover:text-primary"
                   )}>
-                    <Icon className="h-4 w-4 lg:h-5 lg:w-5" />
+                    <Icon className={sidebarCollapsed ? "h-5 w-5" : "h-4 w-4 lg:h-5 lg:w-5"} />
                     {item.badge && sidebarCollapsed && (
-                      <span className="absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full border border-white text-[8px] text-white flex items-center justify-center">
+                      <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full border-2 border-white text-[10px] font-bold text-white flex items-center justify-center shadow-md">
                         {item.badge > 9 ? '9+' : item.badge}
                       </span>
                     )}
@@ -230,18 +236,23 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
 
                   {!sidebarCollapsed && (
                     <>
-                      <span className="font-medium text-sm flex-1 truncate text-left">{item.name}</span>
+                      <span className="font-medium text-sm flex-1 truncate text-left ml-2">{item.name}</span>
                       {item.badge && (
-                        <Badge variant="secondary" className="bg-primary/10 text-primary text-xs h-4 lg:h-5 px-1 lg:px-1.5 flex-shrink-0">
+                        <Badge variant="secondary" className="bg-primary/10 text-primary text-xs h-5 px-1.5 flex-shrink-0">
                           {item.badge}
                         </Badge>
                       )}
                     </>
                   )}
 
-                  {/* Active indicator */}
-                  {isActive && (
-                    <div className="absolute right-2 lg:right-3 top-1/2 -translate-y-1/2 w-1 h-4 lg:h-6 bg-gradient-to-b from-purple-500 to-blue-600 rounded-full" />
+                  {/* Active indicator for expanded state */}
+                  {isActive && !sidebarCollapsed && (
+                    <div className="absolute right-3 top-1/2 -translate-y-1/2 w-1 h-6 bg-gradient-to-b from-purple-500 to-blue-600 rounded-full" />
+                  )}
+
+                  {/* Active indicator for collapsed state */}
+                  {isActive && sidebarCollapsed && (
+                    <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-6 h-1 bg-gradient-to-r from-purple-500 to-blue-600 rounded-full" />
                   )}
                 </button>
               )
