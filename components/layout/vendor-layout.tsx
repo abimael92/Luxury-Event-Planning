@@ -44,9 +44,24 @@ export function VendorLayout({ children }: VendorLayoutProps) {
     ]
 
     const stats = [
-        { label: t('vendorLayout.stats.activeEvents'), value: "12", change: "+2" },
-        { label: t('vendorLayout.stats.pendingOrders'), value: "8", change: "+1" },
-        { label: t('vendorLayout.stats.thisMonth'), value: "$24.5k", change: "+12%" },
+        {
+            label: t('vendorLayout.stats.activeEvents'),
+            value: "12",
+            change: "+2",
+            icon: Calendar
+        },
+        {
+            label: t('vendorLayout.stats.pendingOrders'),
+            value: "8",
+            change: "+1",
+            icon: Package
+        },
+        {
+            label: t('vendorLayout.stats.thisMonth'),
+            value: "$24.5k",
+            change: "+12%",
+            icon: TrendingUp
+        },
     ]
 
     return (
@@ -101,19 +116,56 @@ export function VendorLayout({ children }: VendorLayoutProps) {
                         <div className="mb-6 lg:mb-8 space-y-3">
                             <h3 className="text-sm lg:text-base font-semibold text-muted-foreground">{t('vendorLayout.quickStats')}</h3>
                             <div className="grid grid-cols-3 gap-2 lg:gap-3">
-                                {stats.map((stat, index) => (
-                                    <div key={index} className="bg-white/60 rounded-lg p-2 lg:p-3 border border-white/40 text-center min-h-[80px] flex flex-col justify-between">
-                                        <div className="text-sm lg:text-base font-bold text-foreground">{stat.value}</div>
-                                        <div className="text-[10px] lg:text-xs text-muted-foreground leading-tight line-clamp-2">{stat.label}</div>
-                                        <Badge variant="secondary" className="text-[8px] lg:text-xs h-4 lg:h-5 px-1 lg:px-2 bg-green-100 text-green-700 mt-1 mx-auto">
-                                            {stat.change}
-                                        </Badge>
-                                    </div>
-                                ))}
+                                {stats.map((stat, index) => {
+                                    const Icon = stat.icon;
+                                    const colors = [
+                                        "from-purple-500 to-blue-500",
+                                        "from-blue-500 to-cyan-500",
+                                        "from-green-500 to-emerald-500"
+                                    ];
+                                    const bgColors = [
+                                        "bg-purple-50/80 border-purple-100",
+                                        "bg-blue-50/80 border-blue-100",
+                                        "bg-green-50/80 border-green-100"
+                                    ];
+
+                                    return (
+                                        <div
+                                            key={index}
+                                            className={`${bgColors[index]} backdrop-blur-sm rounded-xl p-2 border shadow-sm hover:shadow-md transition-all duration-200 group min-h-[90px] flex flex-col items-center justify-between text-center`}
+                                        >
+                                            {/* Icon */}
+                                            <div className={`p-2 rounded-lg bg-gradient-to-br ${colors[index]} shadow-sm`}>
+                                                <Icon className="w-3 h-3 lg:w-4 lg:h-4 text-white" />
+                                            </div>
+
+                                            {/* Value */}
+                                            <div className="text-sm font-bold text-gray-900 truncate max-w-full">
+                                                {stat.value}
+                                            </div>
+
+                                            {/* Label */}
+                                            <div className="text-[10px] text-gray-600 font-medium max-w-full line-clamp-2 leading-tight">
+                                                {stat.label}
+                                            </div>
+
+                                            {/* Change Badge */}
+                                            <Badge
+                                                variant="secondary"
+                                                className="text-[10px] h-4 px-1 bg-white/80 text-green-700 border border-green-200/60"
+                                            >
+                                                <span className="flex items-center gap-0.5">
+                                                    <TrendingUp className="w-2.5 h-2.5" />
+                                                    {stat.change}
+                                                </span>
+                                            </Badge>
+                                        </div>
+                                    );
+                                })}
                             </div>
                         </div>
                     ) : (
-                        // Collapsed stats view - icons only with tooltips
+                        // Keep your existing collapsed stats view
                         <div className="mb-6 lg:mb-8">
                             <div className="flex flex-col items-center gap-3">
                                 {stats.map((stat, index) => {
