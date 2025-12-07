@@ -31,6 +31,10 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
+import { useAuth } from "@/core/contexts/auth-context" // Add this import
+
+
+
 interface VendorLayoutProps {
     children: ReactNode
 }
@@ -41,13 +45,15 @@ export function VendorLayout({ children }: VendorLayoutProps) {
     const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
     const { t } = useTranslation()
+    const { logout } = useAuth() // Add this
+
 
     const handleLogout = () => {
-        // Add your logout logic here
-        console.log("Logging out...")
-        // Example: router.push('/login')
-        setMobileMenuOpen(false)
+        console.log("Logout clicked");
+        logout(); // Call the auth context logout
+        router.push('/'); // Redirect to home
     }
+
 
     const navItems = [
         { href: "/vendor", label: t('vendorLayout.navigation.overview'), icon: LayoutDashboard, badge: 3 },
@@ -114,7 +120,7 @@ export function VendorLayout({ children }: VendorLayoutProps) {
                                 </div>
                             )}
                         </div>
-                        {/* COLLAPSE BUTTON - Fixed visibility */}
+
                         <Button
                             variant="ghost"
                             size="icon"
@@ -123,6 +129,8 @@ export function VendorLayout({ children }: VendorLayoutProps) {
                         >
                             {sidebarCollapsed ? <ChevronRight className="h-4 w-4 lg:h-5 lg:w-5" /> : <ChevronLeft className="h-4 w-4 lg:h-5 lg:w-5" />}
                         </Button>
+
+
                     </div>
 
                     {/* Quick Stats */}
