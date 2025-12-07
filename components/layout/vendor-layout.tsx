@@ -2,7 +2,7 @@
 
 import { ReactNode, useState } from "react"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { cn } from "@/shared/lib/utils"
 import {
     LogOut,
@@ -23,6 +23,17 @@ import {
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { useTranslation } from "@/hooks/use-translation"
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+import { useAuth } from "@/core/contexts/auth-context" // Add this import
+
+
 
 interface VendorLayoutProps {
     children: ReactNode
@@ -30,9 +41,19 @@ interface VendorLayoutProps {
 
 export function VendorLayout({ children }: VendorLayoutProps) {
     const pathname = usePathname()
+    const router = useRouter()
     const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
     const { t } = useTranslation()
+    const { logout } = useAuth() // Add this
+
+
+    const handleLogout = () => {
+        console.log("Logout clicked");
+        logout(); // Call the auth context logout
+        router.push('/'); // Redirect to home
+    }
+
 
     const navItems = [
         { href: "/vendor", label: t('vendorLayout.navigation.overview'), icon: LayoutDashboard, badge: 3 },
@@ -99,7 +120,7 @@ export function VendorLayout({ children }: VendorLayoutProps) {
                                 </div>
                             )}
                         </div>
-                        {/* COLLAPSE BUTTON - Fixed visibility */}
+
                         <Button
                             variant="ghost"
                             size="icon"
@@ -108,6 +129,8 @@ export function VendorLayout({ children }: VendorLayoutProps) {
                         >
                             {sidebarCollapsed ? <ChevronRight className="h-4 w-4 lg:h-5 lg:w-5" /> : <ChevronLeft className="h-4 w-4 lg:h-5 lg:w-5" />}
                         </Button>
+
+
                     </div>
 
                     {/* Quick Stats */}
@@ -296,6 +319,7 @@ export function VendorLayout({ children }: VendorLayoutProps) {
                         <Button
                             variant="ghost"
                             size="icon"
+                            onClick={handleLogout}
                             className={cn(
                                 "hover:bg-white/50 flex-shrink-0",
                                 sidebarCollapsed ? "h-8 w-8" : "h-8 w-8 lg:h-9 lg:w-9"
@@ -340,9 +364,47 @@ export function VendorLayout({ children }: VendorLayoutProps) {
                                 <span className="absolute -top-0.5 -right-0.5 w-2 h-2 lg:w-3 lg:h-3 bg-red-500 rounded-full border border-white"></span>
                             </Button>
 
-                            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-400 to-blue-500 flex items-center justify-center text-white text-sm font-bold shadow-md lg:hidden">
-                                A
-                            </div>
+                            {/* Mobile User Dropdown with Logout */}
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <Button
+                                        variant="ghost"
+                                        className="lg:hidden hover:bg-white/50 p-1"
+                                    >
+                                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-400 to-blue-500 flex items-center justify-center text-white text-sm font-bold shadow-md">
+                                            A
+                                        </div>
+                                    </Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent align="end" className="w-56">
+                                    <div className="flex items-center gap-3 p-2">
+                                        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-purple-400 to-blue-500 flex items-center justify-center text-white font-bold">
+                                            A
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <p className="text-sm font-semibold truncate">{t('vendorLayout.user.name')}</p>
+                                            <p className="text-xs text-muted-foreground truncate">{t('vendorLayout.user.plan')}</p>
+                                        </div>
+                                    </div>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem onClick={() => router.push('/vendor/settings')}>
+                                        <Settings className="h-4 w-4 mr-2" />
+                                        Settings
+                                    </DropdownMenuItem>
+                                    <DropdownMenuItem onClick={() => router.push('/vendor/profile')}>
+                                        <Users className="h-4 w-4 mr-2" />
+                                        Profile
+                                    </DropdownMenuItem>
+                                    <DropdownMenuSeparator />
+                                    <DropdownMenuItem
+                                        onClick={handleLogout}
+                                        className="text-red-600 focus:text-red-600"
+                                    >
+                                        <LogOut className="h-4 w-4 mr-2" />
+                                        Log Out
+                                    </DropdownMenuItem>
+                                </DropdownMenuContent>
+                            </DropdownMenu>
                         </div>
                     </div>
                 </header>

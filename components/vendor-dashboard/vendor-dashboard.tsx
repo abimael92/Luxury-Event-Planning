@@ -4,8 +4,7 @@ import { useState } from "react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
-import { Calendar, DollarSign, Users, TrendingUp } from "lucide-react"
-// import { StatsCard } from "./stats-card"
+import { Calendar, DollarSign, Users, TrendingUp, CheckCircle, Mail, FileText, Clock, Target } from "lucide-react"
 
 export function VendorDashboard() {
     const [vendorName] = useState("Elite Catering Co.")
@@ -18,36 +17,171 @@ export function VendorDashboard() {
     }
 
     return (
-        <div className="space-y-8">
+        <div className="min-h-screen bg-background p-4 sm:p-6 space-y-6 sm:space-y-8 max-w-full overflow-x-hidden">
             {/* Header */}
             <div>
-                <h1 className="text-3xl font-heading font-bold">Welcome back, {vendorName}</h1>
-                <p className="text-muted-foreground mt-2">
-                    Here’s an overview of your bookings and performance
+                <h1 className="text-2xl sm:text-3xl font-heading font-bold text-foreground">
+                    Welcome back, {vendorName}
+                </h1>
+                <p className="text-muted-foreground mt-2 text-sm sm:text-base">
+                    Here's an overview of your bookings and performance
                 </p>
             </div>
 
             {/* Stats Cards */}
-            {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <StatsCard title="Active Bookings" value={stats.activeBookings.toString()} icon={Calendar} trend="+1 this week" color="primary" />
-                <StatsCard title="Total Revenue" value={`$${stats.totalRevenue.toLocaleString()}`} icon={DollarSign} trend="+8% this month" color="secondary" />
-                <StatsCard title="Upcoming Events" value={stats.upcomingEvents.toString()} icon={Users} trend="3 pending" color="accent" />
-                <StatsCard title="Satisfaction Rate" value={`${stats.satisfactionRate}%`} icon={TrendingUp} trend="Consistent" color="success" />
-            </div> */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                {[
+                    { title: "Active Bookings", value: stats.activeBookings, icon: Calendar, color: "text-primary", bgColor: "bg-primary/10" },
+                    { title: "Total Revenue", value: `$${stats.totalRevenue.toLocaleString()}`, icon: DollarSign, color: "text-secondary", bgColor: "bg-secondary/10" },
+                    { title: "Upcoming Events", value: stats.upcomingEvents, icon: Users, color: "text-accent", bgColor: "bg-accent/10" },
+                    { title: "Satisfaction Rate", value: `${stats.satisfactionRate}%`, icon: TrendingUp, color: "text-green-600", bgColor: "bg-green-100" },
+                ].map((stat, index) => (
+                    <Card key={index} className="p-4 sm:p-5 overflow-hidden">
+                        <div className="flex items-center justify-between">
+                            <div className="min-w-0">
+                                <p className="text-xs sm:text-sm text-muted-foreground font-medium truncate">
+                                    {stat.title}
+                                </p>
+                                <p className={`text-2xl sm:text-3xl font-bold mt-2 ${stat.color} truncate`}>
+                                    {stat.value}
+                                </p>
+                            </div>
+                            <div className={`p-2 sm:p-3 rounded-full ${stat.bgColor} flex-shrink-0 ml-3`}>
+                                <stat.icon className={`w-5 h-5 sm:w-6 sm:h-6 ${stat.color}`} />
+                            </div>
+                        </div>
+                    </Card>
+                ))}
+            </div>
 
-            {/* Recent Activity */}
-            <Card>
-                <CardHeader>
-                    <CardTitle>Recent Activity</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <motion.ul initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-3 text-sm">
-                        <li>New booking for “Corporate Gala 2024” – confirmed ✅</li>
-                        <li>Payment of $4,200 received from “Emma’s Sweet 16” 💰</li>
-                        <li>New message from “Planora Events” 📩</li>
-                    </motion.ul>
-                </CardContent>
-            </Card>
+            {/* Main Content Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Recent Activity */}
+                <Card className="lg:col-span-2">
+                    <CardHeader>
+                        <CardTitle className="text-lg sm:text-xl">Recent Activity</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            className="space-y-4"
+                        >
+                            {[
+                                {
+                                    icon: CheckCircle,
+                                    title: "Booking Confirmed",
+                                    description: "Corporate Gala 2024",
+                                    time: "2 hours ago",
+                                    color: "text-green-600",
+                                    bgColor: "bg-green-100"
+                                },
+                                {
+                                    icon: DollarSign,
+                                    title: "Payment Received",
+                                    description: "$4,200 from Emma's Sweet 16",
+                                    time: "1 day ago",
+                                    color: "text-secondary",
+                                    bgColor: "bg-secondary/10"
+                                },
+                                {
+                                    icon: Mail,
+                                    title: "New Message",
+                                    description: "From Planora Events",
+                                    time: "2 days ago",
+                                    color: "text-primary",
+                                    bgColor: "bg-primary/10"
+                                },
+                            ].map((activity, index) => (
+                                <div
+                                    key={index}
+                                    className="flex items-start gap-3 p-3 rounded-lg hover:bg-muted/50 transition-colors w-full"
+                                >
+                                    <div className={`p-2 rounded-full ${activity.bgColor} flex-shrink-0`}>
+                                        <activity.icon className={`w-4 h-4 sm:w-5 sm:h-5 ${activity.color}`} />
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                                            <h3 className="font-medium text-sm sm:text-base truncate">
+                                                {activity.title}
+                                            </h3>
+                                            <span className="text-xs text-muted-foreground whitespace-nowrap">
+                                                {activity.time}
+                                            </span>
+                                        </div>
+                                        <p className="text-sm text-muted-foreground mt-1 truncate">
+                                            {activity.description}
+                                        </p>
+                                    </div>
+                                </div>
+                            ))}
+                        </motion.div>
+                    </CardContent>
+                </Card>
+
+                {/* Sidebar Cards */}
+                <div className="space-y-6">
+                    {/* Quick Actions */}
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="text-lg sm:text-xl">Quick Actions</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="grid grid-cols-1 gap-3">
+                                {[
+                                    { label: "Add New Service", icon: FileText, variant: "default" as const },
+                                    { label: "View Calendar", icon: Calendar, variant: "outline" as const },
+                                    { label: "Generate Report", icon: FileText, variant: "outline" as const },
+                                    { label: "Message Center", icon: Mail, variant: "outline" as const },
+                                ].map((action, index) => (
+                                    <Button
+                                        key={index}
+                                        variant={action.variant}
+                                        className="w-full justify-start gap-2 h-auto py-3 px-4 text-sm"
+                                    >
+                                        <action.icon className="w-4 h-4 flex-shrink-0" />
+                                        <span className="truncate">{action.label}</span>
+                                    </Button>
+                                ))}
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    {/* Performance Summary */}
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="text-lg sm:text-xl">Performance Summary</CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                            <div>
+                                <div className="flex items-center justify-between mb-2">
+                                    <div className="flex items-center gap-2">
+                                        <Target className="w-4 h-4 text-muted-foreground" />
+                                        <span className="text-sm text-muted-foreground">Monthly Target</span>
+                                    </div>
+                                    <span className="font-medium text-sm">85%</span>
+                                </div>
+                                <div className="h-2 bg-muted rounded-full overflow-hidden w-full">
+                                    <div className="h-full bg-primary w-4/5"></div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <div className="flex items-center justify-between mb-2">
+                                    <div className="flex items-center gap-2">
+                                        <Clock className="w-4 h-4 text-muted-foreground" />
+                                        <span className="text-sm text-muted-foreground">Avg Response Time</span>
+                                    </div>
+                                    <span className="font-medium text-sm text-green-600">2.4h</span>
+                                </div>
+                                <div className="h-2 bg-muted rounded-full overflow-hidden w-full">
+                                    <div className="h-full bg-green-500 w-3/4"></div>
+                                </div>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </div>
+            </div>
         </div>
     )
 }
