@@ -1,13 +1,15 @@
-// import { VendorMarketplace } from "@/features/vendors/vendor-marketplace"
-// import { DashboardLayout } from "@/components/layout/dashboard-layout"
-// import { ProtectedRoute } from "@/components/auth/protected-route"
+"use client"
 
-// export default function VendorsPage() {
-//   return (
-//     <ProtectedRoute>
-//       <DashboardLayout>
-//         <VendorMarketplace />
-//       </DashboardLayout>
-//     </ProtectedRoute>
-//   )
-// }
+import { VendorDashboard } from "@/components/vendor-dashboard/vendor-dashboard"
+import { VendorLayout } from "@/components/layout/vendor-layout"
+import { ProtectedRoute } from "@/components/auth/protected-route"
+
+export default function VendorsPage() {
+    return (
+        <ProtectedRoute>
+            <VendorLayout>
+                <VendorDashboard />
+            </VendorLayout>
+        </ProtectedRoute>
+    )
+}
