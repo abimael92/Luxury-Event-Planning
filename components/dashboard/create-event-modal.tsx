@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import { motion, AnimatePresence } from "framer-motion"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
@@ -12,10 +12,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Calendar } from "@/components/ui/calendar"
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
 import { format } from "date-fns"
-import { CalendarIcon, MapPin, DollarSign, Users, Clock } from "lucide-react"
+import { CalendarIcon, MapPin, DollarSign, Users, Clock, Check } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { cn } from "@/shared/lib/utils"
-import { useTranslation } from "@/hooks/use-translation" // Add this import
+import { useTranslation } from "@/hooks/use-translation"
 
 interface CreateEventModalProps {
   open: boolean
@@ -48,282 +48,260 @@ const eventTypes = [
 
 export function CreateEventModal({ open, onOpenChange }: CreateEventModalProps) {
   const [step, setStep] = useState(1)
-  const [date, setDate] = useState<Date>()
+  const [date, setDate] = useState<Date | undefined>()
   const [isLoading, setIsLoading] = useState(false)
+  const [success, setSuccess] = useState(false)
   const { toast } = useToast()
-  const { t } = useTranslation() // Add this hook
+  const { t } = useTranslation()
 
   const {
     register,
     handleSubmit,
     setValue,
     watch,
+    reset,
     formState: { errors },
-  } = useForm<EventFormData>()
+  } = useForm<EventFormData>({
+    defaultValues: { eventType: "", guestCount: 50, budget: 500 },
+  })
+
+  useEffect(() => {
+    if (!open) {
+      // reset UI when modal closes
+      setStep(1)
+      setDate(undefined)
+      setSuccess(false)
+      reset()
+    }
+  }, [open, reset])
 
   const onSubmit = async (data: EventFormData) => {
     setIsLoading(true)
     try {
-      // TODO: Implement actual event creation
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-      toast({
-        title: t('events.create.success.title'),
-        description: t('events.create.success.description'),
-      })
-      onOpenChange(false)
-      setStep(1)
-    } catch (error) {
-      toast({
-        title: t('common.error'),
-        description: t('events.create.error.description'),
-        variant: "destructive",
-      })
+      // simulate API
+      await new Promise((r) => setTimeout(r, 900))
+      setSuccess(true)
+      toast({ title: t('events.create.success.title'), description: t('events.create.success.description') })
+      // keep success state briefly so user sees animation
+      setTimeout(() => {
+        onOpenChange(false)
+        setSuccess(false)
+        setStep(1)
+        reset()
+      }, 900)
+    } catch (e) {
+      toast({ title: t('common.error'), description: t('events.create.error.description'), variant: 'destructive' })
     } finally {
       setIsLoading(false)
     }
   }
 
-  const nextStep = () => setStep(step + 1)
-  const prevStep = () => setStep(step - 1)
+  const nextStep = () => setStep((s) => Math.min(3, s + 1))
+  const prevStep = () => setStep((s) => Math.max(1, s - 1))
+
+  // small helpers for accessibility and UI
+  const currentProgress = (step / 3) * 100
+  const title = watch("title")
+
+  const stepVariants = {
+    hidden: { opacity: 0, x: 24 },
+    enter: { opacity: 1, x: 0, transition: { type: 'spring', stiffness: 260, damping: 30 } },
+    exit: { opacity: 0, x: -24, transition: { duration: 0.18 } },
+  }
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-[680px] max-h-[90vh] overflow-hidden">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-heading">{t('events.create.title')}</DialogTitle>
-          <DialogDescription>{t('events.create.description')}</DialogDescription>
+          <DialogTitle className="text-2xl font-heading flex items-center gap-3">
+            <span>{t('events.create.title')}</span>
+            <span className="text-sm text-muted-foreground">{title ? `— ${title}` : ''}</span>
+          </DialogTitle>
+          <DialogDescription className="text-sm text-muted-foreground">{t('events.create.description')}</DialogDescription>
         </DialogHeader>
 
-        {/* Progress Indicator */}
-        <div className="flex items-center justify-center space-x-2 mb-6">
-          {[1, 2, 3].map((i) => (
-            <div
-              key={i}
-              className={cn(
-                "w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-all",
-                i === step
-                  ? "bg-primary text-white"
-                  : i < step
-                    ? "bg-green-500 text-white"
-                    : "bg-muted text-muted-foreground",
-              )}
-            >
-              {i}
+        {/* Progress bar + Step labels */}
+        <div className="px-6 mt-4">
+          <div className="w-full bg-muted rounded-full h-2 overflow-hidden">
+            <motion.div
+              className="h-2 bg-gradient-to-r from-indigo-500 via-purple-500 to-rose-500"
+              initial={{ width: 0 }}
+              animate={{ width: `${currentProgress}%` }}
+              transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+            />
+          </div>
+
+          {/* Step labels with translations */}
+          <div className="flex justify-between items-center mt-3 text-xs text-muted-foreground">
+            <div className={cn('flex items-center gap-2', step === 1 && 'text-primary')}>
+              1. {t('events.create.steps.details')}
             </div>
-          ))}
+            <div className={cn('flex items-center gap-2', step === 2 && 'text-primary')}>
+              2. {t('events.create.steps.whenWhere')}
+            </div>
+            <div className={cn('flex items-center gap-2', step === 3 && 'text-primary')}>
+              3. {t('events.create.steps.budget')}
+            </div>
+          </div>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <AnimatePresence mode="wait">
-            {step === 1 && (
-              <motion.div
-                key="step1"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                className="space-y-4"
-              >
-                <div className="space-y-2">
-                  <Label htmlFor="title">{t('events.create.fields.title')}</Label>
-                  <Input
-                    id="title"
-                    placeholder={t('events.create.placeholders.title')}
-                    {...register("title", {
-                      required: t('events.create.validation.titleRequired')
-                    })}
-                  />
-                  {errors.title && <p className="text-sm text-destructive">{errors.title.message}</p>}
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="eventType">{t('events.create.fields.eventType')}</Label>
-                  <Select onValueChange={(value) => setValue("eventType", value)}>
-                    <SelectTrigger>
-                      <SelectValue placeholder={t('events.create.placeholders.eventType')} />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {eventTypes.map((type) => (
-                        <SelectItem key={type} value={type}>
-                          {t(`events.types.${type.toLowerCase().replace(' ', '')}`)}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  {errors.eventType && <p className="text-sm text-destructive">{errors.eventType.message}</p>}
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="description">{t('events.create.fields.description')}</Label>
-                  <Textarea
-                    id="description"
-                    placeholder={t('events.create.placeholders.description')}
-                    className="min-h-[100px]"
-                    {...register("description")}
-                  />
-                </div>
-              </motion.div>
-            )}
-
-            {step === 2 && (
-              <motion.div
-                key="step2"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                className="space-y-4"
-              >
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label>{t('events.create.fields.date')}</Label>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant="outline"
-                          className={cn("w-full justify-start text-left font-normal", !date && "text-muted-foreground")}
-                        >
-                          <CalendarIcon className="mr-2 h-4 w-4" />
-                          {date ? format(date, "PPP") : t('events.create.placeholders.date')}
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0">
-                        <Calendar
-                          mode="single"
-                          selected={date}
-                          onSelect={(date) => {
-                            setDate(date)
-                            setValue("date", date!)
-                          }}
-                          initialFocus
-                        />
-                      </PopoverContent>
-                    </Popover>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="time">{t('events.create.fields.time')}</Label>
-                    <div className="relative">
-                      <Clock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+        <form onSubmit={handleSubmit(onSubmit)} className="p-6">
+          <AnimatePresence mode="wait" initial={false}>
+            {!success ? (
+              <motion.div key={`form-step-${step}`} variants={stepVariants} initial="hidden" animate="enter" exit="exit">
+                {step === 1 && (
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="title">{t('events.create.fields.title')}</Label>
                       <Input
-                        id="time"
-                        type="time"
-                        className="pl-10"
-                        {...register("time", {
-                          required: t('events.create.validation.timeRequired')
-                        })}
+                        id="title"
+                        placeholder={t('events.create.placeholders.title')}
+                        className="ring-1 ring-transparent focus:ring-primary/50 transition-shadow"
+                        {...register('title', { required: t('events.create.validation.titleRequired') })}
+                        aria-invalid={!!errors.title}
                       />
+                      {errors.title && <p role="alert" className="text-sm text-destructive">{errors.title.message}</p>}
                     </div>
-                    {errors.time && <p className="text-sm text-destructive">{errors.time.message}</p>}
-                  </div>
-                </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="location">{t('events.create.fields.location')}</Label>
-                  <div className="relative">
-                    <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      id="location"
-                      placeholder={t('events.create.placeholders.location')}
-                      className="pl-10"
-                      {...register("location", {
-                        required: t('events.create.validation.locationRequired')
-                      })}
-                    />
-                  </div>
-                  {errors.location && <p className="text-sm text-destructive">{errors.location.message}</p>}
-                </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="eventType">{t('events.create.fields.eventType')}</Label>
+                      <Select onValueChange={(value) => setValue('eventType', value)}>
+                        <SelectTrigger className="w-full">
+                          <SelectValue placeholder={t('events.create.placeholders.eventType')} />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {eventTypes.map((type) => (
+                            <SelectItem key={type} value={type}>{t(`events.types.${type.toLowerCase().replace(/\s+/g, '')}`) || type}</SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      {errors.eventType && <p className="text-sm text-destructive">{errors.eventType.message}</p>}
+                    </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="guestCount">{t('events.create.fields.guestCount')}</Label>
-                  <div className="relative">
-                    <Users className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      id="guestCount"
-                      type="number"
-                      placeholder="150"
-                      className="pl-10"
-                      {...register("guestCount", {
-                        required: t('events.create.validation.guestCountRequired'),
-                        min: {
-                          value: 1,
-                          message: t('events.create.validation.guestCountMin')
-                        },
-                      })}
-                    />
+                    <div className="space-y-2">
+                      <Label htmlFor="description">{t('events.create.fields.description')}</Label>
+                      <Textarea id="description" placeholder={t('events.create.placeholders.description')} className="min-h-[120px]" {...register('description')} />
+                    </div>
                   </div>
-                  {errors.guestCount && <p className="text-sm text-destructive">{errors.guestCount.message}</p>}
+                )}
+
+                {step === 2 && (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label>{t('events.create.fields.date')}</Label>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button variant="outline" className={cn('w-full justify-start text-left font-normal', !date && 'text-muted-foreground')}>
+                            <CalendarIcon className="mr-2 h-4 w-4" />
+                            {date ? format(date, 'PPP') : t('events.create.placeholders.date')}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0">
+                          <Calendar
+                            mode="single"
+                            selected={date}
+                            onSelect={(d) => { setDate(d); setValue('date', d!) }}
+                            initialFocus
+                          />
+                        </PopoverContent>
+                      </Popover>
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="time">{t('events.create.fields.time')}</Label>
+                      <div className="relative">
+                        <Clock className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                        <Input id="time" type="time" className="pl-10" {...register('time', { required: t('events.create.validation.timeRequired') })} />
+                      </div>
+                      {errors.time && <p className="text-sm text-destructive">{errors.time.message}</p>}
+                    </div>
+
+                    <div className="md:col-span-2 space-y-2">
+                      <Label htmlFor="location">{t('events.create.fields.location')}</Label>
+                      <div className="relative">
+                        <MapPin className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                        <Input id="location" placeholder={t('events.create.placeholders.location')} className="pl-10" {...register('location', { required: t('events.create.validation.locationRequired') })} />
+                      </div>
+                      {errors.location && <p className="text-sm text-destructive">{errors.location.message}</p>}
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="guestCount">{t('events.create.fields.guestCount')}</Label>
+                      <div className="relative">
+                        <Users className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                        <Input id="guestCount" type="number" placeholder="150" className="pl-10" {...register('guestCount', { required: t('events.create.validation.guestCountRequired'), min: { value: 1, message: t('events.create.validation.guestCountMin') } })} />
+                      </div>
+                      {errors.guestCount && <p className="text-sm text-destructive">{errors.guestCount.message}</p>}
+                    </div>
+
+                  </div>
+                )}
+
+                {step === 3 && (
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="budget">{t('events.create.fields.budget')}</Label>
+                      <div className="relative">
+                        <DollarSign className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                        <Input id="budget" type="number" placeholder="50000" className="pl-10" {...register('budget', { required: t('events.create.validation.budgetRequired'), min: { value: 100, message: t('events.create.validation.budgetMin') } })} />
+                      </div>
+                      {errors.budget && <p className="text-sm text-destructive">{errors.budget.message}</p>}
+                      <p className="text-sm text-muted-foreground">{t('events.create.budgetHelp')}</p>
+                    </div>
+
+                    <div className="bg-muted/50 p-4 rounded-lg">
+                      <h4 className="font-semibold mb-2">{t('events.create.nextSteps.title')}</h4>
+                      <ul className="text-sm text-muted-foreground space-y-1">
+                        <li>• {t('events.create.nextSteps.step1')}</li>
+                        <li>• {t('events.create.nextSteps.step2')}</li>
+                        <li>• {t('events.create.nextSteps.step3')}</li>
+                        <li>• {t('events.create.nextSteps.step4')}</li>
+                      </ul>
+                    </div>
+                  </div>
+                )}
+
+                {/* Controls */}
+                <div className="flex items-center justify-between gap-4 mt-6">
+                  <div className="flex items-center gap-2">
+                    <Button type="button" variant="ghost" onClick={prevStep} disabled={step === 1}>{t('common.previous')}</Button>
+                    {/* Step counter with translation */}
+                    <div className="text-sm text-muted-foreground">
+                      {t('events.create.steps.counter').replace('{step}', step.toString())}
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-3">
+                    {step < 3 ? (
+                      <Button type="button" onClick={nextStep} className="flex items-center gap-2">
+                        {t('common.next')}
+                      </Button>
+                    ) : (
+                      <Button type="submit" className="gradient-royal text-white flex items-center gap-2" disabled={isLoading}>
+                        {isLoading ? (
+                          <span className="animate-pulse">{t('events.create.creating')}</span>
+                        ) : (
+                          <>
+                            <span>{t('events.create.createButton')}</span>
+                            <Check className="h-4 w-4" />
+                          </>
+                        )}
+                      </Button>
+                    )}
+                  </div>
                 </div>
               </motion.div>
-            )}
-
-            {step === 3 && (
-              <motion.div
-                key="step3"
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                className="space-y-4"
-              >
-                <div className="space-y-2">
-                  <Label htmlFor="budget">{t('events.create.fields.budget')}</Label>
-                  <div className="relative">
-                    <DollarSign className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                    <Input
-                      id="budget"
-                      type="number"
-                      placeholder="50000"
-                      className="pl-10"
-                      {...register("budget", {
-                        required: t('events.create.validation.budgetRequired'),
-                        min: {
-                          value: 100,
-                          message: t('events.create.validation.budgetMin')
-                        },
-                      })}
-                    />
-                  </div>
-                  {errors.budget && <p className="text-sm text-destructive">{errors.budget.message}</p>}
-                  <p className="text-sm text-muted-foreground">
-                    {t('events.create.budgetHelp')}
-                  </p>
-                </div>
-
-                <div className="bg-muted/50 p-4 rounded-lg">
-                  <h4 className="font-semibold mb-2">{t('events.create.nextSteps.title')}</h4>
-                  <ul className="text-sm text-muted-foreground space-y-1">
-                    <li>• {t('events.create.nextSteps.step1')}</li>
-                    <li>• {t('events.create.nextSteps.step2')}</li>
-                    <li>• {t('events.create.nextSteps.step3')}</li>
-                    <li>• {t('events.create.nextSteps.step4')}</li>
-                  </ul>
-                </div>
+            ) : (
+              // success animation
+              <motion.div key="success" initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0 }} className="flex flex-col items-center justify-center py-12">
+                <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ type: 'spring', stiffness: 300, damping: 18 }} className="bg-green-50 rounded-full p-4">
+                  <Check className="h-8 w-8 text-green-600" />
+                </motion.div>
+                <h3 className="mt-4 text-lg font-semibold">{t('events.create.success.title')}</h3>
+                <p className="text-sm text-muted-foreground mt-2">{t('events.create.success.description')}</p>
               </motion.div>
             )}
           </AnimatePresence>
-
-          <div className="flex justify-between mt-6">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={prevStep}
-              disabled={step === 1}
-            >
-              {t('common.previous')}
-            </Button>
-
-            {step < 3 ? (
-              <Button type="button" onClick={nextStep}>
-                {t('common.next')}
-              </Button>
-            ) : (
-              <Button
-                type="submit"
-                className="gradient-royal text-white"
-                disabled={isLoading}
-              >
-                {isLoading ? t('events.create.creating') : t('events.create.createButton')}
-              </Button>
-            )}
-          </div>
         </form>
       </DialogContent>
     </Dialog>
