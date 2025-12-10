@@ -294,6 +294,12 @@
             "description": "Let's plan your perfect event together",
             "createButton": "Create Event",
             "creating": "Creating Event...",
+            "steps": {
+                "details": "Detalles",
+                "whenWhere": "Cuándo y Dónde",
+                "budget": "Presupuesto",
+                "counter": "Paso {step} de 3"
+            },
             "success": {
                 "title": "Event Created!",
                 "description": "Your event has been created successfully."
