@@ -32,7 +32,7 @@ export function HeroSection() {
       eventPlanning: "Planificación de Eventos",
       heroTitle: "Tu Planificador de Eventos Personal",
       heroDescription: "Conecta con proveedores premium, gestiona eventos y crea experiencias inolvidables con nuestro mercado curado.",
-      startPlanning: "Comenzar a Planificar",
+      startPlanning: "Comenzar",
       browseVendors: "Ver Proveedores",
       features: [
         { title: "Proveedores Seleccionados", desc: "DJs premium, lugares, catering y más" },
@@ -150,7 +150,7 @@ export function HeroSection() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8, duration: 0.6 }}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 max-w-4xl mx-auto px-2 sm:px-4"
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8 max-w-4xl mx-auto px-2 sm:px-4 "
             >
               {t.features.map((feature, index) => (
                 <motion.div
@@ -158,16 +158,31 @@ export function HeroSection() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.9 + index * 0.1, duration: 0.5 }}
-                  className="text-center p-4 sm:p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/20 transition-all duration-300"
+                  className="text-center p-4 sm:p-6 rounded-xl bg-card/50 backdrop-blur-sm border border-border/50 hover:border-primary/20 transition-all duration-300 group hover:scale-105 hover:shadow-xl hover:shadow-primary/10 cursor-pointer"
                 >
-                  <h3 className="font-heading font-semibold text-xl sm:text-xl mb-2">{feature.title}</h3>
-                  <p className="text-slate-800 text-base sm:text-lg">{feature.desc}</p>
+                  <div className="mb-2 h-14 sm:mb-3">
+                    <h3 className="font-semibold text-xl sm:text-xl mb-2 font-luxury text-violet-950 group-hover:text-primary/80 transition-colors duration-300">
+                      {feature.title}
+                    </h3>
+                    {/* Elegant gradient divider that grows on hover */}
+                    <div className="relative h-0.5 w-20 mx-auto transition-all duration-500 group-hover:w-32 group-hover:h-1">
+                      {/* Static line */}
+                      <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-primary/60 to-transparent rounded-full" />
+
+                      {/* Glow effect on hover */}
+                      <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-primary/40 via-primary/80 to-primary/40 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-[1px]" />
+                    </div>
+                  </div>
+
+                  <p className="text-base text-sky-950 sm:text-lg group-hover:text-sky-900 transition-colors duration-300">
+                    {feature.desc}
+                  </p>
                 </motion.div>
               ))}
             </motion.div>
           </motion.div>
         </div>
-      </section>
+      </section >
 
       {/* Create Event Modal */}
       {/* <CreateEventModal open={createEventOpen} onOpenChange={setCreateEventOpen} /> */}
