@@ -287,5 +287,87 @@
             "completed": "completed"
         },
         "guestsLabel": "guests"
+    },
+    "events": {
+        "create": {
+            "title": "Create New Event",
+            "description": "Let's plan your perfect event together",
+            "createButton": "Create Event",
+            "creating": "Creating Event...",
+            "steps": {
+                "details": "Detalles",
+                "whenWhere": "Cuándo y Dónde",
+                "budget": "Presupuesto",
+                "counter": "Paso {step} de 3"
+            },
+            "success": {
+                "title": "Event Created!",
+                "description": "Your event has been created successfully."
+            },
+            "error": {
+                "title": "Creation failed",
+                "description": "Please try again later."
+            },
+            "fields": {
+                "title": "Event Title",
+                "eventType": "Event Type",
+                "description": "Description",
+                "date": "Event Date",
+                "time": "Event Time",
+                "location": "Location",
+                "guestCount": "Expected Guest Count",
+                "budget": "Total Budget"
+            },
+            "placeholders": {
+                "title": "Sarah & Michael's Wedding",
+                "eventType": "Select event type",
+                "description": "Tell us about your vision for this event...",
+                "date": "Pick a date",
+                "location": "The Grand Ballroom, Downtown",
+                "guestCount": "150"
+            },
+            "validation": {
+                "titleRequired": "Event title is required",
+                "timeRequired": "Event time is required",
+                "locationRequired": "Location is required",
+                "guestCountRequired": "Guest count is required",
+                "guestCountMin": "Must have at least 1 guest",
+                "budgetRequired": "Budget is required",
+                "budgetMin": "Budget must be at least $100"
+            },
+            "budgetHelp": "This helps us recommend vendors within your price range",
+            "nextSteps": {
+                "title": "What's Next?",
+                "step1": "We'll create your event dashboard",
+                "step2": "Browse and connect with premium vendors",
+                "step3": "Track your budget and planning progress",
+                "step4": "Manage contracts and payments securely"
+            }
+        },
+        "types": {
+            "wedding": "Wedding",
+            "corporateevent": "Corporate Event",
+            "birthdayparty": "Birthday Party",
+            "anniversary": "Anniversary",
+            "babyshower": "Baby Shower",
+            "graduation": "Graduation",
+            "holidayparty": "Holiday Party",
+            "fundraiser": "Fundraiser",
+            "productlaunch": "Product Launch",
+            "other": "Other"
+        }
+    },
+    "common": {
+        "previous": "Previous",
+        "next": "Next",
+        "error": "Error",
+        "submit": "Submit",
+        "cancel": "Cancel",
+        "save": "Save",
+        "delete": "Delete",
+        "edit": "Edit",
+        "create": "Create",
+        "viewAll": "View All",
+        "seeMore": "See More"
     }
 }

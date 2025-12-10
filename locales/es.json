@@ -287,5 +287,87 @@
             "completed": "completado"
         },
         "guestsLabel": "invitados"
+    },
+    "events": {
+        "create": {
+            "title": "Crear Nuevo Evento",
+            "description": "Planifiquemos tu evento perfecto juntos",
+            "createButton": "Crear Evento",
+            "creating": "Creando Evento...",
+            "steps": {
+                "details": "Detalles",
+                "whenWhere": "Cuándo y Dónde",
+                "budget": "Presupuesto",
+                "counter": "Paso {step} de 3"
+            },
+            "success": {
+                "title": "¡Evento Creado!",
+                "description": "Tu evento ha sido creado exitosamente."
+            },
+            "error": {
+                "title": "Creación fallida",
+                "description": "Por favor intenta más tarde."
+            },
+            "fields": {
+                "title": "Título del Evento",
+                "eventType": "Tipo de Evento",
+                "description": "Descripción",
+                "date": "Fecha del Evento",
+                "time": "Hora del Evento",
+                "location": "Ubicación",
+                "guestCount": "Número Esperado de Invitados",
+                "budget": "Presupuesto Total"
+            },
+            "placeholders": {
+                "title": "Boda de Sarah y Michael",
+                "eventType": "Seleccionar tipo de evento",
+                "description": "Cuéntanos sobre tu visión para este evento...",
+                "date": "Seleccionar fecha",
+                "location": "El Gran Salón, Centro",
+                "guestCount": "150"
+            },
+            "validation": {
+                "titleRequired": "El título del evento es requerido",
+                "timeRequired": "La hora del evento es requerida",
+                "locationRequired": "La ubicación es requerida",
+                "guestCountRequired": "El número de invitados es requerido",
+                "guestCountMin": "Debe tener al menos 1 invitado",
+                "budgetRequired": "El presupuesto es requerido",
+                "budgetMin": "El presupuesto debe ser al menos $100"
+            },
+            "budgetHelp": "Esto nos ayuda a recomendar proveedores dentro de tu rango de precios",
+            "nextSteps": {
+                "title": "¿Qué Sigue?",
+                "step1": "Crearemos tu panel de control de eventos",
+                "step2": "Explora y conecta con proveedores premium",
+                "step3": "Sigue tu presupuesto y progreso de planificación",
+                "step4": "Gestiona contratos y pagos de manera segura"
+            }
+        },
+        "types": {
+            "wedding": "Boda",
+            "corporateevent": "Evento Corporativo",
+            "birthdayparty": "Fiesta de Cumpleaños",
+            "anniversary": "Aniversario",
+            "babyshower": "Baby Shower",
+            "graduation": "Graduación",
+            "holidayparty": "Fiesta de Vacaciones",
+            "fundraiser": "Recaudación de Fondos",
+            "productlaunch": "Lanzamiento de Producto",
+            "other": "Otro"
+        }
+    },
+    "common": {
+        "previous": "Anterior",
+        "next": "Siguiente",
+        "error": "Error",
+        "submit": "Enviar",
+        "cancel": "Cancelar",
+        "save": "Guardar",
+        "delete": "Eliminar",
+        "edit": "Editar",
+        "create": "Crear",
+        "viewAll": "Ver Todo",
+        "seeMore": "Ver Más"
     }
 }
