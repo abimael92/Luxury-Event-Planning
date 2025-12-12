@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { AuthSection } from "../../components/auth/auth-section"
-import { useAuth } from "@/core/contexts/auth-context"
+import { useAuth } from "../contexts/auth-context"
 
 export default function LoginPage() {
     const [mounted, setMounted] = useState(false)

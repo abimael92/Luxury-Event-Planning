@@ -4,7 +4,7 @@ import { Cinzel, Poppins, Inter, Playfair_Display } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
 import "./globals.css"
-import { AuthProvider } from "@/core/contexts/auth-context"
+import { AuthProvider } from "./contexts/auth-context"
 
 const poppins = Poppins({
   subsets: ["latin"],
