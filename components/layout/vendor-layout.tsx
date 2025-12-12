@@ -3,7 +3,7 @@
 import { ReactNode, useState } from "react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
-import { cn } from "@/shared/lib/utils"
+import { cn } from "../../app/shared/lib/utils"
 import {
     LogOut,
     LayoutDashboard,
@@ -31,7 +31,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-import { useAuth } from "@/core/contexts/auth-context" // Add this import
+import { useAuth } from "../../app/contexts/auth-context" // Add this import
 
 
 

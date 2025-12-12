@@ -115,7 +115,7 @@ export function AgendaBuilder() {
             <CardContent>
               <Reorder.Group axis="y" values={agenda} onReorder={setAgenda} className="space-y-3">
                 {agenda.map((item) => {
-                  const IconComponent = activityIcons[item.type]
+                  const IconComponent = activityIcons[item.type as keyof typeof activityIcons]
                   return (
                     <Reorder.Item key={item.id} value={item}>
                       <motion.div

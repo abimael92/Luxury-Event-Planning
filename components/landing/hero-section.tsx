@@ -5,7 +5,7 @@ import { motion } from "framer-motion"
 import { Button } from "../ui/button"
 // import { CreateEventModal } from "../events/create-event-modal"
 import { useRouter } from "next/navigation"
-import { useAuth } from "@/core/contexts/auth-context"
+import { useAuth } from "../../app/contexts/auth-context"
 import { ArrowRight, Sparkles, Languages } from "lucide-react"
 
 export function HeroSection() {
