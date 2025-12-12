@@ -21,8 +21,8 @@ import {
   TrendingUp,
   LogOut
 } from "lucide-react"
-import { cn } from "@/shared/lib/utils"
-import { useAuth } from "@/core/contexts/auth-context"
+import { cn } from "../../app/shared/lib/utils"
+import { useAuth } from "../../app/contexts/auth-context"
 import { Badge } from "@/components/ui/badge"
 import { useTranslation } from "@/hooks/use-translation"
 

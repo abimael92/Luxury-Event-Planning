@@ -10,7 +10,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Eye, EyeOff, Mail, Lock, User, Chrome } from "lucide-react"
 import { useToast } from "@/hooks/use-toast"
 import { useRouter } from "next/navigation"
-import { useAuth } from "@/core/contexts/auth-context"
+import { useAuth } from "../../app/contexts/auth-context"
 import { useTranslation } from "@/hooks/use-translation"
 
 interface RegisterFormData {

@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { HeroSection } from "../components/landing/hero-section"
-import { useAuth } from "@/core/contexts/auth-context"
+import { useAuth } from "./contexts/auth-context"
 
 export default function HomePage() {
   const [mounted, setMounted] = useState(false)

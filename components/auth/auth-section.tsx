@@ -10,7 +10,7 @@ import { VendorRegisterForm } from "./vendor-register-form"
 import { ForgotPasswordForm } from "./forgot-password-form"
 import { useTranslation } from "@/hooks/use-translation"
 import { ArrowLeft, Languages, User, Building, Sparkles, ChevronDown, Sun, Moon, Clock } from "lucide-react"
-import { useAuth } from "@/core/contexts/auth-context"
+import { useAuth } from "../../app/contexts/auth-context"
 import { useToast } from "@/hooks/use-toast"
 import { useRouter } from "next/navigation"
 

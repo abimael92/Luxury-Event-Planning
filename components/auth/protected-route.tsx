@@ -1,10 +1,9 @@
 "use client"
 
 import type React from "react"
-
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
-import { useAuth } from "@/core/contexts/auth-context"
+import { useAuth } from "../../app/contexts/auth-context"
 
 interface ProtectedRouteProps {
   children: React.ReactNode
@@ -13,26 +12,29 @@ interface ProtectedRouteProps {
 export function ProtectedRoute({ children }: ProtectedRouteProps) {
   const { isAuthenticated, isLoading } = useAuth()
   const router = useRouter()
+  const [mounted, setMounted] = useState(false)
 
+  // This ensures server and client render the same initially
   useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
+    setMounted(true)
+  }, [])
+
+  // Don't check auth until component is mounted (client-side)
+  useEffect(() => {
+    if (mounted && !isLoading && !isAuthenticated) {
       router.push("/")
     }
-  }, [isAuthenticated, isLoading, router])
+  }, [isAuthenticated, isLoading, router, mounted])
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-background">
-        <div className="text-center space-y-4">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="text-muted-foreground">Loading...</p>
-        </div>
-      </div>
-    )
+  // During SSR and initial client render, show the children
+  // This makes server and client HTML match
+  if (!mounted || isLoading) {
+    return <>{children}</>
   }
 
+  // Only redirect on client after checking auth
   if (!isAuthenticated) {
-    return null // Will redirect to home
+    return null // Will redirect in useEffect
   }
 
   return <>{children}</>

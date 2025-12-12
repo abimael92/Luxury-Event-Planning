@@ -27,8 +27,8 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined)
 const REAL_USERS = {
   "client@client.com": {
     id: "1",
-    firstName: "Sophia",
-    lastName: "Chen",
+    firstName: "Abimael",
+    lastName: "Garcia",
     email: "client@client.com",
     userType: "client" as const,
     membershipTier: "Premium Member",
@@ -49,7 +49,7 @@ const REAL_USERS = {
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
     const storedUser = localStorage.getItem("planora_user")
