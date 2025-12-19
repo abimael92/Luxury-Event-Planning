@@ -1,5 +1,7 @@
 {
 	"compilerOptions": {
+		"ignoreDeprecations": "6.0",
+		"baseUrl": ".",
 		"target": "ES2017",
 		"lib": ["dom", "dom.iterable", "esnext"],
 		"allowJs": true,
@@ -21,9 +23,13 @@
 		"paths": {
 			"@/*": ["./src/*"],
 			"@/core/*": ["./src/core/*"],
-			"@/shared/*": ["app/shared/*"],
+			"@/shared/*": ["./app/shared/*"],
 			"@/components/*": ["./components/*"],
-			"@/hooks/*": ["./hooks/*"]
+			"@/hooks/*": ["./hooks/*"],
+			"@/lib/*": ["./lib/*"],
+			"@/auth/*": ["./components/auth/*"],
+			"@/data/*": ["./data/*"]
+			
 		}
 	},
 	"include": [
