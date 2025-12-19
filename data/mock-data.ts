@@ -1,0 +1,93 @@
+// mock-data.ts
+export const mockGuestData = {
+	'1': [
+		{
+			id: '1',
+			name: 'María García',
+			email: 'maria@example.com',
+			phone: '+1 234 567 8901',
+			status: 'confirmed' as const,
+			plusOne: true,
+			dietaryRestrictions: 'Vegetariano',
+			notes: 'Tío de la novia',
+		},
+		{
+			id: '2',
+			name: 'Juan Rodríguez',
+			email: 'juan@example.com',
+			phone: '+1 234 567 8902',
+			status: 'invited' as const,
+			plusOne: false,
+			dietaryRestrictions: '',
+			notes: 'Amigo del colegio',
+		},
+	],
+	'2': [
+		{
+			id: '3',
+			name: 'Ana Martínez',
+			email: 'ana@example.com',
+			phone: '+1 234 567 8903',
+			status: 'confirmed' as const,
+			plusOne: true,
+			dietaryRestrictions: 'Sin gluten',
+			notes: 'Colaboradora',
+		},
+		{
+			id: '4',
+			name: 'Carlos López',
+			email: 'carlos@example.com',
+			phone: '+1 234 567 8904',
+			status: 'declined' as const,
+			plusOne: false,
+			dietaryRestrictions: '',
+			notes: 'Invitado especial',
+		},
+	],
+	'3': [
+		{
+			id: '5',
+			name: 'Sofía Hernández',
+			email: 'sofia@example.com',
+			phone: '+1 234 567 8905',
+			status: 'confirmed' as const,
+			plusOne: true,
+			dietaryRestrictions: 'Vegano',
+			notes: 'Familia',
+		},
+		{
+			id: '6',
+			name: 'Diego Pérez',
+			email: 'diego@example.com',
+			phone: '+1 234 567 8906',
+			status: 'invited' as const,
+			plusOne: false,
+			dietaryRestrictions: '',
+			notes: 'Amigo de la familia',
+		},
+	],
+	'4': [
+		{
+			id: '7',
+			name: 'Laura Torres',
+			email: 'laura@example.com',
+			phone: '+1 234 567 8907',
+			status: 'confirmed' as const,
+			plusOne: false,
+			dietaryRestrictions: 'Sin lácteos',
+			notes: 'Amiga cercana',
+		},
+		{
+			id: '8',
+			name: 'Miguel Sánchez',
+			email: 'miguel@example.com',
+			phone: '+1 234 567 8908',
+			status: 'pending' as const,
+			plusOne: true,
+			dietaryRestrictions: '',
+			notes: 'Vecino',
+		},
+	],
+};
+
+

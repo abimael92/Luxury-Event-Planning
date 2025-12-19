@@ -357,6 +357,12 @@
             "other": "Other"
         }
     },
+    "guestList": {
+        "title": "Guest List",
+        "description": "Manage and organize all your event guests",
+        "addGuest": "Add Guest",
+        "searchPlaceholder": "Search by name or email..."
+    },
     "common": {
         "previous": "Previous",
         "next": "Next",

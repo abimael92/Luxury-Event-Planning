@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useEffect, useState } from "react"
-import { useForm } from "react-hook-form"
+import { useForm, Controller } from 'react-hook-form'
 import { motion, AnimatePresence } from "framer-motion"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
@@ -25,7 +25,7 @@ interface CreateEventModalProps {
 interface EventFormData {
   title: string
   eventType: string
-  date: Date
+  date: Date | undefined
   time: string
   location: string
   budget: number
@@ -48,13 +48,13 @@ const eventTypes = [
 
 export function CreateEventModal({ open, onOpenChange }: CreateEventModalProps) {
   const [step, setStep] = useState(1)
-  const [date, setDate] = useState<Date | undefined>()
   const [isLoading, setIsLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const { toast } = useToast()
   const { t } = useTranslation()
 
   const {
+    control,
     register,
     handleSubmit,
     setValue,
@@ -62,14 +62,24 @@ export function CreateEventModal({ open, onOpenChange }: CreateEventModalProps) 
     reset,
     formState: { errors },
   } = useForm<EventFormData>({
-    defaultValues: { eventType: "", guestCount: 50, budget: 500 },
+    defaultValues: {
+      eventType: "",
+      guestCount: 50,
+      budget: 500,
+      date: undefined,
+      time: "",
+      location: "",
+      title: "",
+      description: ""
+    },
   })
+
+  const selectedDate = watch("date")
 
   useEffect(() => {
     if (!open) {
       // reset UI when modal closes
       setStep(1)
-      setDate(undefined)
       setSuccess(false)
       reset()
     }
@@ -165,16 +175,25 @@ export function CreateEventModal({ open, onOpenChange }: CreateEventModalProps) 
 
                     <div className="space-y-2">
                       <Label htmlFor="eventType">{t('events.create.fields.eventType')}</Label>
-                      <Select onValueChange={(value) => setValue('eventType', value)}>
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder={t('events.create.placeholders.eventType')} />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {eventTypes.map((type) => (
-                            <SelectItem key={type} value={type}>{t(`events.types.${type.toLowerCase().replace(/\s+/g, '')}`) || type}</SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                      <Controller
+                        control={control}
+                        name="eventType"
+                        rules={{ required: t('events.create.validation.eventTypeRequired') }}
+                        render={({ field }) => (
+                          <Select value={field.value} onValueChange={field.onChange}>
+                            <SelectTrigger className="w-full">
+                              <SelectValue placeholder={t('events.create.placeholders.eventType')} />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {eventTypes.map((type) => (
+                                <SelectItem key={type} value={type}>
+                                  {t(`events.types.${type.toLowerCase().replace(/\s+/g, '')}`) || type}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        )}
+                      />
                       {errors.eventType && <p className="text-sm text-destructive">{errors.eventType.message}</p>}
                     </div>
 
@@ -188,23 +207,21 @@ export function CreateEventModal({ open, onOpenChange }: CreateEventModalProps) 
                 {step === 2 && (
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label>{t('events.create.fields.date')}</Label>
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <Button variant="outline" className={cn('w-full justify-start text-left font-normal', !date && 'text-muted-foreground')}>
-                            <CalendarIcon className="mr-2 h-4 w-4" />
-                            {date ? format(date, 'PPP') : t('events.create.placeholders.date')}
-                          </Button>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0">
-                          <Calendar
-                            mode="single"
-                            selected={date}
-                            onSelect={(d) => { setDate(d); setValue('date', d!) }}
-                            initialFocus
-                          />
-                        </PopoverContent>
-                      </Popover>
+                      <Label htmlFor="date">{t('events.create.fields.date')} *</Label>
+                      <div className="relative">
+                        <CalendarIcon className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
+                        <Input
+                          id="date"
+                          type="date"
+                          className="pl-10"
+                          {...register('date', {
+                            required: t('events.create.validation.dateRequired'),
+                            setValueAs: (value) => value ? new Date(value) : undefined
+                          })}
+                          min={new Date().toISOString().split('T')[0]}
+                        />
+                      </div>
+                      {errors.date && <p className="text-sm text-destructive">{errors.date.message}</p>}
                     </div>
 
                     <div className="space-y-2">
@@ -229,11 +246,20 @@ export function CreateEventModal({ open, onOpenChange }: CreateEventModalProps) 
                       <Label htmlFor="guestCount">{t('events.create.fields.guestCount')}</Label>
                       <div className="relative">
                         <Users className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                        <Input id="guestCount" type="number" placeholder="150" className="pl-10" {...register('guestCount', { required: t('events.create.validation.guestCountRequired'), min: { value: 1, message: t('events.create.validation.guestCountMin') } })} />
+                        <Input
+                          id="guestCount"
+                          type="number"
+                          placeholder="150"
+                          className="pl-10"
+                          {...register('guestCount', {
+                            required: t('events.create.validation.guestCountRequired'),
+                            min: { value: 1, message: t('events.create.validation.guestCountMin') },
+                            valueAsNumber: true
+                          })}
+                        />
                       </div>
                       {errors.guestCount && <p className="text-sm text-destructive">{errors.guestCount.message}</p>}
                     </div>
-
                   </div>
                 )}
 
@@ -243,7 +269,17 @@ export function CreateEventModal({ open, onOpenChange }: CreateEventModalProps) 
                       <Label htmlFor="budget">{t('events.create.fields.budget')}</Label>
                       <div className="relative">
                         <DollarSign className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-                        <Input id="budget" type="number" placeholder="50000" className="pl-10" {...register('budget', { required: t('events.create.validation.budgetRequired'), min: { value: 100, message: t('events.create.validation.budgetMin') } })} />
+                        <Input
+                          id="budget"
+                          type="number"
+                          placeholder="50000"
+                          className="pl-10"
+                          {...register('budget', {
+                            required: t('events.create.validation.budgetRequired'),
+                            min: { value: 100, message: t('events.create.validation.budgetMin') },
+                            valueAsNumber: true
+                          })}
+                        />
                       </div>
                       {errors.budget && <p className="text-sm text-destructive">{errors.budget.message}</p>}
                       <p className="text-sm text-muted-foreground">{t('events.create.budgetHelp')}</p>
@@ -273,7 +309,15 @@ export function CreateEventModal({ open, onOpenChange }: CreateEventModalProps) 
 
                   <div className="flex items-center gap-3">
                     {step < 3 ? (
-                      <Button type="button" onClick={nextStep} className="flex items-center gap-2">
+                      <Button
+                        type="button"
+                        onClick={nextStep}
+                        className="flex items-center gap-2"
+                        disabled={
+                          (step === 1 && (!watch("title") || !watch("eventType"))) ||
+                          (step === 2 && (!watch("date") || !watch("time") || !watch("location") || !watch("guestCount")))
+                        }
+                      >
                         {t('common.next')}
                       </Button>
                     ) : (

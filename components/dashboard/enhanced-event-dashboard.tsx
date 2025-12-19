@@ -7,7 +7,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Progress } from "@/components/ui/progress"
 import { Plus, Calendar, Clock, Music, UserPlus } from "lucide-react"
 import { CreateEventModal } from "./create-event-modal"
+import { GuestList } from "./guest-list"
 import { useTranslation } from "@/hooks/use-translation"
+import { mockGuestData } from "@/data/mock-data"
 
 // Mock data with elegant event covers
 const upcomingEvents = [
@@ -70,8 +72,9 @@ const upcomingEvents = [
 ]
 
 export function EnhancedEventDashboard() {
-  const [showCreateModal, setShowCreateModal] = useState(false);
-  const { t } = useTranslation();
+  const [showCreateModal, setShowCreateModal] = useState(false)
+  const [selectedEventForGuests, setSelectedEventForGuests] = useState<typeof upcomingEvents[0] | null>(null)
+  const { t } = useTranslation()
 
   // Helper function to calculate days between dates
   const calculateDaysLeft = (eventDate: string): number => {
@@ -83,7 +86,15 @@ export function EnhancedEventDashboard() {
 
     const diffTime = event.getTime() - today.getTime()
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-    return Math.max(0, diffDays);
+    return Math.max(0, diffDays)
+  }
+  
+  const calculateGuestConfirmationRate = (eventId: string): number => {
+    const eventGuests = mockGuestData[eventId as keyof typeof mockGuestData] || []
+    if (eventGuests.length === 0) return 0
+
+    const confirmedCount = eventGuests.filter((g: { status: string }) => g.status === 'confirmed').length
+    return Math.round((confirmedCount / eventGuests.length) * 100)
   }
 
   // Sort events by date and find the next event
@@ -94,11 +105,26 @@ export function EnhancedEventDashboard() {
         daysLeft: calculateDaysLeft(event.date)
       }))
       .sort((a, b) => a.daysLeft - b.daysLeft)
-  }, []);
+  }, [])
 
   const nextEvent = sortedEvents[0]
   const totalBudget = sortedEvents.reduce((sum, event) => sum + event.budget, 0)
   const totalSpent = sortedEvents.reduce((sum, event) => sum + event.spent, 0)
+
+  // If viewing guest list for a specific event
+  if (selectedEventForGuests) {
+    return (
+      <GuestList
+        event={{
+          id: selectedEventForGuests.id,
+          title: selectedEventForGuests.title,
+          date: selectedEventForGuests.date,
+          location: selectedEventForGuests.location
+        }}
+        onBack={() => setSelectedEventForGuests(null)}
+      />
+    )
+  }
 
   return (
     <div className="w-full space-y-6 p-3 sm:p-4 md:p-6 overflow-x-hidden">
@@ -163,12 +189,7 @@ export function EnhancedEventDashboard() {
           </Button>
         </motion.div>
 
-        <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-          <Button variant="outline" className="w-full h-12 md:h-14 border hover:bg-primary/5 rounded-lg bg-transparent text-sm md:text-base">
-            <UserPlus className="w-4 h-4 md:w-5 md:h-5 mr-2" />
-            <span className="font-semibold truncate">{t('dashboard.events.guestList')}</span>
-          </Button>
-        </motion.div>
+
 
         <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
           <Button variant="outline" className="w-full h-12 md:h-14 border hover:bg-primary/5 rounded-lg bg-transparent text-sm md:text-base">
@@ -178,11 +199,11 @@ export function EnhancedEventDashboard() {
         </motion.div>
       </div>
 
-      {/* Upcoming Events */}
+      {/* Upcoming Events with individual guest list buttons */}
       <div className="space-y-4 w-full">
         <h2 className="text-lg md:text-xl font-heading font-semibold">{t('dashboard.events.upcomingEvents')}</h2>
         <div className="space-y-3 w-full">
-          {upcomingEvents.map((event, index) => (
+          {sortedEvents.map((event, index) => (
             <motion.div
               key={event.id}
               initial={{ opacity: 0, y: 20 }}
@@ -216,8 +237,10 @@ export function EnhancedEventDashboard() {
                         </p>
                       </div>
                       <div className="text-right flex-shrink-0">
+                      
                         <p className="text-lg md:text-xl font-bold text-primary">{event.daysLeft}</p>
                         <p className="text-xs text-muted-foreground">{t('dashboard.events.daysLeft')}</p>
+                
                       </div>
                     </div>
 
@@ -236,7 +259,48 @@ export function EnhancedEventDashboard() {
                       </div>
                     </div>
 
-                    <Progress value={event.progress} className="h-1.5" />
+                    <div className="space-y-3 mb-3 w-full pr-8">
+                      {/* Dual Progress Bars */}
+                      <div className="space-y-3 my-3">
+                        {/* Event Planning Progress */}
+                        <div className="w-full">
+                          <div className="flex justify-between text-xs mb-1">
+                            <span className="text-muted-foreground">Planificación del evento</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Progress value={event.progress} className="h-4 flex-1" />
+                            <span className="text-md font-bold text-violet-800 min-w-[2.5rem] text-right">{event.progress}%</span>
+                          </div>
+                        </div>
+
+                        {/* Guest Confirmation Progress */}
+                        <div className="w-full">
+                          <div className="flex justify-between text-xs mb-1">
+                            <span className="text-muted-foreground">Invitados confirmados</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <Progress
+                              value={calculateGuestConfirmationRate(event.id)}
+                              className="h-4 flex-1"
+                              indicatorClassName="bg-indigo-500"
+                            />
+                            <span className="text-md font-bold text-violet-800 min-w-[2.5rem] text-right">
+                              {calculateGuestConfirmationRate(event.id)}%
+                            </span>
+                          </div>
+                        </div>
+
+                      </div>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => setSelectedEventForGuests(event)}
+                        className="flex items-center border hover:bg-primary/5 rounded-lg bg-transparent text-sm md:text-base gap-2"
+                      >
+                        <UserPlus className="w-4 h-4 md:w-5 md:h-5 mr-2" />
+                        <span className="font-semibold truncate">{t('dashboard.events.guestList')}</span>
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </Card>
@@ -271,7 +335,7 @@ export function EnhancedEventDashboard() {
 
             {/* Progress visualization */}
             <div className="space-y-2">
-              {upcomingEvents.map((event) => (
+              {sortedEvents.map((event) => (
                 <div key={event.id} className="flex items-center gap-2">
                   <div
                     className="w-2.5 h-2.5 rounded-full flex-shrink-0"

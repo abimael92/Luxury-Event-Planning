@@ -179,6 +179,12 @@
             "remaining": "Restante"
         }
     },
+    "guestList": {
+        "title": "Lista de Invitados",
+        "description": "Gestiona y organiza todos los invitados a tu evento",
+        "addGuest": "Agregar Invitado",
+        "searchPlaceholder": "Buscar por nombre o email..."
+    },
     "vendorLayout": {
         "platformName": "EventFlow",
         "platformSubtitle": "Panel Proveedor",
