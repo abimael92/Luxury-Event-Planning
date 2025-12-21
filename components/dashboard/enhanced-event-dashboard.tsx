@@ -212,7 +212,8 @@ export function EnhancedEventDashboard() {
               className="w-full"
             >
               <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 border shadow-sm w-full">
-                <div className="flex flex-col sm:flex-row w-full">
+              <div className="flex flex-col w-full px-8 gap-2">
+                  <div className="flex flex-col sm:flex-row w-full">
                   {/* Elegant event cover */}
                   <div
                     className="w-full sm:w-24 md:w-28 h-24 flex-shrink-0 relative"
@@ -258,7 +259,10 @@ export function EnhancedEventDashboard() {
                         <p className="text-xs text-muted-foreground truncate">{t('dashboard.events.spent')}</p>
                       </div>
                     </div>
+                  </div>
+                </div>
 
+                  <div className="flex flex-col sm:flex-row w-full">
                     <div className="space-y-3 mb-3 w-full pr-8">
                       {/* Dual Progress Bars */}
                       <div className="space-y-3 my-3">
@@ -302,7 +306,8 @@ export function EnhancedEventDashboard() {
                       </Button>
                     </div>
                   </div>
-                </div>
+              </div>
+                  
               </Card>
             </motion.div>
           ))}
