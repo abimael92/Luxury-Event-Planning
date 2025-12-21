@@ -71,6 +71,42 @@
             "failed": "Application Failed",
             "tryAgain": "Please try again later"
         },
+        "providers": {
+            "title": "Vendors in Chihuahua",
+            "subtitle": "Find the best vendors for your event in Chihuahua. From music to decoration, all in one place.",
+            "searchPlaceholder": "Search vendors by name, service, or category...",
+            "clearFilters": "Clear filters",
+            "joinPrompt": "Are you a vendor in Chihuahua?",
+            "joinDescription": "Join our platform and reach more clients for their special events",
+            "registerBusiness": "Register my business",
+            "moreInfo": "More information",
+            "statistics": "Vendor Statistics in Chihuahua",
+            "statisticsDescription": "Summary of available vendors by category",
+            "categories": {
+                "music": "Music",
+                "decoration": "Decoration",
+                "food": "Food & Drinks",
+                "venues": "Venues",
+                "photography": "Photography & Video",
+                "transportation": "Transportation",
+                "entertainment": "Entertainment",
+                "all": "All Vendors"
+            },
+            "results": {
+                "found": "vendors found",
+                "found_singular": "vendor found",
+                "none": "No vendors found",
+                "noneDescription": "Try different search terms or select another category"
+            },
+            "vendorCard": {
+                "featured": "Featured",
+                "priceRange": "Price range",
+                "services": "Services offered:",
+                "moreServices": "+{count} more",
+                "call": "Call",
+                "email": "Email"
+            }
+        },
         "forgotPassword": {
             "title": "Reset Password",
             "description": "Enter your email to reset your password",
