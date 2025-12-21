@@ -71,6 +71,42 @@
             "failed": "Aplicación Fallida",
             "tryAgain": "Por favor intenta más tarde"
         },
+        "providers": {
+            "title": "Proveedores en Chihuahua",
+            "subtitle": "Encuentra los mejores proveedores para tu evento en Chihuahua. Desde música hasta decoración, todo en un solo lugar.",
+            "searchPlaceholder": "Buscar proveedores por nombre, servicio o categoría...",
+            "clearFilters": "Limpiar filtros",
+            "joinPrompt": "¿Eres proveedor en Chihuahua?",
+            "joinDescription": "Únete a nuestra plataforma y llega a más clientes para sus eventos especiales",
+            "registerBusiness": "Registrar mi negocio",
+            "moreInfo": "Más información",
+            "statistics": "Estadísticas de Proveedores en Chihuahua",
+            "statisticsDescription": "Resumen de proveedores disponibles por categoría",
+            "categories": {
+                "music": "Música",
+                "decoration": "Decoración",
+                "food": "Alimentos y Bebidas",
+                "venues": "Locaciones",
+                "photography": "Fotografía y Video",
+                "transportation": "Transporte",
+                "entertainment": "Entretenimiento",
+                "all": "Todos los Proveedores"
+            },
+            "results": {
+                "found": "proveedores encontrados",
+                "found_singular": "proveedor encontrado",
+                "none": "No se encontraron proveedores",
+                "noneDescription": "Intenta con otros términos de búsqueda o selecciona una categoría diferente"
+            },
+            "vendorCard": {
+                "featured": "Destacado",
+                "priceRange": "Rango de precios",
+                "services": "Servicios ofrecidos:",
+                "moreServices": "+{count} más",
+                "call": "Llamar",
+                "email": "Email"
+            }
+        },
         "forgotPassword": {
             "title": "Restablecer Contraseña",
             "description": "Ingresa tu correo para restablecer tu contraseña",

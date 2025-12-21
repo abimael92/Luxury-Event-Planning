@@ -10,6 +10,7 @@ import { CreateEventModal } from "./create-event-modal"
 import { GuestList } from "./guest-list"
 import { useTranslation } from "@/hooks/use-translation"
 import { mockGuestData } from "@/data/mock-data"
+import { useRouter } from "next/navigation"
 
 // Mock data with elegant event covers
 const upcomingEvents = [
@@ -72,6 +73,7 @@ const upcomingEvents = [
 ]
 
 export function EnhancedEventDashboard() {
+  const router = useRouter()
   const [showCreateModal, setShowCreateModal] = useState(false)
   const [selectedEventForGuests, setSelectedEventForGuests] = useState<typeof upcomingEvents[0] | null>(null)
   const { t } = useTranslation()
@@ -192,7 +194,7 @@ export function EnhancedEventDashboard() {
 
 
         <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-          <Button variant="outline" className="w-full h-12 md:h-14 border hover:bg-primary/5 rounded-lg bg-transparent text-sm md:text-base">
+          <Button variant="outline" className="w-full h-12 md:h-14 border hover:bg-primary/5 rounded-lg bg-transparent text-sm md:text-base" onClick={() => router.push('/dashboard/vendors')}>
             <Music className="w-4 h-4 md:w-5 md:h-5 mr-2" />
             <span className="font-semibold truncate">{t('dashboard.events.vendors')}</span>
           </Button>
