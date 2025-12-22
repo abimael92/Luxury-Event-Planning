@@ -41,7 +41,7 @@ export function DashboardLayout({ children }: DashboardLayoutProps) {
   const navigation = [
     { name: t('dashboard.navigation.dashboard'), href: "/dashboard", icon: Home, badge: 3 },
     { name: t('dashboard.navigation.myEvents'), href: "/dashboard/events", icon: Calendar, badge: 12 },
-    { name: t('dashboard.navigation.vendors'), href: "/dashboard/vendors", icon: Users, badge: 8 },
+    { name: t('dashboard.navigation.vendors'), href: "/dashboard/providers", icon: Users, badge: 8 },
     { name: t('dashboard.navigation.bookings'), href: "/dashboard/bookings", icon: BookOpen },
     { name: t('dashboard.navigation.messages'), href: "/dashboard/messages", icon: MessageSquare },
     { name: t('dashboard.navigation.payments'), href: "/dashboard/payments", icon: CreditCard },
