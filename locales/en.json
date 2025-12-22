@@ -71,42 +71,6 @@
             "failed": "Application Failed",
             "tryAgain": "Please try again later"
         },
-        "providers": {
-            "title": "Vendors in Chihuahua",
-            "subtitle": "Find the best vendors for your event in Chihuahua. From music to decoration, all in one place.",
-            "searchPlaceholder": "Search vendors by name, service, or category...",
-            "clearFilters": "Clear filters",
-            "joinPrompt": "Are you a vendor in Chihuahua?",
-            "joinDescription": "Join our platform and reach more clients for their special events",
-            "registerBusiness": "Register my business",
-            "moreInfo": "More information",
-            "statistics": "Vendor Statistics in Chihuahua",
-            "statisticsDescription": "Summary of available vendors by category",
-            "categories": {
-                "music": "Music",
-                "decoration": "Decoration",
-                "food": "Food & Drinks",
-                "venues": "Venues",
-                "photography": "Photography & Video",
-                "transportation": "Transportation",
-                "entertainment": "Entertainment",
-                "all": "All Vendors"
-            },
-            "results": {
-                "found": "vendors found",
-                "found_singular": "vendor found",
-                "none": "No vendors found",
-                "noneDescription": "Try different search terms or select another category"
-            },
-            "vendorCard": {
-                "featured": "Featured",
-                "priceRange": "Price range",
-                "services": "Services offered:",
-                "moreServices": "+{count} more",
-                "call": "Call",
-                "email": "Email"
-            }
-        },
         "forgotPassword": {
             "title": "Reset Password",
             "description": "Enter your email to reset your password",
@@ -136,6 +100,42 @@
             "businessNameRequired": "Business name is required",
             "locationRequired": "Location is required",
             "descriptionRequired": "Description is required"
+        }
+    },
+    "providers": {
+        "title": "Vendors in Chihuahua",
+        "subtitle": "Find the best vendors for your event in Chihuahua. From music to decoration, all in one place.",
+        "searchPlaceholder": "Search vendors by name, service, or category...",
+        "clearFilters": "Clear filters",
+        "joinPrompt": "Are you a vendor in Chihuahua?",
+        "joinDescription": "Join our platform and reach more clients for their special events",
+        "registerBusiness": "Register my business",
+        "moreInfo": "More information",
+        "statistics": "Vendor Statistics in Chihuahua",
+        "statisticsDescription": "Summary of available vendors by category",
+        "categories": {
+            "music": "Music",
+            "decoration": "Decoration",
+            "food": "Food & Drinks",
+            "venues": "Venues",
+            "photography": "Photography & Video",
+            "transportation": "Transportation",
+            "entertainment": "Entertainment",
+            "all": "All Vendors"
+        },
+        "results": {
+            "found": "vendors found",
+            "found_singular": "vendor found",
+            "none": "No vendors found",
+            "noneDescription": "Try different search terms or select another category"
+        },
+        "vendorCard": {
+            "featured": "Featured",
+            "priceRange": "Price range",
+            "services": "Services offered:",
+            "moreServices": "+{count} more",
+            "call": "Call",
+            "email": "Email"
         }
     },
     "dashboard": {
@@ -213,184 +213,6 @@
             "budgetDescription": "Track your spending across all events",
             "totalBudget": "Total Budget",
             "remaining": "Remaining"
-        }
-    },
-    "vendorLayout": {
-        "platformName": "EventFlow",
-        "platformSubtitle": "Vendor Suite",
-        "quickStats": "Quick Stats",
-        "search": {
-            "placeholder": "Search events, orders, customers..."
-        },
-        "navigation": {
-            "overview": "Overview",
-            "events": "Events",
-            "orders": "Orders",
-            "reservations": "Reservations",
-            "analytics": "Analytics",
-            "settings": "Settings"
-        },
-        "stats": {
-            "activeEvents": "Active Events",
-            "pendingOrders": "Pending Orders",
-            "thisMonth": "This Month"
-        },
-        "actions": {
-            "createEvent": "Create Event"
-        },
-        "user": {
-            "name": "Alex Vendor",
-            "plan": "Premium Plan"
-        }
-    },
-    "vendorDashboard": {
-        "welcome": "Welcome back,",
-        "thisMonth": "this month",
-        "subtitle": "Here's your business performance and upcoming events at a glance",
-        "stats": {
-            "activeBookings": "Active Bookings",
-            "totalRevenue": "Total Revenue",
-            "upcomingEvents": "Upcoming Events",
-            "satisfactionRate": "Satisfaction Rate",
-            "trends": {
-                "week": "this week",
-                "month": "this month",
-                "pending": "pending",
-                "improvement": "from last month"
-            },
-            "descriptions": {
-                "currentlyServing": "Currently serving",
-                "yearToDate": "Year-to-date",
-                "next30Days": "Next 30 days",
-                "customerRating": "Customer rating"
-            }
-        },
-        "activities": {
-            "booking": {
-                "title": "Corporate Gala 2024",
-                "description": "New booking confirmed"
-            },
-            "payment": {
-                "title": "Emma's Sweet 16",
-                "description": "Payment received successfully"
-            },
-            "message": {
-                "title": "Planora Events",
-                "description": "New inquiry about wedding package"
-            },
-            "review": {
-                "title": "Tech Conference 2024",
-                "description": "New 5-star review received"
-            }
-        },
-        "timeAgo": {
-            "hours": "hours ago",
-            "days": "days ago"
-        },
-        "upcomingEvents": {
-            "summerWedding": "Summer Wedding",
-            "corporateRetreat": "Corporate Retreat",
-            "charityGala": "Charity Gala"
-        },
-        "dateFormat": {
-            "nov25": "Nov 25, 2024",
-            "nov28": "Nov 28, 2024",
-            "dec2": "Dec 2, 2024"
-        },
-        "sections": {
-            "recentActivity": "Recent Activity",
-            "recentActivityDescription": "Latest updates and notifications",
-            "upcomingEvents": "Upcoming Events",
-            "upcomingEventsDescription": "Your schedule for the next week",
-            "quickActions": "Quick Actions",
-            "quickActionsDescription": "Frequently used tasks"
-        },
-        "badge": {
-            "new": "new"
-        },
-        "actions": {
-            "exportReport": "Export Report",
-            "newEvent": "New Event",
-            "viewAll": "View All",
-            "viewFullCalendar": "View Full Calendar",
-            "createEvent": "Create New Event",
-            "manageBookings": "Manage Bookings",
-            "viewAnalytics": "View Analytics"
-        },
-        "status": {
-            "confirmed": "confirmed",
-            "pending": "pending",
-            "completed": "completed"
-        },
-        "guestsLabel": "guests"
-    },
-    "events": {
-        "create": {
-            "title": "Create New Event",
-            "description": "Let's plan your perfect event together",
-            "createButton": "Create Event",
-            "creating": "Creating Event...",
-            "steps": {
-                "details": "Detalles",
-                "whenWhere": "Cuándo y Dónde",
-                "budget": "Presupuesto",
-                "counter": "Paso {step} de 3"
-            },
-            "success": {
-                "title": "Event Created!",
-                "description": "Your event has been created successfully."
-            },
-            "error": {
-                "title": "Creation failed",
-                "description": "Please try again later."
-            },
-            "fields": {
-                "title": "Event Title",
-                "eventType": "Event Type",
-                "description": "Description",
-                "date": "Event Date",
-                "time": "Event Time",
-                "location": "Location",
-                "guestCount": "Expected Guest Count",
-                "budget": "Total Budget"
-            },
-            "placeholders": {
-                "title": "Sarah & Michael's Wedding",
-                "eventType": "Select event type",
-                "description": "Tell us about your vision for this event...",
-                "date": "Pick a date",
-                "location": "The Grand Ballroom, Downtown",
-                "guestCount": "150"
-            },
-            "validation": {
-                "titleRequired": "Event title is required",
-                "timeRequired": "Event time is required",
-                "locationRequired": "Location is required",
-                "guestCountRequired": "Guest count is required",
-                "guestCountMin": "Must have at least 1 guest",
-                "budgetRequired": "Budget is required",
-                "budgetMin": "Budget must be at least $100"
-            },
-            "budgetHelp": "This helps us recommend vendors within your price range",
-            "nextSteps": {
-                "title": "What's Next?",
-                "step1": "We'll create your event dashboard",
-                "step2": "Browse and connect with premium vendors",
-                "step3": "Track your budget and planning progress",
-                "step4": "Manage contracts and payments securely"
-            }
-        },
-        "types": {
-            "wedding": "Wedding",
-            "corporateevent": "Corporate Event",
-            "birthdayparty": "Birthday Party",
-            "anniversary": "Anniversary",
-            "babyshower": "Baby Shower",
-            "graduation": "Graduation",
-            "holidayparty": "Holiday Party",
-            "fundraiser": "Fundraiser",
-            "productlaunch": "Product Launch",
-            "other": "Other"
         }
     },
     "guestList": {

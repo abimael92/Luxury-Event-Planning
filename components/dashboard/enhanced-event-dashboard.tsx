@@ -131,13 +131,10 @@ export function EnhancedEventDashboard() {
   return (
     <div className="w-full space-y-6 p-3 sm:p-4 md:p-6 overflow-x-hidden">
       {/* Hero Section */}
-      <div
-        className="relative overflow-hidden rounded-lg md:rounded-xl p-4 md:p-6 lg:p-8 w-full"
-        style={{ background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)" }}
-      >
+      <div className="relative overflow-hidden rounded-lg md:rounded-xl p-4 md:p-6 lg:p-8 w-full animate-gradient-shift">
         <div className="relative z-10 text-white w-full">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <h1 className="text-xl md:text-2xl lg:text-3xl font-heading font-bold mb-2">{t('dashboard.events.greeting')} ✨</h1>
+            <h1 className="text-xl md:text-2xl lg:text-3xl font-heading font-bold mb-2">{t('dashboard.events.greeting')}</h1>
             <p className="text-white/80 text-sm md:text-base mb-4">
               {t('dashboard.events.nextEventIn').replace('{days}', nextEvent.daysLeft.toString())}
             </p>
@@ -213,15 +210,15 @@ export function EnhancedEventDashboard() {
               transition={{ delay: index * 0.1, duration: 0.5 }}
               className="w-full"
             >
-              <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 border shadow-sm w-full">
+              <Card className="overflow-hidden hover:shadow-lg transition-all duration-300 border shadow-sm w-full hover-lift">
               <div className="flex flex-col w-full px-8 gap-2">
                   <div className="flex flex-col sm:flex-row w-full">
                   {/* Elegant event cover */}
                   <div
-                    className="w-full sm:w-24 md:w-28 h-24 flex-shrink-0 relative"
+                      className="w-full sm:w-24 md:w-28 h-24 flex-shrink-0 relative rounded-lg"
                     style={{ background: event.cover }}
                   >
-                    <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+                    <div className="absolute inset-0 bg-black/20 flex items-center justify-center rounded-lg">
                       <Calendar className="w-6 h-6 text-white" />
                     </div>
                   </div>

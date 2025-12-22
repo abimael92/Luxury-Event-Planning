@@ -377,7 +377,7 @@ export default function VendorsPage() {
                         transition={{ duration: 0.6 }}
                     >
                         <h1 className="text-2xl md:text-3xl lg:text-4xl font-heading font-bold mb-3">
-                            {t('providers.title')} 🎉
+                            {t('providers.title')}
                         </h1>
                         <p className="text-white/80 text-base md:text-lg mb-6 max-w-2xl">
                             {t('providers.subtitle')}
@@ -544,7 +544,7 @@ export default function VendorsPage() {
                                                 // Change this line to use template literals instead:
                                                 <Badge variant="secondary" className="text-xs">
                                                     {vendor.services.length > 3
-                                                        ? `+${vendor.services.length - 3} ${t('providers.vendorCard.more')}`
+                                                        ? `+${vendor.services.length - 3} ${t('providers.vendorCard.moreServices')}`
                                                         : ''}
                                                 </Badge>
                                             )}
