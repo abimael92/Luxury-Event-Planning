@@ -71,6 +71,37 @@
             "failed": "Aplicación Fallida",
             "tryAgain": "Por favor intenta más tarde"
         },
+        "forgotPassword": {
+            "title": "Restablecer Contraseña",
+            "description": "Ingresa tu correo para restablecer tu contraseña",
+            "instructions": "Enviaremos instrucciones a tu correo",
+            "sendInstructions": "Enviar Instrucciones",
+            "sending": "Enviando...",
+            "resetEmailSent": "Correo Enviado",
+            "checkEmailInstructions": "Revisa tu correo para las instrucciones",
+            "error": "Error",
+            "failedToSend": "Error al enviar el correo"
+        },
+        "demo": {
+            "tryDemo": "Probar Demo",
+            "client": "Demo como Cliente",
+            "vendor": "Demo como Proveedor"
+        },
+        "validation": {
+            "emailRequired": "El correo electrónico es requerido",
+            "invalidEmail": "Correo electrónico inválido",
+            "passwordRequired": "La contraseña es requerida",
+            "passwordMinLength": "La contraseña debe tener al menos 6 caracteres",
+            "firstNameRequired": "El nombre es requerido",
+            "lastNameRequired": "El apellido es requerido",
+            "confirmPasswordRequired": "Por favor confirma tu contraseña",
+            "passwordsDontMatch": "Las contraseñas no coinciden",
+            "agreeToTerms": "Debes aceptar los términos",
+            "businessNameRequired": "El nombre del negocio es requerido",
+            "locationRequired": "La ubicación es requerida",
+            "descriptionRequired": "La descripción es requerida"
+        }
+    },
         "providers": {
             "title": "Proveedores en Chihuahua",
             "subtitle": "Encuentra los mejores proveedores para tu evento en Chihuahua. Desde música hasta decoración, todo en un solo lugar.",
@@ -106,37 +137,6 @@
                 "call": "Llamar",
                 "email": "Email"
             }
-        },
-        "forgotPassword": {
-            "title": "Restablecer Contraseña",
-            "description": "Ingresa tu correo para restablecer tu contraseña",
-            "instructions": "Enviaremos instrucciones a tu correo",
-            "sendInstructions": "Enviar Instrucciones",
-            "sending": "Enviando...",
-            "resetEmailSent": "Correo Enviado",
-            "checkEmailInstructions": "Revisa tu correo para las instrucciones",
-            "error": "Error",
-            "failedToSend": "Error al enviar el correo"
-        },
-        "demo": {
-            "tryDemo": "Probar Demo",
-            "client": "Demo como Cliente",
-            "vendor": "Demo como Proveedor"
-        },
-        "validation": {
-            "emailRequired": "El correo electrónico es requerido",
-            "invalidEmail": "Correo electrónico inválido",
-            "passwordRequired": "La contraseña es requerida",
-            "passwordMinLength": "La contraseña debe tener al menos 6 caracteres",
-            "firstNameRequired": "El nombre es requerido",
-            "lastNameRequired": "El apellido es requerido",
-            "confirmPasswordRequired": "Por favor confirma tu contraseña",
-            "passwordsDontMatch": "Las contraseñas no coinciden",
-            "agreeToTerms": "Debes aceptar los términos",
-            "businessNameRequired": "El nombre del negocio es requerido",
-            "locationRequired": "La ubicación es requerida",
-            "descriptionRequired": "La descripción es requerida"
-        }
     },
     "dashboard": {
         "platform": "Plataforma de Eventos",
